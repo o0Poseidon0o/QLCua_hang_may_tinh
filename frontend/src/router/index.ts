@@ -9,9 +9,15 @@ const router = createRouter({
       children: [
         { path: '', name: 'Home', component: () => import('../views/public/Home.vue') },
         { path: 'shop', name: 'Shop', component: () => import('../views/public/Shop.vue') },
+        { path: 'product/:id', name: 'ProductDetail', component: () => import('../views/public/ProductDetail.vue') },
+        { path: 'pc-builder', name: 'PcBuilder', component: () => import('../views/public/PcBuilder.vue') },
+        { path: 'cart', name: 'Cart', component: () => import('../views/public/Cart.vue') },
+        { path: 'checkout', name: 'Checkout', component: () => import('../views/public/Checkout.vue') },
         { path: 'about', name: 'About', component: () => import('../views/public/About.vue') },
         { path: 'services/repair', name: 'RepairService', component: () => import('../views/public/RepairService.vue') },
         { path: 'services/it-outsourcing', name: 'ITService', component: () => import('../views/public/ITService.vue') },
+        { path: 'tin-tuc', name: 'Blog', component: () => import('../views/public/Blog.vue') },
+        { path: 'tin-tuc/:slug', name: 'BlogDetail', component: () => import('../views/public/BlogDetail.vue') },
         { path: 'p/:slug', name: 'DynamicPage', component: () => import('../views/public/DynamicPage.vue') }
       ]
     },

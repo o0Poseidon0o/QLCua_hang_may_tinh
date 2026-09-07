@@ -10,7 +10,7 @@
         <el-table-column prop="name" label="Tên Danh mục" />
         <el-table-column prop="slug" label="Đường dẫn (Slug)" width="250" />
         <el-table-column label="Thao tác" width="200" align="right">
-          <template #default="scope">
+          <template #default>
             <el-button size="small">Sửa</el-button>
             <el-button size="small" type="danger">Xóa</el-button>
           </template>

@@ -1,109 +1,460 @@
 <template>
-  <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
-    <div class="mb-10">
-      <h1 class="text-3xl font-extrabold text-gray-900 sm:text-4xl">Cửa hàng Linh kiện</h1>
-      <p class="mt-4 text-lg text-gray-500">Tìm kiếm các sản phẩm chính hãng với giá tốt nhất thị trường.</p>
+  <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
+    <!-- Breadcrumb & Header Title -->
+    <div class="mb-6">
+      <div class="flex items-center gap-2 text-xs text-slate-500 mb-2">
+        <router-link to="/" class="hover:text-[#00733c]">Trang chủ</router-link>
+        <span>/</span>
+        <span class="text-slate-800 font-semibold">Cửa hàng & Sản phẩm</span>
+        <span v-if="activeCategoryTitle">/</span>
+        <span v-if="activeCategoryTitle" class="text-[#00733c] font-bold">{{ activeCategoryTitle }}</span>
+      </div>
+      <div class="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4">
+        <div>
+          <h1 class="text-2xl sm:text-3xl font-black text-slate-900">
+            {{ activeCategoryTitle ? activeCategoryTitle.toUpperCase() : 'HỆ THỐNG SẢN PHẨM CÔNG NGHỆ CHÍNH HÃNG' }}
+          </h1>
+          <p class="text-xs sm:text-sm text-slate-500 mt-1">Tìm kiếm linh kiện, laptop, PC gaming chính hãng với giá tốt nhất tại NetSoft.</p>
+        </div>
+        <div class="text-xs text-slate-500 font-semibold bg-white px-3.5 py-1.5 rounded-lg border border-slate-200 shadow-xs">
+          Tìm thấy <span class="text-[#00733c] font-bold text-sm">{{ filteredProducts.length }}</span> sản phẩm
+        </div>
+      </div>
     </div>
 
+    <!-- Layout: Sidebar Filters + Products Grid -->
     <div class="flex flex-col lg:flex-row gap-8">
-      <!-- Sidebar Categories -->
-      <aside class="w-full lg:w-64 flex-shrink-0">
-        <h3 class="text-lg font-bold text-gray-900 mb-4 border-b pb-2">Danh mục Sản phẩm</h3>
-        <el-menu
-          default-active="all"
-          class="border-none bg-transparent"
-          active-text-color="#16a34a"
-        >
-          <el-menu-item index="all">
-            <span>Tất cả Sản phẩm</span>
-          </el-menu-item>
-          <el-sub-menu index="linh-kien">
-            <template #title>
-              <span>Linh kiện máy tính</span>
-            </template>
-            <el-menu-item index="cpu">CPU - Bộ vi xử lý</el-menu-item>
-            <el-menu-item index="ram">RAM - Bộ nhớ trong</el-menu-item>
-            <el-menu-item index="vga">VGA - Card màn hình</el-menu-item>
-            <el-menu-item index="psu">Nguồn - PSU</el-menu-item>
-            <el-menu-item index="mainboard">Mainboard - Bo mạch chủ</el-menu-item>
-          </el-sub-menu>
-          <el-sub-menu index="laptop">
-            <template #title>
-              <span>Laptop & Máy tính xách tay</span>
-            </template>
-            <el-menu-item index="laptop-gaming">Laptop Gaming</el-menu-item>
-            <el-menu-item index="laptop-office">Laptop Văn phòng</el-menu-item>
-          </el-sub-menu>
-          <el-menu-item index="gear">
-            <span>Gaming Gear</span>
-          </el-menu-item>
-        </el-menu>
-      </aside>
+      <!-- 1. Sidebar Filters -->
+      <aside class="w-full lg:w-72 flex-shrink-0 space-y-6">
+        <!-- Filter Card: Danh mục phân cấp -->
+        <div class="bg-white rounded-2xl p-5 shadow-sm border border-slate-100">
+          <h3 class="text-sm font-black text-slate-900 uppercase tracking-wider mb-4 pb-2 border-b border-slate-100 flex items-center justify-between">
+            <span class="flex items-center gap-2"><span>📁</span> Danh Mục</span>
+            <button
+              v-if="selectedCategory !== 'all'"
+              @click="selectCategory('all')"
+              class="text-[11px] text-[#00733c] font-bold hover:underline"
+            >
+              Xem tất cả
+            </button>
+          </h3>
+          <div class="space-y-1 text-xs max-h-[420px] overflow-y-auto pr-1">
+            <div v-for="cat in hierarchicalCategories" :key="cat.slug" class="space-y-1">
+              <button
+                @click="selectCategory(cat.slug)"
+                :class="[
+                  'w-full text-left px-3 py-2 rounded-lg font-bold transition flex justify-between items-center',
+                  selectedCategory === cat.slug
+                    ? 'bg-emerald-50 text-[#00733c] border-l-4 border-[#00733c]'
+                    : 'text-slate-700 hover:bg-slate-50'
+                ]"
+              >
+                <span class="flex items-center gap-2">
+                  <span>{{ cat.icon }}</span>
+                  <span>{{ cat.name }}</span>
+                </span>
+                <span class="text-[10px] text-slate-400 bg-slate-100 px-1.5 py-0.5 rounded-full font-normal">
+                  {{ getCategoryCount(cat.slug) }}
+                </span>
+              </button>
 
-      <!-- Products Area -->
-      <div class="flex-1">
-        <!-- Filters & Search -->
-        <div class="flex flex-col md:flex-row justify-between items-center mb-6 gap-4">
-          <el-input v-model="searchQuery" placeholder="Tìm kiếm sản phẩm..." class="w-full md:w-80">
-            <template #prefix>
-              <el-icon><Search /></el-icon>
-            </template>
-          </el-input>
-          <div class="flex gap-4 w-full md:w-auto">
-            <el-select v-model="sortBy" placeholder="Sắp xếp" class="w-full md:w-48">
-              <el-option label="Mới nhất" value="newest" />
-              <el-option label="Giá thấp đến cao" value="price-asc" />
-              <el-option label="Giá cao đến thấp" value="price-desc" />
-            </el-select>
+              <!-- Subcategories -->
+              <div v-if="cat.children && cat.children.length" class="pl-6 space-y-1">
+                <button
+                  v-for="sub in cat.children"
+                  :key="sub.slug"
+                  @click="selectCategory(sub.slug)"
+                  :class="[
+                    'w-full text-left px-2.5 py-1.5 rounded-md font-medium transition flex justify-between items-center text-[11px]',
+                    selectedCategory === sub.slug
+                      ? 'bg-emerald-100/70 text-[#00733c] font-bold'
+                      : 'text-slate-500 hover:text-slate-800 hover:bg-slate-50'
+                  ]"
+                >
+                  <span>• {{ sub.name }}</span>
+                  <span class="text-[10px] text-slate-400">{{ getCategoryCount(sub.slug) }}</span>
+                </button>
+              </div>
+            </div>
           </div>
         </div>
 
-        <!-- Products Grid -->
-        <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
-          <el-card v-for="product in products" :key="product.id" shadow="hover" class="border-0 ring-1 ring-gray-100 group relative">
-            <div class="aspect-w-1 aspect-h-1 w-full overflow-hidden rounded-md bg-gray-100 flex justify-center items-center h-48 mb-4 group-hover:opacity-75">
-              <el-icon :size="64" class="text-gray-300"><Cpu /></el-icon>
-            </div>
-            <div>
-              <h3 class="text-sm font-medium text-gray-900 line-clamp-2 min-h-[40px]">
-                <a href="#">
-                  <span aria-hidden="true" class="absolute inset-0"></span>
-                  {{ product.name }}
-                </a>
-              </h3>
-              <p class="mt-1 text-sm text-gray-500">Mã SP: {{ product.sku }}</p>
-              <div class="mt-4 flex items-center justify-between">
-                <p class="text-lg font-bold text-green-600">${{ product.price.toFixed(2) }}</p>
-                <el-button type="success" circle>
-                  <el-icon><ShoppingCart /></el-icon>
-                </el-button>
-              </div>
-            </div>
-          </el-card>
+        <!-- Filter Card: Khoảng giá -->
+        <div class="bg-white rounded-2xl p-5 shadow-sm border border-slate-100">
+          <h3 class="text-sm font-black text-slate-900 uppercase tracking-wider mb-4 pb-2 border-b border-slate-100 flex items-center gap-2">
+            <span>💰</span> Khoảng Giá
+          </h3>
+          <div class="space-y-2 text-xs">
+            <label
+              v-for="range in priceRanges"
+              :key="range.value"
+              class="flex items-center gap-2.5 text-slate-700 cursor-pointer hover:text-[#00733c] transition"
+            >
+              <input
+                type="radio"
+                name="priceRange"
+                :value="range.value"
+                v-model="selectedPriceRange"
+                class="accent-[#00733c]"
+              />
+              <span class="font-medium">{{ range.label }}</span>
+            </label>
+          </div>
         </div>
 
-        <!-- Pagination -->
-        <div class="mt-12 flex justify-center">
-          <el-pagination background layout="prev, pager, next" :total="50" />
+        <!-- Filter Card: Thương hiệu (Brand) -->
+        <div class="bg-white rounded-2xl p-5 shadow-sm border border-slate-100">
+          <h3 class="text-sm font-black text-slate-900 uppercase tracking-wider mb-4 pb-2 border-b border-slate-100 flex items-center gap-2">
+            <span>🏷️</span> Thương Hiệu
+          </h3>
+          <div class="flex flex-wrap gap-1.5">
+            <button
+              v-for="b in brandsList"
+              :key="b"
+              @click="toggleBrand(b)"
+              :class="[
+                'px-2.5 py-1 rounded-md text-xs font-bold transition border',
+                selectedBrand === b
+                  ? 'bg-[#00733c] text-white border-[#00733c]'
+                  : 'bg-slate-50 text-slate-600 border-slate-200 hover:border-[#00733c]'
+              ]"
+            >
+              {{ b }}
+            </button>
+          </div>
         </div>
-      </div>
+
+        <!-- Clear Filter Button -->
+        <button
+          v-if="hasActiveFilter"
+          @click="resetFilters"
+          class="w-full py-2 bg-slate-100 hover:bg-slate-200 text-slate-700 text-xs font-bold rounded-xl transition cursor-pointer"
+        >
+          Xóa Tất Cả Bộ Lọc
+        </button>
+      </aside>
+
+      <!-- 2. Main Products Area -->
+      <main class="flex-1 min-w-0 space-y-6">
+        <!-- Top Toolbar: Search + Sort -->
+        <div class="bg-white p-4 rounded-2xl shadow-sm border border-slate-100 flex flex-col sm:flex-row justify-between items-center gap-4">
+          <div class="relative w-full sm:w-80">
+            <input
+              v-model="searchQuery"
+              type="text"
+              placeholder="Lọc theo tên, mã SKU, thông số..."
+              class="w-full pl-3 pr-8 py-2 bg-slate-50 border border-slate-200 rounded-lg text-xs focus:outline-none focus:border-[#00733c]"
+            />
+            <el-icon class="absolute right-2.5 top-2.5 text-slate-400"><Search /></el-icon>
+          </div>
+
+          <div class="flex items-center gap-3 w-full sm:w-auto justify-end">
+            <span class="text-xs text-slate-400 whitespace-nowrap">Sắp xếp:</span>
+            <select
+              v-model="sortBy"
+              class="bg-slate-50 border border-slate-200 rounded-lg px-3 py-1.5 text-xs text-slate-700 font-semibold focus:outline-none focus:border-[#00733c]"
+            >
+              <option value="popular">Nổi bật nhất</option>
+              <option value="price-asc">Giá: Thấp đến Cao</option>
+              <option value="price-desc">Giá: Cao đến Thấp</option>
+              <option value="newest">Mới nhất</option>
+            </select>
+          </div>
+        </div>
+
+        <!-- Empty State -->
+        <div v-if="filteredProducts.length === 0" class="bg-white rounded-2xl p-12 text-center border border-slate-100 shadow-sm">
+          <div class="text-4xl mb-3">🔍</div>
+          <h3 class="text-base font-bold text-slate-800">Không tìm thấy sản phẩm trong danh mục này</h3>
+          <p class="text-xs text-slate-500 mt-1">Hiện tại danh mục hoặc từ khóa lọc chưa có sản phẩm phù hợp.</p>
+          <button
+            @click="resetFilters"
+            class="mt-4 px-5 py-2 bg-[#00733c] text-white text-xs font-bold rounded-lg hover:bg-[#014f2b] transition cursor-pointer"
+          >
+            Xem lại tất cả sản phẩm
+          </button>
+        </div>
+
+        <!-- Products Grid -->
+        <div v-else class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-5">
+          <div
+            v-for="product in filteredProducts"
+            :key="product.id"
+            class="bg-white rounded-2xl p-4 shadow-sm hover:shadow-xl border border-slate-100 hover:border-emerald-500/50 transition-all duration-200 flex flex-col justify-between group"
+          >
+            <!-- Badge & Image -->
+            <div>
+              <router-link :to="'/product/' + product.id" class="block relative aspect-square rounded-xl overflow-hidden bg-slate-50 mb-3 p-3">
+                <img
+                  :src="product.image"
+                  :alt="product.name"
+                  class="object-contain w-full h-full group-hover:scale-105 transition-transform duration-300"
+                />
+                <span v-if="product.discount" class="absolute top-2 left-2 text-[10px] font-black bg-red-600 text-white px-2 py-0.5 rounded shadow">
+                  -{{ product.discount }}%
+                </span>
+                <span class="absolute top-2 right-2 text-[10px] font-bold bg-slate-900/70 text-white px-1.5 py-0.5 rounded backdrop-blur-xs">
+                  {{ product.brand }}
+                </span>
+              </router-link>
+
+              <!-- Product Info -->
+              <span class="text-[11px] font-bold text-[#00733c] bg-emerald-50 px-2 py-0.5 rounded">
+                {{ product.categoryName }}
+              </span>
+              <router-link
+                :to="'/product/' + product.id"
+                class="block text-xs sm:text-sm font-bold text-slate-800 line-clamp-2 mt-1.5 hover:text-[#00733c] transition min-h-[40px]"
+                :title="product.name"
+              >
+                {{ product.name }}
+              </router-link>
+              <div class="text-[11px] text-slate-500 mt-1 flex items-center gap-1.5">
+                <span>Mã: {{ product.sku }}</span>
+                <span>•</span>
+                <span class="text-emerald-600 font-semibold">Bảo hành 36T</span>
+              </div>
+            </div>
+
+            <!-- Price & Buy Actions -->
+            <div class="pt-3 border-t border-slate-100 mt-3">
+              <div class="flex items-baseline gap-2">
+                <span class="text-base sm:text-lg font-extrabold text-red-600">
+                  {{ formatPrice(product.price) }}
+                </span>
+                <span v-if="product.originalPrice" class="text-xs text-slate-400 line-through">
+                  {{ formatPrice(product.originalPrice) }}
+                </span>
+              </div>
+
+              <div class="mt-3 grid grid-cols-5 gap-2">
+                <router-link
+                  :to="'/product/' + product.id"
+                  class="col-span-2 py-2 text-center text-xs font-bold text-slate-700 bg-slate-100 hover:bg-slate-200 rounded-lg transition"
+                >
+                  Chi Tiết
+                </router-link>
+                <button
+                  @click="addToCart(product)"
+                  class="col-span-3 py-2 bg-[#00733c] hover:bg-[#014f2b] text-white text-xs font-extrabold rounded-lg transition shadow-sm flex items-center justify-center gap-1.5 cursor-pointer"
+                >
+                  <el-icon><ShoppingCart /></el-icon> Thêm Giỏ
+                </button>
+              </div>
+            </div>
+          </div>
+        </div>
+      </main>
     </div>
   </div>
 </template>
 
 <script setup lang="ts">
-import { ref } from 'vue'
-import { Search, ShoppingCart, Cpu } from '@element-plus/icons-vue'
+import { ref, computed, onMounted, watch } from 'vue';
+import { useRoute } from 'vue-router';
+import { Search, ShoppingCart } from '@element-plus/icons-vue';
+import { useCartStore } from '../../stores/cart';
+import { mockProducts } from '../../data/mockProducts';
+import { ElMessage } from 'element-plus';
 
-const searchQuery = ref('')
-const sortBy = ref('newest')
+const route = useRoute();
+const cartStore = useCartStore();
 
-const products = ref([
-  { id: 1, name: 'Intel Core i9-13900K Desktop Processor 24 cores', sku: 'CPU-INTEL-i9', price: 589.99 },
-  { id: 2, name: 'NVIDIA GeForce RTX 4090 24GB GDDR6X', sku: 'GPU-NV-4090', price: 1599.99 },
-  { id: 3, name: 'Corsair Vengeance 32GB (2x16GB) DDR5 6000MHz', sku: 'RAM-COR-32', price: 149.99 },
-  { id: 4, name: 'Samsung 990 PRO 2TB PCIe 4.0 NVMe SSD', sku: 'SSD-SAM-2TB', price: 179.99 },
-  { id: 5, name: 'ASUS ROG Maximus Z790 Hero Motherboard', sku: 'MB-ASUS-Z790', price: 629.99 },
-  { id: 6, name: 'Corsair RM1000x 1000 Watt 80 Plus Gold Power Supply', sku: 'PSU-COR-1000', price: 189.99 },
-])
+const searchQuery = ref('');
+const selectedCategory = ref('all');
+const selectedPriceRange = ref('all');
+const selectedBrand = ref('all');
+const sortBy = ref('popular');
+
+// Hierarchical Category Structure matching Mega Menu
+const hierarchicalCategories = [
+  {
+    name: 'Laptop & Máy Tính Xách Tay',
+    slug: 'laptop',
+    icon: '💻',
+    children: [
+      { name: 'Laptop Gaming', slug: 'laptop-gaming' },
+      { name: 'Laptop Văn Phòng', slug: 'laptop-office' },
+      { name: 'MacBook & Apple', slug: 'macbook' }
+    ]
+  },
+  {
+    name: 'PC Gaming & Đồ Họa NetSoft',
+    slug: 'pc-gaming',
+    icon: '🖥️',
+    children: [
+      { name: 'PC Gaming Phổ Thông', slug: 'pc-gaming-entry' },
+      { name: 'PC Gaming Trung Cấp', slug: 'pc-gaming-mid' },
+      { name: 'PC Gaming Cao Cấp', slug: 'pc-gaming-high' },
+      { name: 'PC Đồ Họa Workstation', slug: 'pc-workstation' }
+    ]
+  },
+  {
+    name: 'Linh Kiện Máy Tính (PC Parts)',
+    slug: 'linh-kien',
+    icon: '⚡',
+    children: [
+      { name: 'CPU - Bộ Vi Xử Lý', slug: 'cpu' },
+      { name: 'VGA - Card Màn Hình', slug: 'vga' },
+      { name: 'Mainboard - Bo Mạch Chủ', slug: 'mainboard' },
+      { name: 'RAM - Bộ Nhớ Trong', slug: 'ram' },
+      { name: 'SSD / Ổ Cứng Lưu Trữ', slug: 'storage' },
+      { name: 'Nguồn Máy Tính (PSU)', slug: 'psu' },
+      { name: 'Vỏ Case Máy Tính', slug: 'case' },
+      { name: 'Tản Nhiệt Khí & Nước', slug: 'cooler' }
+    ]
+  },
+  {
+    name: 'Màn Hình Máy Tính',
+    slug: 'man-hinh',
+    icon: '📺',
+    children: [
+      { name: 'Màn Hình Gaming 180Hz', slug: 'monitor-gaming' },
+      { name: 'Màn Hình Đồ Họa Chuẩn Màu', slug: 'monitor-creator' }
+    ]
+  },
+  {
+    name: 'Bàn Phím & Chuột Gaming',
+    slug: 'gaming-gear',
+    icon: '🎧',
+    children: [
+      { name: 'Bàn Phím Cơ Gaming', slug: 'keyboard' },
+      { name: 'Chuột Gaming Không Dây', slug: 'mouse' }
+    ]
+  }
+];
+
+// Price Ranges
+const priceRanges = [
+  { label: 'Tất cả mức giá', value: 'all' },
+  { label: 'Dưới 5 triệu', value: 'under-5' },
+  { label: 'Từ 5 đến 15 triệu', value: '5-15' },
+  { label: 'Từ 15 đến 25 triệu', value: '15-25' },
+  { label: 'Trên 25 triệu', value: 'above-25' }
+];
+
+// Brands
+const brandsList = ['all', 'NetSoft', 'ASUS', 'Intel', 'AMD', 'MSI', 'Gigabyte', 'Kingston', 'Corsair', 'Dell', 'Lenovo', 'Samsung', 'Apple', 'DareU', 'Logitech'];
+
+// Calculate item count in each category
+const getCategoryCount = (slug: string) => {
+  if (slug === 'all') return mockProducts.length;
+  return mockProducts.filter((p) => p.category === slug || p.parentCategory === slug).length;
+};
+
+// Active category title for breadcrumb
+const activeCategoryTitle = computed(() => {
+  if (selectedCategory.value === 'all') return '';
+  for (const cat of hierarchicalCategories) {
+    if (cat.slug === selectedCategory.value) return cat.name;
+    if (cat.children) {
+      const found = cat.children.find((c) => c.slug === selectedCategory.value);
+      if (found) return found.name;
+    }
+  }
+  return selectedCategory.value;
+});
+
+const selectCategory = (slug: string) => {
+  selectedCategory.value = slug;
+};
+
+const toggleBrand = (b: string) => {
+  selectedBrand.value = b;
+};
+
+const resetFilters = () => {
+  searchQuery.value = '';
+  selectedCategory.value = 'all';
+  selectedPriceRange.value = 'all';
+  selectedBrand.value = 'all';
+  sortBy.value = 'popular';
+};
+
+const hasActiveFilter = computed(() => {
+  return (
+    searchQuery.value !== '' ||
+    selectedCategory.value !== 'all' ||
+    selectedPriceRange.value !== 'all' ||
+    selectedBrand.value !== 'all'
+  );
+});
+
+// Products Filter
+const filteredProducts = computed(() => {
+  return mockProducts
+    .filter((p) => {
+      // Category filter (match subcategory or parent category)
+      if (selectedCategory.value !== 'all') {
+        const matchSub = p.category === selectedCategory.value;
+        const matchParent = p.parentCategory === selectedCategory.value;
+        // Aliases support
+        const matchAlias =
+          (selectedCategory.value === 'ssd' && p.category === 'storage') ||
+          (selectedCategory.value === 'storage' && p.category === 'storage') ||
+          (selectedCategory.value === 'man-hinh' && p.parentCategory === 'man-hinh') ||
+          (selectedCategory.value === 'monitor' && p.parentCategory === 'man-hinh') ||
+          (selectedCategory.value === 'gear' && p.parentCategory === 'gaming-gear') ||
+          (selectedCategory.value === 'gaming-gear' && p.parentCategory === 'gaming-gear');
+
+        if (!matchSub && !matchParent && !matchAlias) return false;
+      }
+      // Brand filter
+      if (selectedBrand.value !== 'all' && p.brand !== selectedBrand.value) {
+        return false;
+      }
+      // Search query
+      if (searchQuery.value.trim()) {
+        const q = searchQuery.value.toLowerCase();
+        const matchesName = p.name.toLowerCase().includes(q);
+        const matchesSku = p.sku.toLowerCase().includes(q);
+        const matchesBrand = p.brand.toLowerCase().includes(q);
+        const matchesCat = p.categoryName.toLowerCase().includes(q);
+        if (!matchesName && !matchesSku && !matchesBrand && !matchesCat) return false;
+      }
+      // Price range filter
+      if (selectedPriceRange.value === 'under-5' && p.price >= 5000000) return false;
+      if (selectedPriceRange.value === '5-15' && (p.price < 5000000 || p.price > 15000000)) return false;
+      if (selectedPriceRange.value === '15-25' && (p.price < 15000000 || p.price > 25000000)) return false;
+      if (selectedPriceRange.value === 'above-25' && p.price <= 25000000) return false;
+
+      return true;
+    })
+    .sort((a, b) => {
+      if (sortBy.value === 'price-asc') return a.price - b.price;
+      if (sortBy.value === 'price-desc') return b.price - a.price;
+      return 0;
+    });
+});
+
+const formatPrice = (price: number) => {
+  return new Intl.NumberFormat('vi-VN', { style: 'currency', currency: 'VND' }).format(price);
+};
+
+const addToCart = (product: any) => {
+  cartStore.addItem({
+    id: product.id,
+    name: product.name,
+    price: product.price,
+    originalPrice: product.originalPrice,
+    image: product.image
+  });
+  ElMessage.success(`Đã thêm "${product.name}" vào giỏ!`);
+};
+
+// Sync query params from URL
+watch(
+  () => route.query,
+  (query) => {
+    if (query.q) searchQuery.value = String(query.q);
+    if (query.category) selectedCategory.value = String(query.category);
+    else if (!query.category && !query.q) selectedCategory.value = 'all';
+  },
+  { immediate: true }
+);
+
+onMounted(() => {
+  if (route.query.q) searchQuery.value = String(route.query.q);
+  if (route.query.category) selectedCategory.value = String(route.query.category);
+});
 </script>
