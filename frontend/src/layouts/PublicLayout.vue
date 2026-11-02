@@ -225,6 +225,9 @@
     <!-- Quick Cart Slide-out Drawer -->
     <CartDrawer />
 
+    <!-- Floating Contact Support Widget -->
+    <FloatingContact />
+
     <!-- Footer Nhân Phúc Tech Style -->
     <footer class="bg-[#0b1712] text-slate-300 pt-14 pb-8 mt-16 border-t-4 border-[#00733c]">
       <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-5 gap-8 mb-12">
@@ -312,6 +315,7 @@ import {
 } from '@element-plus/icons-vue';
 import { useCartStore } from '../stores/cart';
 import CartDrawer from '../components/CartDrawer.vue';
+import FloatingContact from '../components/FloatingContact.vue';
 import logoImg from '../assets/logo/logo.png';
 import api from '../services/api';
 
