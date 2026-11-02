@@ -5,7 +5,7 @@
       <div class="max-w-7xl mx-auto relative z-10 grid grid-cols-1 lg:grid-cols-12 gap-8 items-center">
         <div class="lg:col-span-7 space-y-4">
           <span class="inline-flex items-center gap-2 px-3.5 py-1 rounded-full bg-emerald-500/20 text-emerald-300 text-xs font-bold border border-emerald-500/30">
-            <span>🛠️</span> Dịch Vụ Kỹ Thuật Uy Tín NetSoft
+            <span>🛠️</span> Dịch Vụ Kỹ Thuật Uy Tín Nhân Phúc Tech
           </span>
           <h1 class="text-3xl sm:text-5xl font-black leading-tight">
             SỬA CHỮA PC • LAPTOP • ĐIỆN THOẠI LẤY LIỀN
@@ -46,7 +46,7 @@
                 <input
                   v-model="trackingQuery"
                   type="text"
-                  placeholder="VD: 0777908179 hoặc NS-2026"
+                  placeholder="VD: 0777908179 hoặc NP-2026"
                   class="flex-1 px-3 py-2 bg-slate-50 border border-slate-200 rounded-lg text-xs font-semibold focus:outline-none focus:border-[#00733c]"
                 />
                 <button
@@ -194,7 +194,7 @@
       <div class="bg-gradient-to-r from-slate-900 to-[#014f2b] rounded-3xl p-8 sm:p-12 text-white shadow-xl">
         <div class="text-center max-w-2xl mx-auto mb-10 space-y-2">
           <span class="text-xs font-bold text-emerald-300 uppercase tracking-widest">Quy Trình Chuẩn Quốc Tế</span>
-          <h2 class="text-2xl sm:text-3xl font-black">5 BƯỚC SỬA CHỮA MINH BẠCH TẠI NETSOFT</h2>
+          <h2 class="text-2xl sm:text-3xl font-black">5 BƯỚC SỬA CHỮA MINH BẠCH TẠI NHÂN PHÚC TECH</h2>
         </div>
 
         <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-5 gap-6 text-center">
@@ -247,7 +247,7 @@
         <div class="text-center space-y-2">
           <span class="text-xs font-bold text-red-600 uppercase tracking-wider">Đặt Lịch Nhanh Chóng</span>
           <h2 class="text-2xl sm:text-3xl font-black text-slate-900">ĐĂNG KÝ SỬA CHỮA / BẢO DƯỠNG MÁY</h2>
-          <p class="text-xs text-slate-500">Kỹ thuật viên NetSoft sẽ liên hệ xác nhận trong vòng 15 phút sau khi gửi thông tin.</p>
+          <p class="text-xs text-slate-500">Kỹ thuật viên Nhân Phúc Tech sẽ liên hệ xác nhận trong vòng 15 phút sau khi gửi thông tin.</p>
         </div>
 
         <form @submit.prevent="submitBooking" class="grid grid-cols-1 sm:grid-cols-2 gap-4 text-xs">
@@ -397,7 +397,7 @@ const bookingForm = ref({
 
 const submitBooking = () => {
   ElMessage.success({
-    message: `Cảm ơn ${bookingForm.value.name}! NetSoft đã nhận được lịch hẹn. Nhân viên kỹ thuật sẽ gọi lại ngay.`,
+    message: `Cảm ơn ${bookingForm.value.name}! Nhân Phúc Tech đã nhận được lịch hẹn. Nhân viên kỹ thuật sẽ gọi lại ngay.`,
     duration: 3000
   });
   bookingForm.value = {

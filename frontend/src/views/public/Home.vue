@@ -12,7 +12,10 @@
                 :style="{ backgroundImage: `linear-gradient(rgba(0, 0, 0, 0.45), rgba(1, 79, 43, 0.75)), url(${slide.image})` }"
               >
                 <div class="max-w-xl space-y-4">
-                  <span class="inline-block px-3 py-1 bg-red-600 text-white font-extrabold text-xs uppercase tracking-wider rounded-full shadow">
+                  <span
+                    v-if="slide.tag"
+                    class="inline-block px-3 py-1 bg-red-600 text-white font-extrabold text-xs uppercase tracking-wider rounded-full shadow"
+                  >
                     {{ slide.tag }}
                   </span>
                   <h2 class="text-2xl sm:text-4xl font-black leading-tight drop-shadow-md">
@@ -28,7 +31,7 @@
                     >
                       {{ slide.btnText }}
                     </router-link>
-                    <span class="text-xs text-amber-300 font-semibold drop-shadow">
+                    <span v-if="slide.highlight" class="text-xs text-amber-300 font-semibold drop-shadow">
                       {{ slide.highlight }}
                     </span>
                   </div>
@@ -83,7 +86,7 @@
       </div>
     </section>
 
-    <!-- 2. Brand Value Propositions (Cam kết vàng NetSoft) -->
+    <!-- 2. Brand Value Propositions (Cam kết vàng Nhân Phúc Tech) -->
     <section class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
       <div class="grid grid-cols-2 md:grid-cols-4 gap-4 bg-white p-6 rounded-2xl shadow-sm border border-slate-100">
         <div class="flex items-center gap-3">
@@ -135,7 +138,7 @@
             <div>
               <h2 class="text-2xl sm:text-3xl font-black uppercase tracking-wide flex items-center gap-2">
                 GIỜ VÀNG GIÁ SỐC
-                <span class="text-xs bg-white text-red-600 px-2.5 py-0.5 rounded-full font-extrabold uppercase">NetSoft Flash Deals</span>
+                <span class="text-xs bg-white text-red-600 px-2.5 py-0.5 rounded-full font-extrabold uppercase">Nhân Phúc Flash Deals</span>
               </h2>
               <p class="text-xs text-red-100">Số lượng có hạn, ưu đãi kết thúc sau:</p>
             </div>
@@ -173,13 +176,13 @@
             </div>
 
             <!-- Image -->
-            <div class="relative aspect-square rounded-lg overflow-hidden bg-slate-50 mb-3 flex items-center justify-center p-2">
+            <router-link :to="'/product/' + item.id" class="relative aspect-square rounded-lg overflow-hidden bg-slate-50 mb-3 flex items-center justify-center p-2">
               <img
                 :src="item.image"
                 :alt="item.name"
                 class="object-contain w-full h-full group-hover:scale-105 transition-transform duration-300"
               />
-            </div>
+            </router-link>
 
             <!-- Info -->
             <div class="space-y-1.5 flex-1 flex flex-col justify-between">
@@ -187,9 +190,9 @@
                 <span class="text-[11px] font-bold text-emerald-700 bg-emerald-50 px-1.5 py-0.5 rounded">
                   {{ item.brand }}
                 </span>
-                <h3 class="text-xs sm:text-sm font-bold text-slate-800 line-clamp-2 mt-1 min-h-[38px] group-hover:text-[#00733c] transition">
+                <router-link :to="'/product/' + item.id" class="block text-xs sm:text-sm font-bold text-slate-800 line-clamp-2 mt-1 min-h-[38px] group-hover:text-[#00733c] transition">
                   {{ item.name }}
-                </h3>
+                </router-link>
               </div>
 
               <div>
@@ -231,7 +234,7 @@
       </div>
     </section>
 
-    <!-- 4. Featured Category: PC Gaming NetSoft -->
+    <!-- 4. Featured Category: PC Gaming Nhân Phúc Tech -->
     <section class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
       <div class="bg-white rounded-2xl p-6 shadow-sm border border-slate-100">
         <!-- Section Header -->
@@ -239,7 +242,7 @@
           <div class="flex items-center gap-3">
             <span class="text-2xl text-[#00733c]">🖥️</span>
             <div>
-              <h2 class="text-xl sm:text-2xl font-black text-slate-900">PC GAMING & ĐỒ HỌA NETSOFT</h2>
+              <h2 class="text-xl sm:text-2xl font-black text-slate-900">PC GAMING & ĐỒ HỌA NHÂN PHÚC</h2>
               <p class="text-xs text-slate-500">Cấu hình tối ưu hiệu năng, linh kiện tuyển chọn, bảo hành 36 tháng</p>
             </div>
           </div>
@@ -268,18 +271,18 @@
             :key="pc.id"
             class="border border-slate-100 hover:border-emerald-500 rounded-xl p-3.5 hover:shadow-lg transition-all duration-200 flex flex-col justify-between group bg-white"
           >
-            <div class="relative aspect-square rounded-lg overflow-hidden bg-slate-50 mb-3 flex items-center justify-center p-2">
+            <router-link :to="'/product/' + pc.id" class="relative aspect-square rounded-lg overflow-hidden bg-slate-50 mb-3 flex items-center justify-center p-2">
               <img :src="pc.image" :alt="pc.name" class="object-contain w-full h-full group-hover:scale-105 transition-transform" />
               <span v-if="pc.badge" class="absolute top-2 left-2 text-[10px] font-black bg-emerald-600 text-white px-2 py-0.5 rounded shadow">
                 {{ pc.badge }}
               </span>
-            </div>
+            </router-link>
 
             <div class="space-y-2 flex-1 flex flex-col justify-between">
               <div>
-                <h3 class="text-xs sm:text-sm font-bold text-slate-800 line-clamp-2 min-h-[38px] group-hover:text-[#00733c] transition">
+                <router-link :to="'/product/' + pc.id" class="block text-xs sm:text-sm font-bold text-slate-800 line-clamp-2 min-h-[38px] group-hover:text-[#00733c] transition">
                   {{ pc.name }}
-                </h3>
+                </router-link>
                 <!-- Specs Badges -->
                 <div class="flex flex-wrap gap-1 mt-2 text-[10px] text-slate-600">
                   <span class="bg-slate-100 px-1.5 py-0.5 rounded font-medium">{{ pc.cpu }}</span>
@@ -341,18 +344,18 @@
             :key="laptop.id"
             class="border border-slate-100 hover:border-emerald-500 rounded-xl p-3.5 hover:shadow-lg transition-all duration-200 flex flex-col justify-between group bg-white"
           >
-            <div class="relative aspect-square rounded-lg overflow-hidden bg-slate-50 mb-3 flex items-center justify-center p-2">
+            <router-link :to="'/product/' + laptop.id" class="relative aspect-square rounded-lg overflow-hidden bg-slate-50 mb-3 flex items-center justify-center p-2">
               <img :src="laptop.image" :alt="laptop.name" class="object-contain w-full h-full group-hover:scale-105 transition-transform" />
               <span class="absolute top-2 right-2 text-[10px] font-bold bg-amber-500 text-white px-2 py-0.5 rounded shadow">
                 {{ laptop.brand }}
               </span>
-            </div>
+            </router-link>
 
             <div class="space-y-2 flex-1 flex flex-col justify-between">
               <div>
-                <h3 class="text-xs sm:text-sm font-bold text-slate-800 line-clamp-2 min-h-[38px] group-hover:text-[#00733c] transition">
+                <router-link :to="'/product/' + laptop.id" class="block text-xs sm:text-sm font-bold text-slate-800 line-clamp-2 min-h-[38px] group-hover:text-[#00733c] transition">
                   {{ laptop.name }}
-                </h3>
+                </router-link>
                 <p class="text-[11px] text-slate-500 mt-1">{{ laptop.specs }}</p>
               </div>
 
@@ -383,13 +386,13 @@
       <div class="relative rounded-3xl overflow-hidden bg-gradient-to-r from-slate-950 via-[#014f2b] to-emerald-950 p-8 sm:p-12 text-white shadow-2xl">
         <div class="relative z-10 max-w-2xl space-y-4">
           <span class="inline-block px-3.5 py-1 bg-emerald-500/20 text-emerald-300 font-extrabold text-xs uppercase tracking-wider rounded-full border border-emerald-500/30">
-            Tính Năng Độc Quyền NetSoft
+            Tính Năng Độc Quyền Nhân Phúc Tech
           </span>
           <h2 class="text-2xl sm:text-4xl font-black leading-tight">
             Tự Tay Xây Dựng Cỗ Máy PC Mơ Ước
           </h2>
           <p class="text-sm sm:text-base text-slate-300">
-            Hệ thống tự động lọc linh kiện tương thích 100%, cộng tiền tức thì, miễn phí công lắp đặt và tặng kèm gói vệ sinh máy 2 năm tại NetSoft.
+            Hệ thống tự động lọc linh kiện tương thích 100%, cộng tiền tức thì, miễn phí công lắp đặt và tặng kèm gói vệ sinh máy 2 năm tại Nhân Phúc Tech.
           </p>
           <div class="flex flex-wrap items-center gap-4 pt-4">
             <router-link
@@ -482,13 +485,13 @@ const cartStore = useCartStore();
 // Hero Slides
 const heroSlides = [
   {
-    title: 'Đại Tiệc PC Gaming NetSoft - Sức Mạnh RTX 40-Series',
+    title: 'Đại Tiệc PC Gaming Nhân Phúc Tech - Sức Mạnh RTX 40-Series',
     desc: 'Trải nghiệm đỉnh cao công nghệ Ray Tracing và DLSS 3. Giảm trực tiếp đến 25% khi mua kèm màn hình gaming.',
-    // tag: 'Siêu Ưu Đãi Tháng',
+    tag: 'Siêu Ưu Đãi Tháng',
     image: 'https://images.unsplash.com/photo-1587202372775-e229f172b9d7?w=1200&q=80',
     link: '/shop?category=pc-gaming',
     btnText: 'Khám Phá Ngay',
-    // highlight: 'Tặng Bàn Phím Cơ Gaming 1.200.000 đ'
+    highlight: 'Tặng Bàn Phím Cơ Gaming 1.200.000 đ'
   },
   {
     title: 'Laptop Gaming & Đồ Họa Thế Hệ Mới 2026',
@@ -544,7 +547,7 @@ const padZero = (val: number) => String(val).padStart(2, '0');
 // Flash Sale Products
 const flashSaleProducts = ref([
   {
-    id: 'fs-1',
+    id: 'vga-1',
     name: 'Card Màn Hình ASUS Dual GeForce RTX 4060 EVO OC 8GB',
     brand: 'ASUS',
     price: 8490000,
@@ -555,7 +558,7 @@ const flashSaleProducts = ref([
     stock: 25
   },
   {
-    id: 'fs-2',
+    id: 'cpu-1',
     name: 'CPU Intel Core i5-13400F (Up to 4.6GHz, 10 Cores 16 Threads)',
     brand: 'Intel',
     price: 4390000,
@@ -566,7 +569,7 @@ const flashSaleProducts = ref([
     stock: 30
   },
   {
-    id: 'fs-3',
+    id: 'mon-1',
     name: 'Màn Hình Gaming ASUS TUF VG249Q3A 24" Fast IPS 180Hz 1ms',
     brand: 'ASUS',
     price: 3190000,
@@ -577,7 +580,7 @@ const flashSaleProducts = ref([
     stock: 20
   },
   {
-    id: 'fs-4',
+    id: 'ram-1',
     name: 'RAM Kingston FURY Beast RGB 16GB (2x8GB) DDR4 3200MHz',
     brand: 'Kingston',
     price: 1090000,
@@ -601,7 +604,7 @@ const activePcTab = ref('all');
 const pcs = ref([
   {
     id: 'pc-1',
-    name: 'PC Gaming NetSoft Dragon Core i5 13400F | RTX 4060 8GB | 16GB RAM',
+    name: 'PC Gaming Nhân Phúc Dragon Core i5 13400F | RTX 4060 8GB | 16GB RAM',
     tier: 'mid',
     price: 17990000,
     originalPrice: 20990000,
@@ -613,7 +616,7 @@ const pcs = ref([
   },
   {
     id: 'pc-2',
-    name: 'PC Gaming NetSoft Starter Core i3 12100F | GTX 1650 4GB | 16GB RAM',
+    name: 'PC Gaming Nhân Phúc Starter Core i3 12100F | GTX 1650 4GB | 16GB RAM',
     tier: 'entry',
     price: 9890000,
     originalPrice: 11500000,
@@ -625,7 +628,7 @@ const pcs = ref([
   },
   {
     id: 'pc-3',
-    name: 'PC Gaming NetSoft Cyberpunk Core i7 14700KF | RTX 4070 Super 12GB',
+    name: 'PC Gaming Nhân Phúc Cyberpunk Core i7 14700KF | RTX 4070 Super 12GB',
     tier: 'high',
     price: 36990000,
     originalPrice: 41990000,
@@ -637,7 +640,7 @@ const pcs = ref([
   },
   {
     id: 'pc-4',
-    name: 'PC Gaming NetSoft Phantom Ryzen 5 7600 | RTX 4060 Ti 8GB | 16GB DDR5',
+    name: 'PC Gaming Nhân Phúc Phantom Ryzen 5 7600 | RTX 4060 Ti 8GB | 16GB DDR5',
     tier: 'mid',
     price: 22490000,
     originalPrice: 25900000,

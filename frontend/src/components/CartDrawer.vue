@@ -5,7 +5,7 @@
     direction="rtl"
     size="420px"
     :with-header="true"
-    custom-class="netsoft-cart-drawer"
+    custom-class="nhanphuc-cart-drawer"
   >
     <div v-if="cartStore.items.length === 0" class="h-full flex flex-col items-center justify-center text-center p-6 text-gray-500">
       <div class="w-20 h-20 rounded-full bg-emerald-50 text-emerald-600 flex items-center justify-center mb-4">

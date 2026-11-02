@@ -14,7 +14,7 @@
           <h1 class="text-2xl sm:text-3xl font-black text-slate-900">
             {{ activeCategoryTitle ? activeCategoryTitle.toUpperCase() : 'HỆ THỐNG SẢN PHẨM CÔNG NGHỆ CHÍNH HÃNG' }}
           </h1>
-          <p class="text-xs sm:text-sm text-slate-500 mt-1">Tìm kiếm linh kiện, laptop, PC gaming chính hãng với giá tốt nhất tại NetSoft.</p>
+          <p class="text-xs sm:text-sm text-slate-500 mt-1">Tìm kiếm linh kiện, laptop, PC gaming chính hãng với giá tốt nhất tại Nhân Phúc Tech.</p>
         </div>
         <div class="text-xs text-slate-500 font-semibold bg-white px-3.5 py-1.5 rounded-lg border border-slate-200 shadow-xs">
           Tìm thấy <span class="text-[#00733c] font-bold text-sm">{{ filteredProducts.length }}</span> sản phẩm
@@ -119,7 +119,7 @@
                   : 'bg-slate-50 text-slate-600 border-slate-200 hover:border-[#00733c]'
               ]"
             >
-              {{ b }}
+              {{ b === 'all' ? 'Tất cả' : b }}
             </button>
           </div>
         </div>
@@ -279,7 +279,7 @@ const hierarchicalCategories = [
     ]
   },
   {
-    name: 'PC Gaming & Đồ Họa NetSoft',
+    name: 'PC Gaming & Đồ Họa Nhân Phúc',
     slug: 'pc-gaming',
     icon: '🖥️',
     children: [
@@ -334,7 +334,7 @@ const priceRanges = [
 ];
 
 // Brands
-const brandsList = ['all', 'NetSoft', 'ASUS', 'Intel', 'AMD', 'MSI', 'Gigabyte', 'Kingston', 'Corsair', 'Dell', 'Lenovo', 'Samsung', 'Apple', 'DareU', 'Logitech'];
+const brandsList = ['all', 'Nhân Phúc', 'ASUS', 'Intel', 'AMD', 'MSI', 'Gigabyte', 'Kingston', 'Corsair', 'Dell', 'Lenovo', 'Samsung', 'Apple', 'DareU', 'Logitech'];
 
 // Calculate item count in each category
 const getCategoryCount = (slug: string) => {

@@ -18,7 +18,7 @@
         🛒
       </div>
       <h2 class="text-lg font-bold text-slate-800">Giỏ hàng của bạn đang trống</h2>
-      <p class="text-xs text-slate-500 mt-1 mb-6">Hãy chọn các linh kiện, máy tính cấu hình tốt nhất tại NetSoft.</p>
+      <p class="text-xs text-slate-500 mt-1 mb-6">Hãy chọn các linh kiện, máy tính cấu hình tốt nhất tại Nhân Phúc Tech.</p>
       <router-link
         to="/shop"
         class="inline-block px-6 py-2.5 bg-[#00733c] text-white font-bold text-xs rounded-xl shadow-md hover:bg-[#014f2b] transition"
@@ -117,7 +117,7 @@
             <input
               v-model="voucherCode"
               type="text"
-              placeholder="Nhập mã (VD: NETSOFT2026)"
+              placeholder="Nhập mã (VD: NHANPHUC2026)"
               class="flex-1 px-3 py-2 bg-slate-50 border border-slate-200 rounded-lg text-xs uppercase font-bold focus:outline-none focus:border-[#00733c]"
             />
             <button
@@ -192,7 +192,7 @@ const formatPrice = (price: number) => {
 
 const applyVoucher = () => {
   const code = voucherCode.value.trim().toUpperCase();
-  if (code === 'NETSOFT2026' || code === 'NETSOFT') {
+  if (code === 'NHANPHUC2026' || code === 'NHANPHUC' || code === 'NPTECH') {
     voucherDiscount.value = 200000;
     ElMessage.success('Áp dụng mã giảm giá 200.000 đ thành công!');
   } else if (code === 'FREESHIP') {

@@ -78,10 +78,10 @@
           </span>
         </div>
 
-        <!-- Promotions / Gifts Box (Đặc trưng NetSoft) -->
+        <!-- Promotions / Gifts Box (Đặc trưng Nhân Phúc Tech) -->
         <div class="bg-amber-50/60 border border-amber-200/80 rounded-xl p-4 space-y-2.5">
           <div class="flex items-center gap-2 text-xs font-extrabold text-amber-800 uppercase tracking-wider">
-            <span>🎁</span> Ưu Đãi Độc Quyền Khi Mua Tại NetSoft:
+            <span>🎁</span> Ưu Đãi Độc Quyền Khi Mua Tại Nhân Phúc Tech:
           </div>
           <ul class="text-xs text-slate-700 space-y-1.5 pl-1">
             <li class="flex items-start gap-2">
@@ -189,7 +189,7 @@
       <div class="lg:col-span-4 space-y-4">
         <div class="bg-white p-5 rounded-2xl shadow-sm border border-slate-100 space-y-4">
           <h4 class="text-xs font-black text-slate-900 uppercase tracking-wider border-b border-slate-100 pb-2">
-            Yên Tâm Mua Sắm Tại NetSoft
+            Yên Tâm Mua Sắm Tại Nhân Phúc Tech
           </h4>
           <div class="space-y-3 text-xs text-slate-600">
             <div class="flex items-start gap-2.5">

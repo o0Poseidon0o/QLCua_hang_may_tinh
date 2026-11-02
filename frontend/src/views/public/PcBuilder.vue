@@ -6,7 +6,7 @@
         <div class="flex items-center gap-2 text-xs font-bold text-[#00733c] uppercase tracking-wider mb-1">
           <span>🖥️ Công Cụ Độc Quyền</span>
           <span>•</span>
-          <span>NetSoft</span>
+          <span>Nhân Phúc Tech</span>
         </div>
         <h1 class="text-2xl sm:text-3xl font-black text-slate-900">XÂY DỰNG CẤU HÌNH PC THEO Ý MUỐN</h1>
         <p class="text-xs sm:text-sm text-slate-500 mt-1">

@@ -17,10 +17,10 @@
       <span class="inline-block px-3 py-1 bg-emerald-50 text-[#00733c] text-xs font-black uppercase rounded-full">
         Đặt Hàng Thành Công
       </span>
-      <h2 class="text-2xl font-black text-slate-900">CẢM ƠN BẠN ĐÃ MUA HÀNG TẠI NETSOFT!</h2>
+      <h2 class="text-2xl font-black text-slate-900">CẢM ƠN BẠN ĐÃ MUA HÀNG TẠI NHÂN PHÚC TECH!</h2>
       <p class="text-xs text-slate-500 leading-relaxed">
         Mã đơn hàng của bạn là <strong class="text-slate-800 font-bold text-sm">#{{ orderId }}</strong>.
-        Nhân viên tư vấn NetSoft sẽ gọi điện xác nhận trong vòng 15 phút tới số điện thoại <strong>{{ form.phone }}</strong>.
+        Nhân viên tư vấn Nhân Phúc Tech sẽ gọi điện xác nhận trong vòng 15 phút tới số điện thoại <strong>{{ form.phone }}</strong>.
       </p>
 
       <div class="pt-4 flex justify-center gap-3">
@@ -190,7 +190,7 @@
           </button>
 
           <p class="text-[11px] text-slate-400 text-center">
-            Bằng việc đặt hàng, bạn đồng ý với Điều khoản dịch vụ và Chính sách bảo hành của NetSoft.
+            Bằng việc đặt hàng, bạn đồng ý với Điều khoản dịch vụ và Chính sách bảo hành của Nhân Phúc Tech.
           </p>
         </div>
       </div>
@@ -230,7 +230,7 @@ const submitOrder = () => {
     return;
   }
 
-  orderId.value = 'NS' + Math.floor(100000 + Math.random() * 900000);
+  orderId.value = 'NP' + Math.floor(100000 + Math.random() * 900000);
   orderPlaced.value = true;
   cartStore.clearCart();
   ElMessage.success('Đơn hàng đã được tạo thành công!');

@@ -125,15 +125,15 @@ export const mockProducts: ProductItem[] = [
     ]
   },
 
-  // ================= PC GAMING NETSOFT =================
+  // ================= PC GAMING NHÂN PHÚC =================
   {
     id: 'pc-1',
-    name: 'PC Gaming NetSoft Dragon Core i5 13400F | RTX 4060 8GB | 16GB RAM',
-    sku: 'PC-NS-DRAGON',
+    name: 'PC Gaming Nhân Phúc Dragon Core i5 13400F | RTX 4060 8GB | 16GB RAM',
+    sku: 'PC-NP-DRAGON',
     category: 'pc-gaming-mid',
     parentCategory: 'pc-gaming',
     categoryName: 'PC Gaming Trung Cấp',
-    brand: 'NetSoft',
+    brand: 'Nhân Phúc',
     price: 17990000,
     originalPrice: 20990000,
     discount: 14,
@@ -142,7 +142,7 @@ export const mockProducts: ProductItem[] = [
       'https://images.unsplash.com/photo-1587202372775-e229f172b9d7?w=600&q=80',
       'https://images.unsplash.com/photo-1591488320449-011701bb6704?w=600&q=80'
     ],
-    description: 'Cỗ máy PC Gaming bán chạy số 1 tại NetSoft, chiến mượt mọi tựa game Esport và AAA ở độ phân giải Full HD / 2K max settings.',
+    description: 'Cỗ máy PC Gaming bán chạy số 1 tại Nhân Phúc Tech, chiến mượt mọi tựa game Esport và AAA ở độ phân giải Full HD / 2K max settings.',
     specs: [
       { label: 'CPU', value: 'Intel Core i5 13400F (10 Nhân 16 Luồng)' },
       { label: 'Mainboard', value: 'ASUS B760M-Plus DDR4 Gaming' },
@@ -155,12 +155,12 @@ export const mockProducts: ProductItem[] = [
   },
   {
     id: 'pc-2',
-    name: 'PC Gaming NetSoft Starter Core i3 12100F | GTX 1650 4GB | 16GB RAM',
-    sku: 'PC-NS-STARTER',
+    name: 'PC Gaming Nhân Phúc Starter Core i3 12100F | GTX 1650 4GB | 16GB RAM',
+    sku: 'PC-NP-STARTER',
     category: 'pc-gaming-entry',
     parentCategory: 'pc-gaming',
     categoryName: 'PC Gaming Phổ Thông',
-    brand: 'NetSoft',
+    brand: 'Nhân Phúc',
     price: 9890000,
     originalPrice: 11500000,
     discount: 14,
@@ -180,12 +180,12 @@ export const mockProducts: ProductItem[] = [
   },
   {
     id: 'pc-3',
-    name: 'PC Gaming NetSoft Cyberpunk Core i7 14700KF | RTX 4070 Super 12GB | 32GB RAM',
-    sku: 'PC-NS-CYBER',
+    name: 'PC Gaming Nhân Phúc Cyberpunk Core i7 14700KF | RTX 4070 Super 12GB | 32GB RAM',
+    sku: 'PC-NP-CYBER',
     category: 'pc-gaming-high',
     parentCategory: 'pc-gaming',
     categoryName: 'PC Gaming Cao Cấp',
-    brand: 'NetSoft',
+    brand: 'Nhân Phúc',
     price: 36990000,
     originalPrice: 41990000,
     discount: 12,
@@ -207,12 +207,12 @@ export const mockProducts: ProductItem[] = [
   },
   {
     id: 'pc-4',
-    name: 'PC Workstation NetSoft Pro Render Ryzen 9 7900X | RTX 4080 Super 16GB',
-    sku: 'PC-NS-WORKSTATION',
+    name: 'PC Workstation Nhân Phúc Pro Render Ryzen 9 7900X | RTX 4080 Super 16GB',
+    sku: 'PC-NP-WORKSTATION',
     category: 'pc-workstation',
     parentCategory: 'pc-gaming',
     categoryName: 'PC Thiết Kế Đồ Họa 3D',
-    brand: 'NetSoft',
+    brand: 'Nhân Phúc',
     price: 58990000,
     originalPrice: 64990000,
     discount: 9,

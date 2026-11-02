@@ -31,10 +31,10 @@
       <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-3.5 flex items-center justify-between gap-4">
         <!-- Logo -->
         <router-link to="/" class="flex items-center gap-3 flex-shrink-0 group">
-          <img :src="logoImg" alt="NetSoft Logo" class="h-11 w-auto object-contain group-hover:scale-105 transition-transform" />
+          <img :src="logoImg" alt="Nhân Phúc Tech Logo" class="h-11 w-auto object-contain group-hover:scale-105 transition-transform" />
           <div>
             <div class="text-xl font-extrabold tracking-tight text-[#014f2b] flex items-center gap-1">
-              Net<span class="text-emerald-600">Soft</span>
+              Nhân Phúc <span class="text-emerald-600">Tech</span>
             </div>
             <p class="text-[10px] uppercase tracking-widest text-slate-400 font-semibold -mt-1">Computer & Technology</p>
           </div>
@@ -69,7 +69,7 @@
             <span>•</span>
             <button @click="searchTag('Màn hình 165Hz')" class="hover:text-[#00733c] hover:underline">Màn hình 165Hz</button>
             <span>•</span>
-            <button @click="searchTag('PC Gaming')" class="hover:text-[#00733c] hover:underline">PC Gaming NetSoft</button>
+            <button @click="searchTag('PC Gaming')" class="hover:text-[#00733c] hover:underline">PC Gaming Nhân Phúc</button>
           </div>
         </div>
 
@@ -189,7 +189,7 @@
               Tin tức & Cẩm nang
             </router-link>
             <router-link to="/about" class="text-slate-700 hover:text-[#00733c] transition py-3" active-class="text-[#00733c] border-b-2 border-[#00733c]">
-              Về NetSoft
+              Về Nhân Phúc Tech
             </router-link>
 
             <!-- Dynamic Menu Pages -->
@@ -225,14 +225,14 @@
     <!-- Quick Cart Slide-out Drawer -->
     <CartDrawer />
 
-    <!-- Footer NetSoft Style -->
+    <!-- Footer Nhân Phúc Tech Style -->
     <footer class="bg-[#0b1712] text-slate-300 pt-14 pb-8 mt-16 border-t-4 border-[#00733c]">
       <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-5 gap-8 mb-12">
         <!-- Col 1: Brand Info -->
         <div class="lg:col-span-2">
           <div class="flex items-center gap-3 mb-4">
-            <img :src="logoImg" alt="NetSoft Logo" class="h-10 w-auto object-contain brightness-110" />
-            <span class="text-xl font-extrabold text-white tracking-tight">Net<span class="text-emerald-400">Soft</span></span>
+            <img :src="logoImg" alt="Nhân Phúc Tech Logo" class="h-10 w-auto object-contain bg-white rounded-lg p-1" />
+            <span class="text-xl font-extrabold text-white tracking-tight">Nhân Phúc <span class="text-emerald-400">Tech</span></span>
           </div>
           <p class="text-sm text-slate-400 leading-relaxed mb-4 pr-6">
             Hệ thống phân phối Laptop, Máy tính để bàn PC Gaming, Máy trạm Workstation, Linh kiện vi tính và Dịch vụ bảo trì IT doanh nghiệp uy tín hàng đầu.
@@ -240,14 +240,14 @@
           <div class="space-y-2 text-xs text-slate-400">
             <p><strong class="text-white">Trụ sở chính:</strong> 179 Nơ Trang Long P.Bình Thạnh TPHCM</p>
             <p><strong class="text-white">Điện thoại:</strong> 0777908179</p>
-            <p><strong class="text-white">Email:</strong> sales@netsoft.vn - support@netsoft.vn</p>
+            <p><strong class="text-white">Email:</strong> sales@nhanphuctech.vn - support@nhanphuctech.vn</p>
           </div>
         </div>
 
-        <!-- Col 2: Về NetSoft -->
+        <!-- Col 2: Về Nhân Phúc Tech -->
         <div>
           <h4 class="text-white font-bold text-sm uppercase tracking-wider mb-4 border-l-2 border-[#00733c] pl-2">
-            Về NetSoft
+            Về Nhân Phúc Tech
           </h4>
           <ul class="space-y-2 text-sm text-slate-400">
             <li><router-link to="/about" class="hover:text-emerald-400 transition">Giới thiệu công ty</router-link></li>
@@ -264,11 +264,11 @@
             Chính Sách & Hỗ Trợ
           </h4>
           <ul class="space-y-2 text-sm text-slate-400">
-            <li><a href="#" class="hover:text-emerald-400 transition">Chính sách bảo hành</a></li>
-            <li><a href="#" class="hover:text-emerald-400 transition">Chính sách đổi trả 7 ngày</a></li>
-            <li><a href="#" class="hover:text-emerald-400 transition">Chính sách giao hàng siêu tốc</a></li>
-            <li><a href="#" class="hover:text-emerald-400 transition">Hướng dẫn mua trả góp 0%</a></li>
-            <li><a href="#" class="hover:text-emerald-400 transition">Quy định thanh toán</a></li>
+            <li><router-link to="/p/chinh-sach-bao-hanh" class="hover:text-emerald-400 transition">Chính sách bảo hành</router-link></li>
+            <li><router-link to="/p/chinh-sach-doi-tra" class="hover:text-emerald-400 transition">Chính sách đổi trả 7 ngày</router-link></li>
+            <li><router-link to="/p/chinh-sach-giao-hang" class="hover:text-emerald-400 transition">Chính sách giao hàng siêu tốc</router-link></li>
+            <li><router-link to="/p/huong-dan-tra-gop" class="hover:text-emerald-400 transition">Hướng dẫn mua trả góp 0%</router-link></li>
+            <li><router-link to="/p/quy-dinh-thanh-toan" class="hover:text-emerald-400 transition">Quy định thanh toán</router-link></li>
           </ul>
         </div>
 
@@ -293,7 +293,7 @@
       <!-- Copyright & Partners -->
       <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pt-6 border-t border-slate-800 flex flex-col md:flex-row justify-between items-center text-xs text-slate-500 gap-4">
         <div>
-          &copy; 2026 NetSoft - Giải Pháp Công Nghệ Toàn Diện. Giữ toàn quyền bản quyền.
+          &copy; 2026 Nhân Phúc Tech - Giải Pháp Công Nghệ Toàn Diện. Giữ toàn quyền bản quyền.
         </div>
         <div class="flex items-center gap-4 text-slate-400">
           <span>Chấp nhận thanh toán:</span>
@@ -312,7 +312,7 @@ import {
 } from '@element-plus/icons-vue';
 import { useCartStore } from '../stores/cart';
 import CartDrawer from '../components/CartDrawer.vue';
-import logoImg from '../assets/logo/logo.gif';
+import logoImg from '../assets/logo/logo.png';
 import api from '../services/api';
 
 const router = useRouter();
@@ -336,7 +336,7 @@ const megaCategories = [
     ]
   },
   {
-    name: 'PC Gaming & Đồ họa NetSoft',
+    name: 'PC Gaming & Đồ họa Nhân Phúc',
     slug: 'pc-gaming',
     icon: '🖥️',
     children: [

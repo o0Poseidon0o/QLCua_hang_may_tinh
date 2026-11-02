@@ -21,7 +21,7 @@ export const useCartStore = defineStore('cart', () => {
   const isDrawerOpen = ref(false);
 
   // Load from localStorage
-  const savedCart = localStorage.getItem('netsoft_cart');
+  const savedCart = localStorage.getItem('nhanphuc_cart');
   if (savedCart) {
     try {
       items.value = JSON.parse(savedCart);
@@ -31,7 +31,7 @@ export const useCartStore = defineStore('cart', () => {
   }
 
   const saveCart = () => {
-    localStorage.setItem('netsoft_cart', JSON.stringify(items.value));
+    localStorage.setItem('nhanphuc_cart', JSON.stringify(items.value));
   };
 
   const addItem = (product: CartProduct, quantity = 1) => {

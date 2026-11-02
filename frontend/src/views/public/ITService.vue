@@ -11,7 +11,7 @@
             DỊCH VỤ IT OUTSOURCING • BẢO TRÌ HỆ THỐNG MẠNG DOANH NGHIỆP
           </h1>
           <p class="text-sm sm:text-base text-slate-200 max-w-2xl leading-relaxed">
-            Tiết kiệm tới 60% chi phí so với việc thuê nhân sự IT toàn thời gian. NetSoft đóng vai trò như một phòng IT chuyên nghiệp: bảo trì máy tính, quản trị mạng, máy chủ server và bảo mật dữ liệu 24/7.
+            Tiết kiệm tới 60% chi phí so với việc thuê nhân sự IT toàn thời gian. Nhân Phúc Tech đóng vai trò như một phòng IT chuyên nghiệp: bảo trì máy tính, quản trị mạng, máy chủ server và bảo mật dữ liệu 24/7.
           </p>
           <div class="flex flex-wrap items-center gap-4 pt-2 text-xs">
             <a
@@ -54,7 +54,7 @@
     <section class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
       <div class="text-center max-w-2xl mx-auto mb-10 space-y-2">
         <span class="text-xs font-bold text-[#00733c] uppercase tracking-wider">Linh Hoạt Theo Quy Mô</span>
-        <h2 class="text-2xl sm:text-3xl font-black text-slate-900">CÁC GÓI DỊCH VỤ IT OUTSOURCING NETSOFT</h2>
+        <h2 class="text-2xl sm:text-3xl font-black text-slate-900">CÁC GÓI DỊCH VỤ IT OUTSOURCING NHÂN PHÚC TECH</h2>
         <p class="text-xs text-slate-500">Lựa chọn gói dịch vụ phù hợp với số lượng máy tính và mô hình công ty của bạn.</p>
       </div>
 
@@ -154,7 +154,7 @@
     <section class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
       <div class="bg-white rounded-3xl p-8 sm:p-12 shadow-sm border border-slate-100 space-y-8">
         <h3 class="text-xl sm:text-2xl font-black text-slate-900 text-center">
-          HẠNG MỤC CÔNG VIỆC PHÒNG IT NETSOFT ĐẢM NHẬN
+          HẠNG MỤC CÔNG VIỆC PHÒNG IT NHÂN PHÚC TECH ĐẢM NHẬN
         </h3>
 
         <div class="grid grid-cols-1 md:grid-cols-3 gap-6 text-xs">
@@ -191,7 +191,7 @@
         <div class="text-center space-y-2">
           <span class="text-xs font-bold text-emerald-600 uppercase tracking-wider">Khảo Sát Tận Nơi Miễn Phí</span>
           <h2 class="text-2xl sm:text-3xl font-black text-slate-900">ĐĂNG KÝ TƯ VẤN & BÁO GIÁ IT DOANH NGHIỆP</h2>
-          <p class="text-xs text-slate-500">Chuyên gia IT của NetSoft sẽ đến tận văn phòng khảo sát và lập phương án tối ưu nhất.</p>
+          <p class="text-xs text-slate-500">Chuyên gia IT của Nhân Phúc Tech sẽ đến tận văn phòng khảo sát và lập phương án tối ưu nhất.</p>
         </div>
 
         <form @submit.prevent="submitSurvey" class="space-y-4 text-xs">
@@ -290,7 +290,7 @@ const surveyForm = ref({
 
 const submitSurvey = () => {
   ElMessage.success({
-    message: `Cảm ơn ${surveyForm.value.contactPerson}! Chuyên gia IT NetSoft sẽ liên hệ khảo sát trong ngày.`,
+    message: `Cảm ơn ${surveyForm.value.contactPerson}! Chuyên gia IT Nhân Phúc Tech sẽ liên hệ khảo sát trong ngày.`,
     duration: 3500
   });
   surveyForm.value = {
