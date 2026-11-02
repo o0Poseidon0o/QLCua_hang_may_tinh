@@ -1,4 +1,6 @@
 import { createRouter, createWebHistory } from 'vue-router'
+import { ElMessage } from 'element-plus'
+import { useAuthStore, type PermissionKey } from '../stores/auth'
 
 const router = createRouter({
   history: createWebHistory(),
@@ -22,37 +24,91 @@ const router = createRouter({
       ]
     },
     {
+      path: '/admin/login',
+      name: 'AdminLogin',
+      component: () => import('../views/admin/Login.vue')
+    },
+    {
       path: '/admin',
       component: () => import('../layouts/AdminLayout.vue'),
+      meta: { requiresAuth: true },
       children: [
         {
           path: '',
           name: 'AdminDashboard',
+          meta: { requiresAuth: true, permission: 'dashboard' as PermissionKey },
           component: () => import('../views/admin/Dashboard.vue')
+        },
+        {
+          path: 'orders',
+          name: 'AdminOrders',
+          meta: { requiresAuth: true, permission: 'orders' as PermissionKey },
+          component: () => import('../views/admin/Orders.vue')
         },
         {
           path: 'categories',
           name: 'AdminCategories',
+          meta: { requiresAuth: true, permission: 'categories' as PermissionKey },
           component: () => import('../views/admin/Categories.vue')
         },
         {
           path: 'products',
           name: 'AdminProducts',
+          meta: { requiresAuth: true, permission: 'products' as PermissionKey },
           component: () => import('../views/admin/Products.vue')
         },
         {
           path: 'inventory',
           name: 'AdminInventory',
+          meta: { requiresAuth: true, permission: 'inventory' as PermissionKey },
           component: () => import('../views/admin/Inventory.vue')
+        },
+        {
+          path: 'services',
+          name: 'AdminServices',
+          meta: { requiresAuth: true, permission: 'services' as PermissionKey },
+          component: () => import('../views/admin/Services.vue')
         },
         {
           path: 'cms',
           name: 'AdminCMS',
+          meta: { requiresAuth: true, permission: 'cms' as PermissionKey },
           component: () => import('../views/admin/CMS.vue')
+        },
+        {
+          path: 'users',
+          name: 'AdminUsers',
+          meta: { requiresAuth: true, permission: 'users' as PermissionKey },
+          component: () => import('../views/admin/Users.vue')
         }
       ]
     }
   ]
+})
+
+router.beforeEach((to) => {
+  const authStore = useAuthStore()
+
+  if (to.name === 'AdminLogin' && authStore.isAuthenticated) {
+    return { path: '/admin' }
+  }
+
+  if (to.matched.some((record) => record.meta.requiresAuth)) {
+    if (!authStore.isAuthenticated) {
+      return {
+        path: '/admin/login',
+        query: { redirect: to.fullPath }
+      }
+    }
+
+    const requiredPerm = to.meta.permission as PermissionKey | undefined
+    if (requiredPerm && !authStore.hasPermission(requiredPerm)) {
+      ElMessage.warning('Tài khoản của bạn không có quyền truy cập vào danh mục này!')
+      return { path: '/admin' }
+    }
+  }
+
+  return true
 })
 
 export default router
