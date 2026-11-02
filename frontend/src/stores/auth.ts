@@ -10,6 +10,9 @@ export type PermissionKey =
   | 'categories'
   | 'inventory'
   | 'services'
+  | 'it_outsourcing'
+  | 'news'
+  | 'about'
   | 'cms'
   | 'users';
 
@@ -42,14 +45,26 @@ export const ROLE_DEFINITIONS: Record<AdminRole, RoleDefinition> = {
     label: 'Quản trị cao cấp (Giám đốc)',
     badgeType: 'danger',
     description: 'Toàn quyền quản trị hệ thống, cấu hình phân quyền và quản lý nhân sự.',
-    defaultPermissions: ['dashboard', 'orders', 'products', 'categories', 'inventory', 'services', 'cms', 'users'],
+    defaultPermissions: [
+      'dashboard',
+      'orders',
+      'products',
+      'categories',
+      'inventory',
+      'services',
+      'it_outsourcing',
+      'news',
+      'about',
+      'cms',
+      'users',
+    ],
   },
   SALES: {
     code: 'SALES',
     label: 'NV Kinh doanh & Bán hàng',
     badgeType: 'success',
-    description: 'Xử lý đơn đặt hàng PC/Laptop, tư vấn báo giá, tra cứu sản phẩm và phiếu dịch vụ.',
-    defaultPermissions: ['dashboard', 'orders', 'products', 'services'],
+    description: 'Xử lý đơn đặt hàng PC/Laptop, tư vấn báo giá IT Outsourcing và tra cứu sản phẩm.',
+    defaultPermissions: ['dashboard', 'orders', 'products', 'services', 'it_outsourcing'],
   },
   WAREHOUSE: {
     code: 'WAREHOUSE',
@@ -63,14 +78,14 @@ export const ROLE_DEFINITIONS: Record<AdminRole, RoleDefinition> = {
     label: 'Kỹ thuật viên Sửa chữa & IT',
     badgeType: 'primary',
     description: 'Tiếp nhận & xử lý phiếu sửa chữa máy tính, bảo hành và dịch vụ IT Outsourcing.',
-    defaultPermissions: ['dashboard', 'services', 'inventory'],
+    defaultPermissions: ['dashboard', 'services', 'it_outsourcing', 'inventory'],
   },
   MARKETING: {
     code: 'MARKETING',
     label: 'Biên tập viên Nội dung (CMS)',
     badgeType: 'info',
-    description: 'Quản trị bài viết, trang chính sách CMS, cập nhật thông tin sản phẩm & danh mục.',
-    defaultPermissions: ['dashboard', 'cms', 'products', 'categories'],
+    description: 'Cập nhật Tin tức & Cẩm nang, trang Về Nhân Phúc Tech, bảng giá IT Outsourcing & Chính sách.',
+    defaultPermissions: ['dashboard', 'news', 'about', 'it_outsourcing', 'cms', 'products', 'categories'],
   },
 };
 
@@ -80,13 +95,16 @@ export const PERMISSION_LABELS: { key: PermissionKey; label: string; desc: strin
   { key: 'products', label: 'Quản lý Sản phẩm', desc: 'Thêm, sửa, xóa Laptop, PC Gaming, Linh kiện & giá bán' },
   { key: 'categories', label: 'Quản lý Danh mục', desc: 'Cấu hình danh mục sản phẩm & menu phân loại' },
   { key: 'inventory', label: 'Quản lý Kho hàng', desc: 'Nhập kho, xuất kho, kiểm kê số lượng tồn & cảnh báo hết hàng' },
-  { key: 'services', label: 'Dịch vụ Kỹ thuật & Bảo hành', desc: 'Quản lý phiếu sửa chữa, bảo hành & hợp đồng IT Outsourcing' },
-  { key: 'cms', label: 'Nội dung & Chính sách (CMS)', desc: 'Soạn thảo các trang chính sách, hướng dẫn & bài viết' },
+  { key: 'services', label: 'Phiếu Sửa chữa & Bảo hành', desc: 'Tiếp nhận & cập nhật tiến độ phiếu sửa chữa, bảo hành' },
+  { key: 'it_outsourcing', label: 'IT Outsourcing & Bảng giá', desc: 'Chỉnh sửa giá các gói IT Outsourcing, hạng mục & yêu cầu khảo sát' },
+  { key: 'news', label: 'Tin tức & Cẩm nang', desc: 'Đăng bài mới, sửa bài viết đánh giá linh kiện & thủ thuật máy tính' },
+  { key: 'about', label: 'Về Nhân Phúc Tech', desc: 'Chỉnh sửa trang giới thiệu công ty, sứ mệnh & địa chỉ liên hệ' },
+  { key: 'cms', label: 'Trang Chính sách (CMS)', desc: 'Soạn thảo các trang chính sách bảo hành, đổi trả, trả góp' },
   { key: 'users', label: 'Nhân sự & Phân quyền', desc: 'Tạo tài khoản nhân viên, đổi mật khẩu, cấp quyền truy cập' },
 ];
 
-const USERS_STORAGE_KEY = 'nhanphuc_admin_users';
-const SESSION_STORAGE_KEY = 'nhanphuc_admin_session';
+const USERS_STORAGE_KEY = 'nhanphuc_admin_users_v2';
+const SESSION_STORAGE_KEY = 'nhanphuc_admin_session_v2';
 
 const DEFAULT_STAFF_USERS: StaffUser[] = [
   {
@@ -184,7 +202,6 @@ export const useAuthStore = defineStore('auth', () => {
 
   const saveUsers = () => {
     localStorage.setItem(USERS_STORAGE_KEY, JSON.stringify(staffList.value));
-    // Đồng bộ lại currentUser nếu đang đăng nhập
     if (currentUser.value) {
       const updated = staffList.value.find((u) => u.id === currentUser.value?.id);
       if (updated) {
@@ -211,7 +228,6 @@ export const useAuthStore = defineStore('auth', () => {
     currentUser.value = null;
   };
 
-  // Khởi tạo ngay khi store được gọi
   loadUsers();
   loadSession();
 

@@ -75,12 +75,27 @@
 
         <el-menu-item v-if="authStore.hasPermission('services')" index="/admin/services">
           <el-icon><SetUp /></el-icon>
-          <span>Dịch vụ Kỹ thuật & BH</span>
+          <span>Phiếu Sửa chữa & BH</span>
+        </el-menu-item>
+
+        <el-menu-item v-if="authStore.hasPermission('it_outsourcing')" index="/admin/it-outsourcing">
+          <el-icon><OfficeBuilding /></el-icon>
+          <span>IT Outsourcing & Giá</span>
+        </el-menu-item>
+
+        <el-menu-item v-if="authStore.hasPermission('news')" index="/admin/news">
+          <el-icon><Reading /></el-icon>
+          <span>Tin tức & Cẩm nang</span>
+        </el-menu-item>
+
+        <el-menu-item v-if="authStore.hasPermission('about')" index="/admin/about">
+          <el-icon><InfoFilled /></el-icon>
+          <span>Về Nhân Phúc Tech</span>
         </el-menu-item>
 
         <el-menu-item v-if="authStore.hasPermission('cms')" index="/admin/cms">
           <el-icon><Document /></el-icon>
-          <span>Nội dung & Chính sách</span>
+          <span>Trang Chính sách (CMS)</span>
         </el-menu-item>
 
         <el-menu-item v-if="authStore.hasPermission('users')" index="/admin/users">
@@ -196,6 +211,9 @@ import {
   SetUp,
   UserFilled,
   SwitchButton,
+  OfficeBuilding,
+  Reading,
+  InfoFilled,
 } from '@element-plus/icons-vue';
 import { ElMessage } from 'element-plus';
 import { useAuthStore, ROLE_DEFINITIONS } from '../stores/auth';

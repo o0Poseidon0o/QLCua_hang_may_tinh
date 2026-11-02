@@ -88,13 +88,15 @@
 
 <script setup lang="ts">
 import { ref, computed } from 'vue';
-import { mockNews } from '../../data/mockNews';
+import { useSiteContentStore } from '../../stores/siteContent';
+
+const siteContentStore = useSiteContentStore();
 
 const categories = ['Tất Cả', 'Đánh Giá Linh Kiện', 'Tư Vấn Cấu Hình', 'Thủ Thuật Máy Tính', 'IT Outsourcing'];
 const selectedCategory = ref('Tất Cả');
 
 const filteredArticles = computed(() => {
-  if (selectedCategory.value === 'Tất Cả') return mockNews;
-  return mockNews.filter((item) => item.category === selectedCategory.value);
+  if (selectedCategory.value === 'Tất Cả') return siteContentStore.newsList;
+  return siteContentStore.newsList.filter((item) => item.category === selectedCategory.value);
 });
 </script>

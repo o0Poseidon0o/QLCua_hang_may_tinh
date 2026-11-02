@@ -7,13 +7,13 @@
       </div>
       <div class="space-y-3 text-center md:text-left">
         <span class="inline-block px-3.5 py-1 bg-emerald-500/20 text-emerald-300 font-bold text-xs uppercase tracking-wider rounded-full border border-emerald-500/30">
-          Về Chúng Tôi
+          {{ about.heroBadge }}
         </span>
         <h1 class="text-2xl sm:text-4xl font-black leading-tight">
-          CÔNG TY CÔNG NGHỆ NHÂN PHÚC TECH
+          {{ about.companyTitle }}
         </h1>
         <p class="text-sm sm:text-base text-slate-200 max-w-3xl leading-relaxed">
-          Chào mừng đến với <strong>Nhân Phúc Tech</strong> — đơn vị chuyên cung cấp Laptop, PC Gaming, Máy trạm Đồ họa, Linh kiện vi tính chính hãng và Dịch vụ kỹ thuật &amp; IT Outsourcing toàn diện tại TP.HCM.
+          {{ about.heroIntro }}
         </p>
       </div>
     </div>
@@ -23,41 +23,35 @@
       <div class="lg:col-span-8 bg-white rounded-3xl p-6 sm:p-10 shadow-sm border border-slate-100 space-y-6 text-sm text-slate-600 leading-relaxed">
         <div>
           <h2 class="text-xl font-black text-slate-900 mb-3 border-l-4 border-[#00733c] pl-3">
-            Câu Chuyện Thương Hiệu
+            {{ about.storyTitle }}
           </h2>
-          <p>
-            Thành lập từ năm 2018, <strong>Nhân Phúc Tech</strong> tự hào mang đến cho khách hàng cá nhân, game thủ và doanh nghiệp những sản phẩm công nghệ chính hãng 100%, đi kèm với dịch vụ hậu mãi chuẩn mực và chuyên nghiệp nhất. Đội ngũ của chúng tôi bao gồm các kỹ sư IT giàu kinh nghiệm, đam mê công nghệ và luôn đặt chữ "Tâm" lên hàng đầu.
+          <p class="whitespace-pre-line">
+            {{ about.storyContent }}
           </p>
         </div>
 
         <div>
           <h2 class="text-xl font-black text-slate-900 mb-3 border-l-4 border-[#00733c] pl-3">
-            Tầm Nhìn &amp; Sứ Mệnh
+            {{ about.missionTitle }}
           </h2>
-          <p>
-            Trở thành đối tác công nghệ đáng tin cậy hàng đầu của mọi khách hàng và doanh nghiệp, giúp quá trình trang bị phần cứng, chuyển đổi số và vận hành hệ thống IT trở nên trơn tru, bảo mật và tiết kiệm chi phí tối đa.
+          <p class="whitespace-pre-line">
+            {{ about.missionContent }}
           </p>
         </div>
 
         <div>
           <h2 class="text-xl font-black text-slate-900 mb-4 border-l-4 border-[#00733c] pl-3">
-            Tại Sao Chọn Nhân Phúc Tech?
+            {{ about.whyChooseTitle }}
           </h2>
           <div class="grid grid-cols-1 sm:grid-cols-3 gap-4">
-            <div class="p-4 rounded-2xl bg-emerald-50/60 border border-emerald-100 space-y-1.5">
-              <div class="text-2xl">🛡️</div>
-              <h4 class="font-bold text-slate-900 text-sm">Chất lượng đảm bảo</h4>
-              <p class="text-xs text-slate-500">Tất cả sản phẩm linh kiện bán ra đều nguyên seal, chính hãng 100%, bảo hành uy tín.</p>
-            </div>
-            <div class="p-4 rounded-2xl bg-emerald-50/60 border border-emerald-100 space-y-1.5">
-              <div class="text-2xl">👨‍🔧</div>
-              <h4 class="font-bold text-slate-900 text-sm">Tận tâm &amp; Chuyên nghiệp</h4>
-              <p class="text-xs text-slate-500">Hỗ trợ kỹ thuật 24/7 đối với khách hàng cá nhân và doanh nghiệp sử dụng dịch vụ IT Outsourcing.</p>
-            </div>
-            <div class="p-4 rounded-2xl bg-emerald-50/60 border border-emerald-100 space-y-1.5">
-              <div class="text-2xl">💰</div>
-              <h4 class="font-bold text-slate-900 text-sm">Giá cả cạnh tranh</h4>
-              <p class="text-xs text-slate-500">Cam kết mức giá hợp lý nhất thị trường đi kèm quà tặng và gói vệ sinh máy 2 năm miễn phí.</p>
+            <div
+              v-for="(val, idx) in about.coreValues"
+              :key="idx"
+              class="p-4 rounded-2xl bg-emerald-50/60 border border-emerald-100 space-y-1.5"
+            >
+              <div class="text-2xl">{{ val.icon }}</div>
+              <h4 class="font-bold text-slate-900 text-sm">{{ val.title }}</h4>
+              <p class="text-xs text-slate-500">{{ val.desc }}</p>
             </div>
           </div>
         </div>
@@ -72,15 +66,16 @@
           <div class="space-y-3 text-xs text-slate-600">
             <div>
               <span class="font-bold text-slate-800 block">Địa chỉ Showroom &amp; Trung tâm Kỹ thuật:</span>
-              179 Nơ Trang Long, Phường Bình Thạnh, TP.HCM
+              {{ about.address }}
             </div>
             <div>
               <span class="font-bold text-slate-800 block">Hotline Tư vấn &amp; Kỹ thuật:</span>
-              <a href="tel:0777908179" class="text-base font-black text-[#00733c]">0777908179</a> (8h00 - 21h30)
+              <a :href="'tel:' + about.hotline" class="text-base font-black text-[#00733c]">{{ about.hotline }}</a>
+              ({{ about.workingHours }})
             </div>
             <div>
               <span class="font-bold text-slate-800 block">Email:</span>
-              sales@nhanphuctech.vn • support@nhanphuctech.vn
+              {{ about.emailSales }} • {{ about.emailSupport }}
             </div>
           </div>
 
@@ -105,5 +100,10 @@
 </template>
 
 <script setup lang="ts">
+import { computed } from 'vue';
+import { useSiteContentStore } from '../../stores/siteContent';
 import logoImg from '../../assets/logo/logo.png';
+
+const siteContentStore = useSiteContentStore();
+const about = computed(() => siteContentStore.aboutPage);
 </script>

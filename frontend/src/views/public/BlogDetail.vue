@@ -84,18 +84,20 @@
 <script setup lang="ts">
 import { computed, watch } from 'vue';
 import { useRoute } from 'vue-router';
-import { mockNews } from '../../data/mockNews';
+import { useSiteContentStore } from '../../stores/siteContent';
 
 const route = useRoute();
+const siteContentStore = useSiteContentStore();
 
 const article = computed(() => {
   const currentSlug = String(route.params.slug || '');
-  const found = mockNews.find((item) => item.slug === currentSlug);
-  return found || mockNews[0];
+  const found = siteContentStore.newsList.find((item) => item.slug === currentSlug);
+  return found || siteContentStore.newsList[0];
 });
 
 const relatedPosts = computed(() => {
-  return mockNews.filter((item) => item.slug !== article.value.slug).slice(0, 2);
+  if (!article.value) return [];
+  return siteContentStore.newsList.filter((item) => item.slug !== article.value.slug).slice(0, 2);
 });
 
 watch(

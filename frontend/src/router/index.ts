@@ -70,6 +70,24 @@ const router = createRouter({
           component: () => import('../views/admin/Services.vue')
         },
         {
+          path: 'it-outsourcing',
+          name: 'AdminITOutsourcing',
+          meta: { requiresAuth: true, permission: 'it_outsourcing' as PermissionKey },
+          component: () => import('../views/admin/ITOutsourcingAdmin.vue')
+        },
+        {
+          path: 'news',
+          name: 'AdminNews',
+          meta: { requiresAuth: true, permission: 'news' as PermissionKey },
+          component: () => import('../views/admin/NewsAdmin.vue')
+        },
+        {
+          path: 'about',
+          name: 'AdminAbout',
+          meta: { requiresAuth: true, permission: 'about' as PermissionKey },
+          component: () => import('../views/admin/AboutAdmin.vue')
+        },
+        {
           path: 'cms',
           name: 'AdminCMS',
           meta: { requiresAuth: true, permission: 'cms' as PermissionKey },
