@@ -145,6 +145,13 @@ const allModules: { perm: PermissionKey; title: string; desc: string; path: stri
     icon: '🛠️',
   },
   {
+    perm: 'banners',
+    title: 'Banner Trang chủ',
+    desc: 'Chỉnh sửa tiêu đề, mô tả, hình ảnh, nút bấm và thứ tự các slide banner trên trang chủ.',
+    path: '/admin/banners',
+    icon: '🖼️',
+  },
+  {
     perm: 'it_outsourcing',
     title: 'IT Outsourcing & Bảng giá',
     desc: 'Cập nhật giá các gói IT Outsourcing doanh nghiệp, hạng mục công việc & yêu cầu khảo sát.',

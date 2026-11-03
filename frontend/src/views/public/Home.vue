@@ -1,37 +1,38 @@
 <template>
-  <div class="space-y-12 pb-12">
+  <div class="space-y-6 sm:space-y-10 lg:space-y-12 pb-12">
     <!-- 1. Hero Section: Carousel & Side Banners -->
     <section class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pt-4">
       <div class="grid grid-cols-1 lg:grid-cols-3 gap-4">
         <!-- Main Carousel (2 Cols on desktop) -->
         <div class="lg:col-span-2 rounded-2xl overflow-hidden shadow-md">
-          <el-carousel height="380px" indicator-position="inside" :interval="4500" arrow="always">
-            <el-carousel-item v-for="(slide, idx) in heroSlides" :key="idx">
+          <el-carousel :height="carouselHeight" indicator-position="inside" :interval="4500" :arrow="isMobile ? 'never' : 'hover'">
+            <el-carousel-item v-for="slide in heroSlides" :key="slide.id">
               <div
-                class="relative w-full h-full bg-cover bg-center flex items-center p-8 sm:p-12 text-white"
+                class="relative w-full h-full bg-cover bg-center flex items-center px-5 py-6 sm:p-10 lg:p-12 text-white"
                 :style="{ backgroundImage: `linear-gradient(rgba(0, 0, 0, 0.45), rgba(1, 79, 43, 0.75)), url(${slide.image})` }"
               >
-                <div class="max-w-xl space-y-4">
+                <div class="max-w-xl space-y-2 sm:space-y-4">
                   <span
                     v-if="slide.tag"
-                    class="inline-block px-3 py-1 bg-red-600 text-white font-extrabold text-xs uppercase tracking-wider rounded-full shadow"
+                    class="inline-block px-2.5 py-0.5 sm:px-3 sm:py-1 bg-red-600 text-white font-extrabold text-[10px] sm:text-xs uppercase tracking-wider rounded-full shadow"
                   >
                     {{ slide.tag }}
                   </span>
-                  <h2 class="text-2xl sm:text-4xl font-black leading-tight drop-shadow-md">
+                  <h2 class="text-lg sm:text-3xl lg:text-4xl font-black leading-snug sm:leading-tight drop-shadow-md line-clamp-2">
                     {{ slide.title }}
                   </h2>
-                  <p class="text-sm sm:text-base text-slate-100 line-clamp-2 drop-shadow">
+                  <p class="text-xs sm:text-base text-slate-100 line-clamp-2 drop-shadow">
                     {{ slide.desc }}
                   </p>
-                  <div class="flex items-center gap-3 pt-2">
+                  <div class="flex flex-wrap items-center gap-x-3 gap-y-1.5 pt-1 sm:pt-2">
                     <router-link
-                      :to="slide.link"
-                      class="px-6 py-3 bg-[#00733c] hover:bg-emerald-600 text-white font-bold text-sm rounded-xl shadow-lg transition transform hover:-translate-y-0.5"
+                      v-if="slide.btnText"
+                      :to="slide.link || '/shop'"
+                      class="px-4 py-2 sm:px-6 sm:py-3 bg-[#00733c] hover:bg-emerald-600 text-white font-bold text-xs sm:text-sm rounded-lg sm:rounded-xl shadow-lg transition transform hover:-translate-y-0.5 whitespace-nowrap"
                     >
                       {{ slide.btnText }}
                     </router-link>
-                    <span v-if="slide.highlight" class="text-xs text-amber-300 font-semibold drop-shadow">
+                    <span v-if="slide.highlight" class="text-[11px] sm:text-xs text-amber-300 font-semibold drop-shadow">
                       {{ slide.highlight }}
                     </span>
                   </div>
@@ -42,42 +43,42 @@
         </div>
 
         <!-- 2 Side Promos -->
-        <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-1 gap-4">
+        <div class="grid grid-cols-2 lg:grid-cols-1 gap-3 sm:gap-4">
           <!-- Side Banner 1: PC Builder -->
-          <div class="relative rounded-2xl overflow-hidden bg-gradient-to-br from-slate-900 to-[#014f2b] p-6 text-white shadow-md flex flex-col justify-between group">
-            <div class="space-y-2">
-              <span class="text-[11px] font-bold text-emerald-400 uppercase tracking-widest">Tiện ích thông minh</span>
-              <h3 class="text-xl font-black">Xây Dựng Cấu Hình PC</h3>
-              <p class="text-xs text-slate-300">Tự do chọn linh kiện tương thích 100%, nhận ưu đãi giảm đến 1.500.000 đ</p>
+          <div class="relative rounded-2xl overflow-hidden bg-gradient-to-br from-slate-900 to-[#014f2b] p-3.5 sm:p-6 text-white shadow-md flex flex-col justify-between group">
+            <div class="space-y-1 sm:space-y-2">
+              <span class="hidden sm:inline text-[11px] font-bold text-emerald-400 uppercase tracking-widest">Tiện ích thông minh</span>
+              <h3 class="text-sm sm:text-xl font-black leading-tight">Xây Dựng Cấu Hình PC</h3>
+              <p class="hidden sm:block text-xs text-slate-300">Tự do chọn linh kiện tương thích 100%, nhận ưu đãi giảm đến 1.500.000 đ</p>
             </div>
-            <div class="pt-4 flex items-center justify-between">
+            <div class="pt-2.5 sm:pt-4 flex items-center justify-between">
               <router-link
                 to="/pc-builder"
-                class="px-4 py-2 bg-white text-[#00733c] font-bold text-xs rounded-lg hover:bg-emerald-50 transition shadow"
+                class="px-2.5 py-1.5 sm:px-4 sm:py-2 bg-white text-[#00733c] font-bold text-[11px] sm:text-xs rounded-lg hover:bg-emerald-50 transition shadow"
               >
-                Build PC Ngay &rarr;
+                Build PC &rarr;
               </router-link>
-              <div class="text-3xl text-emerald-400 group-hover:scale-110 transition-transform">
+              <div class="text-xl sm:text-3xl text-emerald-400 group-hover:scale-110 transition-transform">
                 🖥️
               </div>
             </div>
           </div>
 
           <!-- Side Banner 2: Repair Service -->
-          <div class="relative rounded-2xl overflow-hidden bg-gradient-to-br from-amber-600 to-red-700 p-6 text-white shadow-md flex flex-col justify-between group">
-            <div class="space-y-2">
-              <span class="text-[11px] font-bold text-amber-200 uppercase tracking-widest">Dịch vụ chuyên nghiệp</span>
-              <h3 class="text-xl font-black">Sửa Chữa & Vệ Sinh PC</h3>
-              <p class="text-xs text-amber-100">Khám bệnh máy tính miễn phí, vệ sinh tra keo tản nhiệt lấy ngay trong 45 phút</p>
+          <div class="relative rounded-2xl overflow-hidden bg-gradient-to-br from-amber-600 to-red-700 p-3.5 sm:p-6 text-white shadow-md flex flex-col justify-between group">
+            <div class="space-y-1 sm:space-y-2">
+              <span class="hidden sm:inline text-[11px] font-bold text-amber-200 uppercase tracking-widest">Dịch vụ chuyên nghiệp</span>
+              <h3 class="text-sm sm:text-xl font-black leading-tight">Sửa Chữa &amp; Vệ Sinh PC</h3>
+              <p class="hidden sm:block text-xs text-amber-100">Khám bệnh máy tính miễn phí, vệ sinh tra keo tản nhiệt lấy ngay trong 45 phút</p>
             </div>
-            <div class="pt-4 flex items-center justify-between">
+            <div class="pt-2.5 sm:pt-4 flex items-center justify-between">
               <router-link
                 to="/services/repair"
-                class="px-4 py-2 bg-white text-red-700 font-bold text-xs rounded-lg hover:bg-amber-50 transition shadow"
+                class="px-2.5 py-1.5 sm:px-4 sm:py-2 bg-white text-red-700 font-bold text-[11px] sm:text-xs rounded-lg hover:bg-amber-50 transition shadow"
               >
-                Đặt Lịch Ngay &rarr;
+                Đặt Lịch &rarr;
               </router-link>
-              <div class="text-3xl text-amber-300 group-hover:scale-110 transition-transform">
+              <div class="text-xl sm:text-3xl text-amber-300 group-hover:scale-110 transition-transform">
                 🛠️
               </div>
             </div>
@@ -88,40 +89,40 @@
 
     <!-- 2. Brand Value Propositions (Cam kết vàng Nhân Phúc Tech) -->
     <section class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-      <div class="grid grid-cols-2 md:grid-cols-4 gap-4 bg-white p-6 rounded-2xl shadow-sm border border-slate-100">
+      <div class="grid grid-cols-2 md:grid-cols-4 gap-3 sm:gap-4 bg-white p-4 sm:p-6 rounded-2xl shadow-sm border border-slate-100">
         <div class="flex items-center gap-3">
-          <div class="w-12 h-12 rounded-xl bg-emerald-50 text-[#00733c] flex items-center justify-center text-2xl flex-shrink-0">
+          <div class="w-9 h-9 sm:w-12 sm:h-12 rounded-xl bg-emerald-50 text-[#00733c] flex items-center justify-center text-lg sm:text-2xl flex-shrink-0">
             🛡️
           </div>
           <div>
-            <h4 class="text-sm font-bold text-slate-900">100% Chính Hãng</h4>
+            <h4 class="text-xs sm:text-sm font-bold text-slate-900 leading-tight">100% Chính Hãng</h4>
             <p class="text-xs text-slate-500">Cam kết hoàn tiền 200% nếu giả</p>
           </div>
         </div>
         <div class="flex items-center gap-3">
-          <div class="w-12 h-12 rounded-xl bg-blue-50 text-blue-600 flex items-center justify-center text-2xl flex-shrink-0">
+          <div class="w-9 h-9 sm:w-12 sm:h-12 rounded-xl bg-blue-50 text-blue-600 flex items-center justify-center text-lg sm:text-2xl flex-shrink-0">
             🚀
           </div>
           <div>
-            <h4 class="text-sm font-bold text-slate-900">Giao Nhanh 2 Giờ</h4>
+            <h4 class="text-xs sm:text-sm font-bold text-slate-900 leading-tight">Giao Nhanh 2 Giờ</h4>
             <p class="text-xs text-slate-500">Nội thành TP.HCM & Hà Nội</p>
           </div>
         </div>
         <div class="flex items-center gap-3">
-          <div class="w-12 h-12 rounded-xl bg-amber-50 text-amber-600 flex items-center justify-center text-2xl flex-shrink-0">
+          <div class="w-9 h-9 sm:w-12 sm:h-12 rounded-xl bg-amber-50 text-amber-600 flex items-center justify-center text-lg sm:text-2xl flex-shrink-0">
             🔄
           </div>
           <div>
-            <h4 class="text-sm font-bold text-slate-900">1 Đổi 1 Trong 30 Ngày</h4>
+            <h4 class="text-xs sm:text-sm font-bold text-slate-900 leading-tight">1 Đổi 1 Trong 30 Ngày</h4>
             <p class="text-xs text-slate-500">Lỗi phần cứng do nhà sản xuất</p>
           </div>
         </div>
         <div class="flex items-center gap-3">
-          <div class="w-12 h-12 rounded-xl bg-purple-50 text-purple-600 flex items-center justify-center text-2xl flex-shrink-0">
+          <div class="w-9 h-9 sm:w-12 sm:h-12 rounded-xl bg-purple-50 text-purple-600 flex items-center justify-center text-lg sm:text-2xl flex-shrink-0">
             👨‍🔧
           </div>
           <div>
-            <h4 class="text-sm font-bold text-slate-900">Hỗ Trợ Kỹ Thuật 24/7</h4>
+            <h4 class="text-xs sm:text-sm font-bold text-slate-900 leading-tight">Hỗ Trợ Kỹ Thuật 24/7</h4>
             <p class="text-xs text-slate-500">Chuyên viên hỗ trợ tận nơi</p>
           </div>
         </div>
@@ -130,15 +131,15 @@
 
     <!-- 3. Flash Sale (Giờ vàng giá sốc) with Countdown -->
     <section class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-      <div class="bg-gradient-to-r from-red-600 via-rose-600 to-amber-600 rounded-2xl p-6 text-white shadow-xl">
+      <div class="bg-gradient-to-r from-red-600 via-rose-600 to-amber-600 rounded-2xl p-3.5 sm:p-6 text-white shadow-xl">
         <!-- Flash Sale Header -->
-        <div class="flex flex-col sm:flex-row justify-between items-center gap-4 mb-6 border-b border-white/20 pb-4">
+        <div class="flex flex-col sm:flex-row justify-between items-center gap-3 mb-4 sm:mb-6 border-b border-white/20 pb-3 sm:pb-4">
           <div class="flex items-center gap-3">
-            <span class="text-3xl animate-bounce">⚡</span>
+            <span class="text-2xl sm:text-3xl animate-bounce">⚡</span>
             <div>
-              <h2 class="text-2xl sm:text-3xl font-black uppercase tracking-wide flex items-center gap-2">
+              <h2 class="text-lg sm:text-3xl font-black uppercase tracking-wide flex flex-wrap items-center gap-x-2 gap-y-1">
                 GIỜ VÀNG GIÁ SỐC
-                <span class="text-xs bg-white text-red-600 px-2.5 py-0.5 rounded-full font-extrabold uppercase">Nhân Phúc Flash Deals</span>
+                <span class="text-[10px] sm:text-xs bg-white text-red-600 px-2 sm:px-2.5 py-0.5 rounded-full font-extrabold uppercase">Nhân Phúc Flash Deals</span>
               </h2>
               <p class="text-xs text-red-100">Số lượng có hạn, ưu đãi kết thúc sau:</p>
             </div>
@@ -164,11 +165,11 @@
         </div>
 
         <!-- Flash Sale Products Grid -->
-        <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-4">
+        <div class="grid grid-cols-2 lg:grid-cols-4 gap-2.5 sm:gap-4">
           <div
             v-for="item in flashSaleProducts"
             :key="item.id"
-            class="bg-white text-slate-800 rounded-xl p-3.5 shadow-sm hover:shadow-xl transition-all duration-200 flex flex-col justify-between group relative"
+            class="bg-white text-slate-800 rounded-xl p-2.5 sm:p-3.5 shadow-sm hover:shadow-xl transition-all duration-200 flex flex-col justify-between group relative"
           >
             <!-- Discount Badge -->
             <div class="absolute top-2 left-2 z-10 bg-red-600 text-white font-black text-xs px-2 py-0.5 rounded-md shadow">
@@ -197,11 +198,11 @@
 
               <div>
                 <!-- Price -->
-                <div class="flex items-baseline gap-2">
-                  <span class="text-base sm:text-lg font-black text-red-600">
+                <div class="flex flex-wrap items-baseline gap-x-2">
+                  <span class="text-sm sm:text-lg font-black text-red-600">
                     {{ formatPrice(item.price) }}
                   </span>
-                  <span class="text-xs text-slate-400 line-through">
+                  <span class="text-[11px] sm:text-xs text-slate-400 line-through">
                     {{ formatPrice(item.originalPrice) }}
                   </span>
                 </div>
@@ -223,7 +224,7 @@
                 <!-- Action Button -->
                 <button
                   @click="addToCart(item)"
-                  class="mt-3 w-full py-2 bg-red-600 hover:bg-red-700 text-white text-xs font-bold rounded-lg transition shadow-sm flex items-center justify-center gap-1.5 cursor-pointer"
+                  class="mt-2.5 sm:mt-3 w-full py-1.5 sm:py-2 bg-red-600 hover:bg-red-700 text-white text-xs font-bold rounded-lg transition shadow-sm flex items-center justify-center gap-1.5 cursor-pointer"
                 >
                   <el-icon><ShoppingCart /></el-icon> Mua Ngay
                 </button>
@@ -236,13 +237,13 @@
 
     <!-- 4. Featured Category: PC Gaming Nhân Phúc Tech -->
     <section class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-      <div class="bg-white rounded-2xl p-6 shadow-sm border border-slate-100">
+      <div class="bg-white rounded-2xl p-4 sm:p-6 shadow-sm border border-slate-100">
         <!-- Section Header -->
-        <div class="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4 mb-6 border-b border-slate-100 pb-4">
+        <div class="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-3 mb-4 sm:mb-6 border-b border-slate-100 pb-3 sm:pb-4">
           <div class="flex items-center gap-3">
             <span class="text-2xl text-[#00733c]">🖥️</span>
             <div>
-              <h2 class="text-xl sm:text-2xl font-black text-slate-900">PC GAMING & ĐỒ HỌA NHÂN PHÚC</h2>
+              <h2 class="text-base sm:text-2xl font-black text-slate-900">PC GAMING & ĐỒ HỌA NHÂN PHÚC</h2>
               <p class="text-xs text-slate-500">Cấu hình tối ưu hiệu năng, linh kiện tuyển chọn, bảo hành 36 tháng</p>
             </div>
           </div>
@@ -265,11 +266,11 @@
         </div>
 
         <!-- PC Grid -->
-        <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-4">
+        <div class="grid grid-cols-2 lg:grid-cols-4 gap-2.5 sm:gap-4">
           <div
             v-for="pc in filteredPcs"
             :key="pc.id"
-            class="border border-slate-100 hover:border-emerald-500 rounded-xl p-3.5 hover:shadow-lg transition-all duration-200 flex flex-col justify-between group bg-white"
+            class="border border-slate-100 hover:border-emerald-500 rounded-xl p-2.5 sm:p-3.5 hover:shadow-lg transition-all duration-200 flex flex-col justify-between group bg-white"
           >
             <router-link :to="'/product/' + pc.id" class="relative aspect-square rounded-lg overflow-hidden bg-slate-50 mb-3 flex items-center justify-center p-2">
               <img :src="pc.image" :alt="pc.name" class="object-contain w-full h-full group-hover:scale-105 transition-transform" />
@@ -292,9 +293,9 @@
               </div>
 
               <div class="pt-2 border-t border-slate-100">
-                <div class="flex items-baseline gap-2">
-                  <span class="text-base font-extrabold text-red-600">{{ formatPrice(pc.price) }}</span>
-                  <span v-if="pc.originalPrice" class="text-xs text-slate-400 line-through">
+                <div class="flex flex-wrap items-baseline gap-x-2">
+                  <span class="text-sm sm:text-base font-extrabold text-red-600">{{ formatPrice(pc.price) }}</span>
+                  <span v-if="pc.originalPrice" class="text-[11px] sm:text-xs text-slate-400 line-through">
                     {{ formatPrice(pc.originalPrice) }}
                   </span>
                 </div>
@@ -303,7 +304,7 @@
                     @click="addToCart(pc)"
                     class="flex-1 py-1.5 bg-[#00733c] hover:bg-[#014f2b] text-white text-xs font-bold rounded-lg transition shadow-sm flex items-center justify-center gap-1 cursor-pointer"
                   >
-                    <el-icon><ShoppingCart /></el-icon> Thêm Vào Giỏ
+                    <el-icon><ShoppingCart /></el-icon> <span class="hidden sm:inline">Thêm Vào</span> Giỏ
                   </button>
                 </div>
               </div>
@@ -324,12 +325,12 @@
 
     <!-- 5. Featured Category: Laptop Chính Hãng -->
     <section class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-      <div class="bg-white rounded-2xl p-6 shadow-sm border border-slate-100">
-        <div class="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4 mb-6 border-b border-slate-100 pb-4">
+      <div class="bg-white rounded-2xl p-4 sm:p-6 shadow-sm border border-slate-100">
+        <div class="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-3 mb-4 sm:mb-6 border-b border-slate-100 pb-3 sm:pb-4">
           <div class="flex items-center gap-3">
             <span class="text-2xl text-[#00733c]">💻</span>
             <div>
-              <h2 class="text-xl sm:text-2xl font-black text-slate-900">LAPTOP CHÍNH HÃNG BÁN CHẠY</h2>
+              <h2 class="text-base sm:text-2xl font-black text-slate-900">LAPTOP CHÍNH HÃNG BÁN CHẠY</h2>
               <p class="text-xs text-slate-500">Laptop Gaming, Văn Phòng, Đồ Họa - Trả góp 0% lãi suất</p>
             </div>
           </div>
@@ -338,11 +339,11 @@
           </router-link>
         </div>
 
-        <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-4">
+        <div class="grid grid-cols-2 lg:grid-cols-4 gap-2.5 sm:gap-4">
           <div
             v-for="laptop in laptops"
             :key="laptop.id"
-            class="border border-slate-100 hover:border-emerald-500 rounded-xl p-3.5 hover:shadow-lg transition-all duration-200 flex flex-col justify-between group bg-white"
+            class="border border-slate-100 hover:border-emerald-500 rounded-xl p-2.5 sm:p-3.5 hover:shadow-lg transition-all duration-200 flex flex-col justify-between group bg-white"
           >
             <router-link :to="'/product/' + laptop.id" class="relative aspect-square rounded-lg overflow-hidden bg-slate-50 mb-3 flex items-center justify-center p-2">
               <img :src="laptop.image" :alt="laptop.name" class="object-contain w-full h-full group-hover:scale-105 transition-transform" />
@@ -360,9 +361,9 @@
               </div>
 
               <div class="pt-2 border-t border-slate-100">
-                <div class="flex items-baseline gap-2">
-                  <span class="text-base font-extrabold text-red-600">{{ formatPrice(laptop.price) }}</span>
-                  <span v-if="laptop.originalPrice" class="text-xs text-slate-400 line-through">
+                <div class="flex flex-wrap items-baseline gap-x-2">
+                  <span class="text-sm sm:text-base font-extrabold text-red-600">{{ formatPrice(laptop.price) }}</span>
+                  <span v-if="laptop.originalPrice" class="text-[11px] sm:text-xs text-slate-400 line-through">
                     {{ formatPrice(laptop.originalPrice) }}
                   </span>
                 </div>
@@ -383,7 +384,7 @@
 
     <!-- 6. Big CTA Banner: PC Builder Showcase -->
     <section class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-      <div class="relative rounded-3xl overflow-hidden bg-gradient-to-r from-slate-950 via-[#014f2b] to-emerald-950 p-8 sm:p-12 text-white shadow-2xl">
+      <div class="relative rounded-3xl overflow-hidden bg-gradient-to-r from-slate-950 via-[#014f2b] to-emerald-950 p-6 sm:p-12 text-white shadow-2xl">
         <div class="relative z-10 max-w-2xl space-y-4">
           <span class="inline-block px-3.5 py-1 bg-emerald-500/20 text-emerald-300 font-extrabold text-xs uppercase tracking-wider rounded-full border border-emerald-500/30">
             Tính Năng Độc Quyền Nhân Phúc Tech
@@ -397,13 +398,13 @@
           <div class="flex flex-wrap items-center gap-4 pt-4">
             <router-link
               to="/pc-builder"
-              class="px-8 py-3.5 bg-emerald-500 hover:bg-emerald-400 text-slate-950 font-extrabold text-sm rounded-xl shadow-lg transition transform hover:-translate-y-0.5 flex items-center gap-2"
+              class="px-5 py-3 sm:px-8 sm:py-3.5 bg-emerald-500 hover:bg-emerald-400 text-slate-950 font-extrabold text-sm rounded-xl shadow-lg transition transform hover:-translate-y-0.5 flex items-center gap-2"
             >
               <el-icon :size="18"><Cpu /></el-icon> Bắt Đầu Build Cấu Hình Ngay
             </router-link>
             <router-link
               to="/services/it-outsourcing"
-              class="px-6 py-3.5 bg-white/10 hover:bg-white/20 text-white font-bold text-sm rounded-xl border border-white/20 transition"
+              class="px-5 py-3 sm:px-6 sm:py-3.5 bg-white/10 hover:bg-white/20 text-white font-bold text-sm rounded-xl border border-white/20 transition"
             >
               Yêu Cầu Báo Giá Doanh Nghiệp
             </router-link>
@@ -414,9 +415,9 @@
 
     <!-- 7. Tech Articles & Tips -->
     <section class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-      <div class="flex justify-between items-center mb-6">
+      <div class="flex justify-between items-end gap-3 mb-4 sm:mb-6">
         <div>
-          <h2 class="text-xl sm:text-2xl font-black text-slate-900">TIN TỨC & CẨM NANG CÔNG NGHỆ</h2>
+          <h2 class="text-base sm:text-2xl font-black text-slate-900">TIN TỨC & CẨM NANG CÔNG NGHỆ</h2>
           <p class="text-xs text-slate-500">Cập nhật xu hướng linh kiện và thủ thuật tối ưu máy tính mới nhất</p>
         </div>
         <router-link to="/tin-tuc" class="text-xs font-bold text-[#00733c] hover:underline">
@@ -424,7 +425,7 @@
         </router-link>
       </div>
 
-      <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-6">
+      <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 sm:gap-6">
         <router-link
           v-for="post in newsPosts"
           :key="post.id"
@@ -457,16 +458,16 @@
         <h3 class="text-xs uppercase font-extrabold tracking-widest text-slate-400 mb-6">
           ĐỐI TÁC CÔNG NGHỆ CHÍNH HÃNG HÀNG ĐẦU
         </h3>
-        <div class="flex flex-wrap justify-center items-center gap-8 sm:gap-12 opacity-75 grayscale hover:grayscale-0 transition-all duration-300">
-          <span class="font-black text-xl tracking-tighter text-blue-700">intel.</span>
-          <span class="font-black text-xl tracking-tighter text-red-600">AMD</span>
-          <span class="font-black text-xl tracking-tighter text-green-600">NVIDIA</span>
-          <span class="font-black text-xl tracking-tighter text-slate-900">ASUS</span>
-          <span class="font-black text-xl tracking-tighter text-red-700">msi</span>
-          <span class="font-black text-xl tracking-tighter text-blue-900">GIGABYTE</span>
-          <span class="font-black text-xl tracking-tighter text-yellow-600">CORSAIR</span>
-          <span class="font-black text-xl tracking-tighter text-blue-600">SAMSUNG</span>
-          <span class="font-black text-xl tracking-tighter text-red-800">Kingston</span>
+        <div class="flex flex-wrap justify-center items-center gap-x-6 gap-y-3 sm:gap-12 opacity-75 grayscale hover:grayscale-0 transition-all duration-300">
+          <span class="font-black text-base sm:text-xl tracking-tighter text-blue-700">intel.</span>
+          <span class="font-black text-base sm:text-xl tracking-tighter text-red-600">AMD</span>
+          <span class="font-black text-base sm:text-xl tracking-tighter text-green-600">NVIDIA</span>
+          <span class="font-black text-base sm:text-xl tracking-tighter text-slate-900">ASUS</span>
+          <span class="font-black text-base sm:text-xl tracking-tighter text-red-700">msi</span>
+          <span class="font-black text-base sm:text-xl tracking-tighter text-blue-900">GIGABYTE</span>
+          <span class="font-black text-base sm:text-xl tracking-tighter text-yellow-600">CORSAIR</span>
+          <span class="font-black text-base sm:text-xl tracking-tighter text-blue-600">SAMSUNG</span>
+          <span class="font-black text-base sm:text-xl tracking-tighter text-red-800">Kingston</span>
         </div>
       </div>
     </section>
@@ -478,40 +479,27 @@ import { ref, computed, onMounted, onUnmounted } from 'vue';
 import { ShoppingCart, Cpu } from '@element-plus/icons-vue';
 import { useCartStore } from '../../stores/cart';
 import { ElMessage } from 'element-plus';
-import { mockNews } from '../../data/mockNews';
+
+import { useSiteContentStore } from '../../stores/siteContent';
 
 const cartStore = useCartStore();
+const siteContentStore = useSiteContentStore();
 
-// Hero Slides
-const heroSlides = [
-  {
-    title: 'Đại Tiệc PC Gaming Nhân Phúc Tech - Sức Mạnh RTX 40-Series',
-    desc: 'Trải nghiệm đỉnh cao công nghệ Ray Tracing và DLSS 3. Giảm trực tiếp đến 25% khi mua kèm màn hình gaming.',
-    tag: 'Siêu Ưu Đãi Tháng',
-    image: 'https://images.unsplash.com/photo-1587202372775-e229f172b9d7?w=1200&q=80',
-    link: '/shop?category=pc-gaming',
-    btnText: 'Khám Phá Ngay',
-    highlight: 'Tặng Bàn Phím Cơ Gaming 1.200.000 đ'
-  },
-  {
-    title: 'Laptop Gaming & Đồ Họa Thế Hệ Mới 2026',
-    desc: 'Chip Intel Gen 14 & AMD Ryzen 8000 Series. Màn hình chuẩn màu 100% sRGB, bảo hành chính hãng 2 năm tận nơi.',
-    tag: 'Chính Hãng 100%',
-    image: 'https://images.unsplash.com/photo-1603302576837-37561b2e2302?w=1200&q=80',
-    link: '/shop?category=laptop',
-    btnText: 'Xem Sản Phẩm',
-    highlight: 'Hỗ Trợ Trả Góp 0% Lãi Suất'
-  },
-  {
-    title: 'Linh Kiện PC Giá Rẻ Nhất - Bảo Hành Đổi Mới',
-    desc: 'Đầy đủ CPU Intel/AMD, Card đồ họa RTX 4060, Mainboard, RAM DDR5, Nguồn 80 Plus Gold sẵn kho giao ngay.',
-    tag: 'Giá Cực Sốc',
-    image: 'https://images.unsplash.com/photo-1591488320449-011701bb6704?w=1200&q=80',
-    link: '/shop?category=linh-kien',
-    btnText: 'Mua Linh Kiện',
-    highlight: 'Miễn Phí Giao Hàng Toàn Quốc'
-  }
-];
+// Hero Slides – lấy từ Admin (Quản lý Banner trang chủ), chỉ hiển thị slide đang bật
+const heroSlides = computed(() => siteContentStore.heroBanners.filter((b) => b.active));
+
+// Chiều cao carousel co giãn theo kích thước màn hình
+const windowWidth = ref(typeof window !== 'undefined' ? window.innerWidth : 1280);
+const onResize = () => {
+  windowWidth.value = window.innerWidth;
+};
+const isMobile = computed(() => windowWidth.value < 640);
+const carouselHeight = computed(() => {
+  if (windowWidth.value < 400) return '210px';
+  if (windowWidth.value < 640) return '230px';
+  if (windowWidth.value < 1024) return '320px';
+  return '380px';
+});
 
 // Countdown Logic
 const countdown = ref({
@@ -698,7 +686,7 @@ const laptops = ref([
 ]);
 
 // Tech News
-const newsPosts = computed(() => mockNews.slice(0, 3));
+const newsPosts = computed(() => siteContentStore.newsList.slice(0, 3));
 
 const formatPrice = (price: number) => {
   return new Intl.NumberFormat('vi-VN', { style: 'currency', currency: 'VND' }).format(price);
@@ -720,9 +708,11 @@ const addToCart = (product: any) => {
 
 onMounted(() => {
   startCountdown();
+  window.addEventListener('resize', onResize);
 });
 
 onUnmounted(() => {
   if (timer) clearInterval(timer);
+  window.removeEventListener('resize', onResize);
 });
 </script>

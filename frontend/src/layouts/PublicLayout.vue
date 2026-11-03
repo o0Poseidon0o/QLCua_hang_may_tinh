@@ -1,26 +1,27 @@
 <template>
   <div class="min-h-screen flex flex-col bg-[#f6f8fb] font-sans text-slate-800">
     <!-- Top Bar -->
-    <div class="bg-[#014f2b] text-white text-xs py-1.5 border-b border-emerald-900/30">
-      <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 flex flex-wrap justify-between items-center gap-2">
-        <div class="flex items-center gap-4">
-          <span class="flex items-center gap-1.5 text-emerald-100">
+    <div class="bg-[#014f2b] text-white text-[11px] sm:text-xs py-1.5 border-b border-emerald-900/30">
+      <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 flex justify-between items-center gap-2">
+        <div class="flex items-center gap-4 min-w-0">
+          <a href="tel:0777908179" class="flex items-center gap-1.5 text-emerald-100 whitespace-nowrap">
             <el-icon><Phone /></el-icon>
-            Hotline: <strong class="text-amber-300 font-bold">0777908179</strong> (8h00 - 21h30)
-          </span>
-          <span class="hidden md:inline-block text-emerald-300/40">|</span>
-          <span class="hidden md:flex items-center gap-1.5 text-emerald-100">
+            Hotline: <strong class="text-amber-300 font-bold">0777908179</strong>
+            <span class="hidden sm:inline">(8h00 - 21h30)</span>
+          </a>
+          <span class="hidden lg:inline-block text-emerald-300/40">|</span>
+          <span class="hidden lg:flex items-center gap-1.5 text-emerald-100">
             <el-icon><Location /></el-icon>
             Cửa Hàng: 179 Nơ Trang Long P.Bình Thạnh TPHCM
           </span>
         </div>
-        <div class="flex items-center gap-4 text-emerald-100">
-          <router-link to="/services/repair" class="hover:text-amber-300 transition">Tra cứu bảo hành</router-link>
-          <span>|</span>
-          <router-link to="/services/it-outsourcing" class="hover:text-amber-300 transition">Giải pháp Doanh nghiệp</router-link>
-          <span>|</span>
+        <div class="flex items-center gap-3 sm:gap-4 text-emerald-100 whitespace-nowrap">
+          <router-link to="/services/repair" class="hidden md:inline hover:text-amber-300 transition">Tra cứu bảo hành</router-link>
+          <span class="hidden md:inline">|</span>
+          <router-link to="/services/it-outsourcing" class="hidden md:inline hover:text-amber-300 transition">Giải pháp Doanh nghiệp</router-link>
+          <span class="hidden md:inline">|</span>
           <router-link to="/admin" class="hover:text-amber-300 text-amber-200 font-medium transition flex items-center gap-1">
-            <el-icon><Setting /></el-icon> Quản trị (ERP)
+            <el-icon><Setting /></el-icon> <span class="hidden sm:inline">Quản trị (ERP)</span><span class="sm:hidden">ERP</span>
           </router-link>
         </div>
       </div>
@@ -28,15 +29,25 @@
 
     <!-- Main Header -->
     <header class="bg-white shadow-sm sticky top-0 z-40">
-      <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-3.5 flex items-center justify-between gap-4">
+      <div class="max-w-7xl mx-auto px-3 sm:px-6 lg:px-8 py-2 sm:py-3.5 flex items-center justify-between gap-2 sm:gap-4">
+        <!-- Hamburger (mobile / tablet) -->
+        <button
+          type="button"
+          @click="isMobileMenuOpen = true"
+          class="lg:hidden p-2 -ml-1 rounded-lg text-slate-700 hover:bg-slate-100 transition"
+          aria-label="Mở menu"
+        >
+          <el-icon :size="22"><Menu /></el-icon>
+        </button>
+
         <!-- Logo -->
-        <router-link to="/" class="flex items-center gap-3 flex-shrink-0 group">
-          <img :src="logoImg" alt="Nhân Phúc Tech Logo" class="h-11 w-auto object-contain group-hover:scale-105 transition-transform" />
-          <div>
-            <div class="text-xl font-extrabold tracking-tight text-[#014f2b] flex items-center gap-1">
+        <router-link to="/" class="flex items-center gap-2 sm:gap-3 flex-shrink-0 group min-w-0">
+          <img :src="logoImg" alt="Nhân Phúc Tech Logo" class="h-8 sm:h-11 w-auto object-contain group-hover:scale-105 transition-transform" />
+          <div class="min-w-0">
+            <div class="text-base sm:text-xl font-extrabold tracking-tight text-[#014f2b] flex items-center gap-1 whitespace-nowrap">
               Nhân Phúc <span class="text-emerald-600">Tech</span>
             </div>
-            <p class="text-[10px] uppercase tracking-widest text-slate-400 font-semibold -mt-1">Computer & Technology</p>
+            <p class="hidden sm:block text-[10px] uppercase tracking-widest text-slate-400 font-semibold -mt-1">Computer &amp; Technology</p>
           </div>
         </router-link>
 
@@ -59,7 +70,7 @@
             </button>
           </div>
           <!-- Hot Tags -->
-          <div class="flex items-center gap-2 mt-1.5 text-xs text-slate-500 overflow-x-auto whitespace-nowrap scrollbar-none">
+          <div class="hidden lg:flex items-center gap-2 mt-1.5 text-xs text-slate-500 overflow-x-auto whitespace-nowrap scrollbar-none">
             <span class="text-slate-400 text-[11px] font-medium">Gợi ý:</span>
             <button @click="searchTag('RTX 4060')" class="hover:text-[#00733c] hover:underline">RTX 4060</button>
             <span>•</span>
@@ -74,7 +85,16 @@
         </div>
 
         <!-- Right Actions: PC Builder, Khuyến mãi, Cart -->
-        <div class="flex items-center gap-3">
+        <div class="flex items-center gap-2 sm:gap-3 flex-shrink-0">
+          <!-- Search toggle (mobile) -->
+          <button
+            type="button"
+            @click="isMobileSearchOpen = !isMobileSearchOpen"
+            class="sm:hidden p-2 rounded-xl border border-slate-200 text-slate-700 hover:border-emerald-500 transition"
+            aria-label="Tìm kiếm"
+          >
+            <el-icon :size="20"><Search /></el-icon>
+          </button>
           <!-- PC Builder CTA -->
           <router-link
             to="/pc-builder"
@@ -94,7 +114,7 @@
             title="Xem giỏ hàng"
           >
             <div class="relative">
-              <el-icon :size="24" class="text-slate-700 group-hover:text-[#00733c] transition"><ShoppingCart /></el-icon>
+              <el-icon :size="20" class="text-slate-700 group-hover:text-[#00733c] transition"><ShoppingCart /></el-icon>
               <span
                 v-if="cartStore.totalItems > 0"
                 class="absolute -top-2 -right-2 bg-red-600 text-white text-[10px] font-black rounded-full h-5 w-5 flex items-center justify-center border-2 border-white shadow-sm"
@@ -112,8 +132,28 @@
         </div>
       </div>
 
+      <!-- Mobile Search Row -->
+      <div v-show="isMobileSearchOpen" class="sm:hidden px-3 pb-2.5">
+        <div class="relative">
+          <input
+            v-model="searchKeyword"
+            @keyup.enter="handleSearch"
+            type="search"
+            placeholder="Tìm laptop, CPU, VGA, màn hình..."
+            class="w-full pl-4 pr-11 py-2 bg-slate-50 border border-slate-200 rounded-full text-sm focus:outline-none focus:border-[#00733c] focus:bg-white"
+          />
+          <button
+            @click="handleSearch"
+            class="absolute right-1 top-1 bottom-1 px-3 bg-[#00733c] text-white rounded-full flex items-center justify-center"
+            aria-label="Tìm kiếm"
+          >
+            <el-icon :size="14"><Search /></el-icon>
+          </button>
+        </div>
+      </div>
+
       <!-- Navigation & Mega Menu Bar -->
-      <nav class="bg-white border-t border-slate-100 shadow-xs">
+      <nav class="hidden lg:block bg-white border-t border-slate-100 shadow-xs">
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 flex items-center justify-between">
           <!-- Category Mega Button with Dropdown -->
           <div class="relative group">
@@ -168,7 +208,7 @@
           </div>
 
           <!-- Horizontal Nav Links -->
-          <div class="hidden md:flex items-center gap-6 text-sm font-semibold">
+          <div class="flex items-center gap-4 xl:gap-6 text-sm font-semibold whitespace-nowrap">
             <router-link to="/" class="text-slate-700 hover:text-[#00733c] transition py-3" active-class="text-[#00733c] border-b-2 border-[#00733c]">
               Trang chủ
             </router-link>
@@ -225,14 +265,85 @@
     <!-- Quick Cart Slide-out Drawer -->
     <CartDrawer />
 
+    <!-- Mobile / Tablet Menu Drawer -->
+    <el-drawer v-model="isMobileMenuOpen" direction="ltr" size="320px" :with-header="false">
+      <div class="flex flex-col h-full -m-1">
+        <div class="flex items-center justify-between pb-3 border-b border-slate-100">
+          <div class="flex items-center gap-2">
+            <img :src="logoImg" alt="Logo" class="h-8 w-auto" />
+            <span class="font-extrabold text-[#014f2b]">Nhân Phúc <span class="text-emerald-600">Tech</span></span>
+          </div>
+          <button @click="isMobileMenuOpen = false" class="p-1.5 rounded-lg hover:bg-slate-100 text-slate-500" aria-label="Đóng menu">
+            <el-icon :size="18"><Close /></el-icon>
+          </button>
+        </div>
+
+        <div class="flex-1 overflow-y-auto py-3 space-y-4">
+          <div class="space-y-0.5">
+            <router-link
+              v-for="link in mobileLinks"
+              :key="link.to"
+              :to="link.to"
+              @click="isMobileMenuOpen = false"
+              class="flex items-center gap-3 px-3 py-2.5 rounded-lg text-sm font-semibold text-slate-700 hover:bg-emerald-50 hover:text-[#00733c]"
+              exact-active-class="bg-emerald-50 text-[#00733c]"
+            >
+              <span class="w-5 text-center">{{ link.icon }}</span> {{ link.label }}
+            </router-link>
+            <router-link
+              v-for="item in dynamicMenuItems"
+              :key="item.id"
+              :to="'/p/' + item.slug"
+              @click="isMobileMenuOpen = false"
+              class="flex items-center gap-3 px-3 py-2.5 rounded-lg text-sm font-semibold text-slate-700 hover:bg-emerald-50"
+            >
+              <span class="w-5 text-center">📄</span> {{ item.title }}
+            </router-link>
+          </div>
+
+          <div>
+            <div class="px-3 pb-1.5 text-[11px] font-bold uppercase tracking-wider text-slate-400">Danh mục sản phẩm</div>
+            <div v-for="cat in megaCategories" :key="cat.slug" class="border-b border-slate-50 last:border-0">
+              <button
+                type="button"
+                @click="expandedMobileCat = expandedMobileCat === cat.slug ? '' : cat.slug"
+                class="w-full flex items-center justify-between px-3 py-2.5 text-sm text-slate-700 hover:text-[#00733c]"
+              >
+                <span class="flex items-center gap-3"><span class="w-5 text-center">{{ cat.icon }}</span>{{ cat.name }}</span>
+                <el-icon :size="12" class="text-slate-400 transition-transform" :class="{ 'rotate-90': expandedMobileCat === cat.slug }"><ArrowRight /></el-icon>
+              </button>
+              <div v-show="expandedMobileCat === cat.slug" class="pl-11 pb-2 space-y-0.5">
+                <a
+                  href="#"
+                  @click.prevent="navigateToCategory(cat.slug); isMobileMenuOpen = false"
+                  class="block py-1.5 text-xs font-bold text-[#00733c]"
+                >Xem tất cả &rarr;</a>
+                <router-link
+                  v-for="sub in cat.children"
+                  :key="sub.slug"
+                  :to="getCategoryLink(sub)"
+                  @click="isMobileMenuOpen = false"
+                  class="block py-1.5 text-xs text-slate-600 hover:text-[#00733c]"
+                >{{ sub.name }}</router-link>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <a href="tel:0777908179" class="mt-2 flex items-center justify-center gap-2 py-2.5 rounded-xl bg-[#00733c] text-white text-sm font-bold">
+          <el-icon><Phone /></el-icon> Gọi 0777 908 179
+        </a>
+      </div>
+    </el-drawer>
+
     <!-- Floating Contact Support Widget -->
     <FloatingContact />
 
     <!-- Footer Nhân Phúc Tech Style -->
-    <footer class="bg-[#0b1712] text-slate-300 pt-14 pb-8 mt-16 border-t-4 border-[#00733c]">
-      <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-5 gap-8 mb-12">
+    <footer class="bg-[#0b1712] text-slate-300 pt-10 sm:pt-14 pb-24 sm:pb-8 mt-10 sm:mt-16 border-t-4 border-[#00733c]">
+      <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 grid grid-cols-2 lg:grid-cols-5 gap-x-4 gap-y-8 sm:gap-8 mb-10 sm:mb-12">
         <!-- Col 1: Brand Info -->
-        <div class="lg:col-span-2">
+        <div class="col-span-2">
           <div class="flex items-center gap-3 mb-4">
             <img :src="logoImg" alt="Nhân Phúc Tech Logo" class="h-10 w-auto object-contain bg-white rounded-lg p-1" />
             <span class="text-xl font-extrabold text-white tracking-tight">Nhân Phúc <span class="text-emerald-400">Tech</span></span>
@@ -295,10 +406,10 @@
 
       <!-- Copyright & Partners -->
       <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pt-6 border-t border-slate-800 flex flex-col md:flex-row justify-between items-center text-xs text-slate-500 gap-4">
-        <div>
+        <div class="text-center md:text-left">
           &copy; 2026 Nhân Phúc Tech - Giải Pháp Công Nghệ Toàn Diện. Giữ toàn quyền bản quyền.
         </div>
-        <div class="flex items-center gap-4 text-slate-400">
+        <div class="flex flex-wrap justify-center items-center gap-x-4 gap-y-1 text-slate-400 text-center">
           <span>Chấp nhận thanh toán:</span>
           <span class="font-bold text-white">Tiền mặt • Chuyển khoản QR • Thẻ Visa / Master • Trả góp</span>
         </div>
@@ -308,10 +419,10 @@
 </template>
 
 <script setup lang="ts">
-import { ref, onMounted } from 'vue';
-import { useRouter } from 'vue-router';
+import { ref, onMounted, watch } from 'vue';
+import { useRouter, useRoute } from 'vue-router';
 import {
-  Phone, Location, Setting, Search, ShoppingCart, Cpu, Menu, ArrowDown, ArrowRight
+  Phone, Location, Setting, Search, ShoppingCart, Cpu, Menu, ArrowDown, ArrowRight, Close
 } from '@element-plus/icons-vue';
 import { useCartStore } from '../stores/cart';
 import CartDrawer from '../components/CartDrawer.vue';
@@ -326,6 +437,27 @@ const searchKeyword = ref('');
 const isCategoryDropdownOpen = ref(false);
 const isHoveringCat = ref(false);
 const dynamicMenuItems = ref<any[]>([]);
+
+// Trạng thái menu & tìm kiếm trên mobile
+const route = useRoute();
+const isMobileMenuOpen = ref(false);
+const isMobileSearchOpen = ref(false);
+const expandedMobileCat = ref('');
+const mobileLinks = [
+  { to: '/', label: 'Trang chủ', icon: '🏠' },
+  { to: '/shop', label: 'Cửa hàng', icon: '🛍️' },
+  { to: '/pc-builder', label: 'Xây dựng PC', icon: '🖥️' },
+  { to: '/services/repair', label: 'Dịch vụ Sửa chữa', icon: '🛠️' },
+  { to: '/services/it-outsourcing', label: 'IT Outsourcing', icon: '💼' },
+  { to: '/tin-tuc', label: 'Tin tức & Cẩm nang', icon: '📰' },
+  { to: '/about', label: 'Về Nhân Phúc Tech', icon: '🏢' },
+];
+watch(
+  () => route.fullPath,
+  () => {
+    isMobileSearchOpen.value = false;
+  }
+);
 
 const megaCategories = [
   {

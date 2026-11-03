@@ -76,6 +76,55 @@ const IT_STORAGE_KEY = 'nhanphuc_site_it_outsourcing';
 const NEWS_STORAGE_KEY = 'nhanphuc_site_news';
 const ABOUT_STORAGE_KEY = 'nhanphuc_site_about';
 const SURVEY_STORAGE_KEY = 'nhanphuc_site_it_surveys';
+const BANNER_STORAGE_KEY = 'nhanphuc_site_banners';
+
+export interface HeroBannerSlide {
+  id: string;
+  title: string;
+  desc: string;
+  tag: string;
+  image: string;
+  link: string;
+  btnText: string;
+  highlight: string;
+  active: boolean;
+}
+
+const defaultBanners: HeroBannerSlide[] = [
+  {
+    id: 'bn-1',
+    title: 'Đại Tiệc PC Gaming Nhân Phúc Tech - Sức Mạnh RTX 40-Series',
+    desc: 'Trải nghiệm đỉnh cao công nghệ Ray Tracing và DLSS 3. Giảm trực tiếp đến 25% khi mua kèm màn hình gaming.',
+    tag: 'Siêu Ưu Đãi Tháng',
+    image: 'https://images.unsplash.com/photo-1587202372775-e229f172b9d7?w=1200&q=80',
+    link: '/shop?category=pc-gaming',
+    btnText: 'Khám Phá Ngay',
+    highlight: 'Tặng Bàn Phím Cơ Gaming 1.200.000 đ',
+    active: true,
+  },
+  {
+    id: 'bn-2',
+    title: 'Laptop Gaming & Đồ Họa Thế Hệ Mới 2026',
+    desc: 'Chip Intel Gen 14 & AMD Ryzen 8000 Series. Màn hình chuẩn màu 100% sRGB, bảo hành chính hãng 2 năm tận nơi.',
+    tag: 'Chính Hãng 100%',
+    image: 'https://images.unsplash.com/photo-1603302576837-37561b2e2302?w=1200&q=80',
+    link: '/shop?category=laptop',
+    btnText: 'Xem Sản Phẩm',
+    highlight: 'Hỗ Trợ Trả Góp 0% Lãi Suất',
+    active: true,
+  },
+  {
+    id: 'bn-3',
+    title: 'Linh Kiện PC Giá Rẻ Nhất - Bảo Hành Đổi Mới',
+    desc: 'Đầy đủ CPU Intel/AMD, Card đồ họa RTX 4060, Mainboard, RAM DDR5, Nguồn 80 Plus Gold sẵn kho giao ngay.',
+    tag: 'Giá Cực Sốc',
+    image: 'https://images.unsplash.com/photo-1591488320449-011701bb6704?w=1200&q=80',
+    link: '/shop?category=linh-kien',
+    btnText: 'Mua Linh Kiện',
+    highlight: 'Miễn Phí Giao Hàng Toàn Quốc',
+    active: true,
+  },
+];
 
 const defaultITConfig: ITOutsourcingConfig = {
   heroBadge: 'Giải Pháp Doanh Nghiệp Toàn Diện',
@@ -239,6 +288,44 @@ export const useSiteContentStore = defineStore('siteContent', () => {
   const newsList = ref<NewsArticle[]>(loadFromStorage(NEWS_STORAGE_KEY, mockNews));
   const aboutPage = ref<AboutPageConfig>(loadFromStorage(ABOUT_STORAGE_KEY, defaultAboutConfig));
   const surveyLeads = ref<ITSurveyLead[]>(loadFromStorage(SURVEY_STORAGE_KEY, defaultSurveys));
+  const heroBanners = ref<HeroBannerSlide[]>(loadFromStorage(BANNER_STORAGE_KEY, defaultBanners));
+
+  const saveBanners = () => {
+    localStorage.setItem(BANNER_STORAGE_KEY, JSON.stringify(heroBanners.value));
+  };
+
+  const addBanner = (slide: Omit<HeroBannerSlide, 'id'>) => {
+    heroBanners.value.push({ ...slide, id: 'bn-' + Date.now() });
+    saveBanners();
+  };
+
+  const updateBanner = (id: string, payload: Partial<HeroBannerSlide>) => {
+    const idx = heroBanners.value.findIndex((b) => b.id === id);
+    if (idx !== -1) {
+      heroBanners.value[idx] = { ...heroBanners.value[idx], ...payload } as HeroBannerSlide;
+      saveBanners();
+    }
+  };
+
+  const deleteBanner = (id: string) => {
+    heroBanners.value = heroBanners.value.filter((b) => b.id !== id);
+    saveBanners();
+  };
+
+  const moveBanner = (id: string, direction: -1 | 1) => {
+    const idx = heroBanners.value.findIndex((b) => b.id === id);
+    const target = idx + direction;
+    if (idx === -1 || target < 0 || target >= heroBanners.value.length) return;
+    const list = [...heroBanners.value];
+    [list[idx], list[target]] = [list[target]!, list[idx]!];
+    heroBanners.value = list;
+    saveBanners();
+  };
+
+  const resetBanners = () => {
+    heroBanners.value = JSON.parse(JSON.stringify(defaultBanners));
+    saveBanners();
+  };
 
   const saveITOutsourcing = (staffName = 'Quản trị viên') => {
     itOutsourcing.value.updatedBy = staffName;
@@ -316,6 +403,13 @@ export const useSiteContentStore = defineStore('siteContent', () => {
     deleteNewsArticle,
     saveAboutPage,
     resetAboutPage,
+    heroBanners,
+    saveBanners,
+    addBanner,
+    updateBanner,
+    deleteBanner,
+    moveBanner,
+    resetBanners,
   };
 });
 

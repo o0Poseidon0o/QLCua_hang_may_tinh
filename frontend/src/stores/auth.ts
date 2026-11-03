@@ -10,6 +10,7 @@ export type PermissionKey =
   | 'categories'
   | 'inventory'
   | 'services'
+  | 'banners'
   | 'it_outsourcing'
   | 'news'
   | 'about'
@@ -52,6 +53,7 @@ export const ROLE_DEFINITIONS: Record<AdminRole, RoleDefinition> = {
       'categories',
       'inventory',
       'services',
+      'banners',
       'it_outsourcing',
       'news',
       'about',
@@ -85,7 +87,7 @@ export const ROLE_DEFINITIONS: Record<AdminRole, RoleDefinition> = {
     label: 'Biên tập viên Nội dung (CMS)',
     badgeType: 'info',
     description: 'Cập nhật Tin tức & Cẩm nang, trang Về Nhân Phúc Tech, bảng giá IT Outsourcing & Chính sách.',
-    defaultPermissions: ['dashboard', 'news', 'about', 'it_outsourcing', 'cms', 'products', 'categories'],
+    defaultPermissions: ['dashboard', 'banners', 'news', 'about', 'it_outsourcing', 'cms', 'products', 'categories'],
   },
 };
 
@@ -96,6 +98,7 @@ export const PERMISSION_LABELS: { key: PermissionKey; label: string; desc: strin
   { key: 'categories', label: 'Quản lý Danh mục', desc: 'Cấu hình danh mục sản phẩm & menu phân loại' },
   { key: 'inventory', label: 'Quản lý Kho hàng', desc: 'Nhập kho, xuất kho, kiểm kê số lượng tồn & cảnh báo hết hàng' },
   { key: 'services', label: 'Phiếu Sửa chữa & Bảo hành', desc: 'Tiếp nhận & cập nhật tiến độ phiếu sửa chữa, bảo hành' },
+  { key: 'banners', label: 'Banner Trang chủ', desc: 'Chỉnh sửa tiêu đề, mô tả, hình ảnh, nút bấm các slide banner trên trang chủ' },
   { key: 'it_outsourcing', label: 'IT Outsourcing & Bảng giá', desc: 'Chỉnh sửa giá các gói IT Outsourcing, hạng mục & yêu cầu khảo sát' },
   { key: 'news', label: 'Tin tức & Cẩm nang', desc: 'Đăng bài mới, sửa bài viết đánh giá linh kiện & thủ thuật máy tính' },
   { key: 'about', label: 'Về Nhân Phúc Tech', desc: 'Chỉnh sửa trang giới thiệu công ty, sứ mệnh & địa chỉ liên hệ' },

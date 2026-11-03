@@ -70,6 +70,12 @@ const router = createRouter({
           component: () => import('../views/admin/Services.vue')
         },
         {
+          path: 'banners',
+          name: 'AdminBanners',
+          meta: { requiresAuth: true, permission: 'banners' as PermissionKey },
+          component: () => import('../views/admin/BannerAdmin.vue')
+        },
+        {
           path: 'it-outsourcing',
           name: 'AdminITOutsourcing',
           meta: { requiresAuth: true, permission: 'it_outsourcing' as PermissionKey },

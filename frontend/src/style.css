@@ -23,3 +23,63 @@ body {
 ::-webkit-scrollbar-thumb:hover {
   background: #94a3b8;
 }
+
+
+/* ===== Responsive toàn cục (mobile / iPad) ===== */
+html,
+body {
+  overflow-x: hidden;
+  -webkit-text-size-adjust: 100%;
+}
+
+img {
+  max-width: 100%;
+}
+
+.scrollbar-none {
+  scrollbar-width: none;
+}
+.scrollbar-none::-webkit-scrollbar {
+  display: none;
+}
+
+/* Dialog Element Plus không bao giờ tràn màn hình nhỏ */
+.el-dialog {
+  max-width: calc(100vw - 24px) !important;
+}
+@media (max-width: 640px) {
+  .el-dialog {
+    margin-top: 4vh !important;
+    --el-dialog-padding-primary: 14px;
+  }
+  .el-dialog__body {
+    max-height: 72vh;
+    overflow-y: auto;
+  }
+  .el-message-box {
+    max-width: calc(100vw - 24px) !important;
+  }
+  /* Form label-left tự chuyển thành label-top trên mobile */
+  .el-form:not(.el-form--label-top) .el-form-item {
+    flex-direction: column;
+    align-items: stretch;
+  }
+  .el-form:not(.el-form--label-top) .el-form-item__label {
+    justify-content: flex-start;
+    width: auto !important;
+    margin-bottom: 4px;
+  }
+}
+
+/* Bảng Element Plus cuộn ngang mượt trên iPad / mobile */
+.el-table {
+  max-width: 100%;
+}
+
+/* Drawer giỏ hàng / menu vừa màn hình điện thoại */
+@media (max-width: 480px) {
+  .el-drawer.rtl,
+  .el-drawer.ltr {
+    width: 88vw !important;
+  }
+}
