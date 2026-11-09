@@ -118,8 +118,8 @@ const allModules: { perm: PermissionKey; title: string; desc: string; path: stri
   },
   {
     perm: 'products',
-    title: 'Sản phẩm & Giá bán',
-    desc: 'Quản lý thông tin cấu hình, mã SKU, giá niêm yết và bảo hành sản phẩm.',
+    title: 'Sản phẩm & Thông số kỹ thuật',
+    desc: 'Thêm/sửa/xóa sản phẩm, bảng thông số kỹ thuật chi tiết, đặc điểm nổi bật, thư viện ảnh & ưu đãi.',
     path: '/admin/products',
     icon: '💻',
   },
@@ -139,17 +139,17 @@ const allModules: { perm: PermissionKey; title: string; desc: string; path: stri
   },
   {
     perm: 'services',
-    title: 'Phiếu Sửa chữa & Bảo hành',
-    desc: 'Tiếp nhận phiếu sửa chữa PC/Laptop, bảo hành chính hãng và theo dõi kỹ thuật.',
+    title: 'Sửa chữa & Bảng giá Dịch vụ',
+    desc: 'Cập nhật bảng giá sửa chữa Laptop/PC/Điện thoại theo thời điểm, nội dung dịch vụ & phiếu kỹ thuật.',
     path: '/admin/services',
     icon: '🛠️',
   },
   {
     perm: 'banners',
-    title: 'Banner Trang chủ',
-    desc: 'Chỉnh sửa tiêu đề, mô tả, hình ảnh, nút bấm và thứ tự các slide banner trên trang chủ.',
+    title: 'Banner & Giờ Vàng Giá Sốc',
+    desc: 'Chỉnh sửa Slide Banner chính, khối Giờ Vàng Giá Sốc (Flash Sale), 2 Banner phụ & khối CTA.',
     path: '/admin/banners',
-    icon: '🖼️',
+    icon: '⚡',
   },
   {
     perm: 'it_outsourcing',

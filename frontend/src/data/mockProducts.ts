@@ -18,6 +18,12 @@ export interface ProductItem {
   gallery: string[];
   description: string;
   specs: ProductSpec[];
+  warranty?: string;
+  stock?: number;
+  badge?: string;
+  tier?: 'entry' | 'mid' | 'high' | '';
+  promotions?: string[];
+  featuredHome?: boolean;
 }
 
 export const mockProducts: ProductItem[] = [

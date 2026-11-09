@@ -44,42 +44,28 @@
 
         <!-- 2 Side Promos -->
         <div class="grid grid-cols-2 lg:grid-cols-1 gap-3 sm:gap-4">
-          <!-- Side Banner 1: PC Builder -->
-          <div class="relative rounded-2xl overflow-hidden bg-gradient-to-br from-slate-900 to-[#014f2b] p-3.5 sm:p-6 text-white shadow-md flex flex-col justify-between group">
+          <div
+            v-for="promo in siteContentStore.homePromos.sideBanners"
+            :key="promo.id"
+            class="relative rounded-2xl overflow-hidden p-3.5 sm:p-6 text-white shadow-md flex flex-col justify-between group"
+            :class="sideBannerClass(promo.theme)"
+          >
             <div class="space-y-1 sm:space-y-2">
-              <span class="hidden sm:inline text-[11px] font-bold text-emerald-400 uppercase tracking-widest">Tiện ích thông minh</span>
-              <h3 class="text-sm sm:text-xl font-black leading-tight">Xây Dựng Cấu Hình PC</h3>
-              <p class="hidden sm:block text-xs text-slate-300">Tự do chọn linh kiện tương thích 100%, nhận ưu đãi giảm đến 1.500.000 đ</p>
+              <span class="hidden sm:inline text-[11px] font-bold uppercase tracking-widest opacity-90">
+                {{ promo.subtitle }}
+              </span>
+              <h3 class="text-sm sm:text-xl font-black leading-tight">{{ promo.title }}</h3>
+              <p class="hidden sm:block text-xs opacity-90">{{ promo.desc }}</p>
             </div>
             <div class="pt-2.5 sm:pt-4 flex items-center justify-between">
               <router-link
-                to="/pc-builder"
-                class="px-2.5 py-1.5 sm:px-4 sm:py-2 bg-white text-[#00733c] font-bold text-[11px] sm:text-xs rounded-lg hover:bg-emerald-50 transition shadow"
+                :to="promo.link || '/shop'"
+                class="px-2.5 py-1.5 sm:px-4 sm:py-2 bg-white text-slate-900 font-bold text-[11px] sm:text-xs rounded-lg hover:bg-emerald-50 transition shadow"
               >
-                Build PC &rarr;
+                {{ promo.btnText }}
               </router-link>
-              <div class="text-xl sm:text-3xl text-emerald-400 group-hover:scale-110 transition-transform">
-                🖥️
-              </div>
-            </div>
-          </div>
-
-          <!-- Side Banner 2: Repair Service -->
-          <div class="relative rounded-2xl overflow-hidden bg-gradient-to-br from-amber-600 to-red-700 p-3.5 sm:p-6 text-white shadow-md flex flex-col justify-between group">
-            <div class="space-y-1 sm:space-y-2">
-              <span class="hidden sm:inline text-[11px] font-bold text-amber-200 uppercase tracking-widest">Dịch vụ chuyên nghiệp</span>
-              <h3 class="text-sm sm:text-xl font-black leading-tight">Sửa Chữa &amp; Vệ Sinh PC</h3>
-              <p class="hidden sm:block text-xs text-amber-100">Khám bệnh máy tính miễn phí, vệ sinh tra keo tản nhiệt lấy ngay trong 45 phút</p>
-            </div>
-            <div class="pt-2.5 sm:pt-4 flex items-center justify-between">
-              <router-link
-                to="/services/repair"
-                class="px-2.5 py-1.5 sm:px-4 sm:py-2 bg-white text-red-700 font-bold text-[11px] sm:text-xs rounded-lg hover:bg-amber-50 transition shadow"
-              >
-                Đặt Lịch &rarr;
-              </router-link>
-              <div class="text-xl sm:text-3xl text-amber-300 group-hover:scale-110 transition-transform">
-                🛠️
+              <div class="text-xl sm:text-3xl group-hover:scale-110 transition-transform">
+                {{ promo.icon }}
               </div>
             </div>
           </div>
@@ -130,7 +116,7 @@
     </section>
 
     <!-- 3. Flash Sale (Giờ vàng giá sốc) with Countdown -->
-    <section class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+    <section v-if="siteContentStore.flashSale.enabled" class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
       <div class="bg-gradient-to-r from-red-600 via-rose-600 to-amber-600 rounded-2xl p-3.5 sm:p-6 text-white shadow-xl">
         <!-- Flash Sale Header -->
         <div class="flex flex-col sm:flex-row justify-between items-center gap-3 mb-4 sm:mb-6 border-b border-white/20 pb-3 sm:pb-4">
@@ -138,10 +124,15 @@
             <span class="text-2xl sm:text-3xl animate-bounce">⚡</span>
             <div>
               <h2 class="text-lg sm:text-3xl font-black uppercase tracking-wide flex flex-wrap items-center gap-x-2 gap-y-1">
-                GIỜ VÀNG GIÁ SỐC
-                <span class="text-[10px] sm:text-xs bg-white text-red-600 px-2 sm:px-2.5 py-0.5 rounded-full font-extrabold uppercase">Nhân Phúc Flash Deals</span>
+                {{ siteContentStore.flashSale.title }}
+                <span
+                  v-if="siteContentStore.flashSale.badge"
+                  class="text-[10px] sm:text-xs bg-white text-red-600 px-2 sm:px-2.5 py-0.5 rounded-full font-extrabold uppercase"
+                >
+                  {{ siteContentStore.flashSale.badge }}
+                </span>
               </h2>
-              <p class="text-xs text-red-100">Số lượng có hạn, ưu đãi kết thúc sau:</p>
+              <p class="text-xs text-red-100">{{ siteContentStore.flashSale.subtitle }}</p>
             </div>
           </div>
 
@@ -386,27 +377,32 @@
     <section class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
       <div class="relative rounded-3xl overflow-hidden bg-gradient-to-r from-slate-950 via-[#014f2b] to-emerald-950 p-6 sm:p-12 text-white shadow-2xl">
         <div class="relative z-10 max-w-2xl space-y-4">
-          <span class="inline-block px-3.5 py-1 bg-emerald-500/20 text-emerald-300 font-extrabold text-xs uppercase tracking-wider rounded-full border border-emerald-500/30">
-            Tính Năng Độc Quyền Nhân Phúc Tech
+          <span
+            v-if="siteContentStore.homePromos.ctaBadge"
+            class="inline-block px-3.5 py-1 bg-emerald-500/20 text-emerald-300 font-extrabold text-xs uppercase tracking-wider rounded-full border border-emerald-500/30"
+          >
+            {{ siteContentStore.homePromos.ctaBadge }}
           </span>
           <h2 class="text-2xl sm:text-4xl font-black leading-tight">
-            Tự Tay Xây Dựng Cỗ Máy PC Mơ Ước
+            {{ siteContentStore.homePromos.ctaTitle }}
           </h2>
           <p class="text-sm sm:text-base text-slate-300">
-            Hệ thống tự động lọc linh kiện tương thích 100%, cộng tiền tức thì, miễn phí công lắp đặt và tặng kèm gói vệ sinh máy 2 năm tại Nhân Phúc Tech.
+            {{ siteContentStore.homePromos.ctaDesc }}
           </p>
           <div class="flex flex-wrap items-center gap-4 pt-4">
             <router-link
-              to="/pc-builder"
+              v-if="siteContentStore.homePromos.ctaPrimaryText"
+              :to="siteContentStore.homePromos.ctaPrimaryLink || '/pc-builder'"
               class="px-5 py-3 sm:px-8 sm:py-3.5 bg-emerald-500 hover:bg-emerald-400 text-slate-950 font-extrabold text-sm rounded-xl shadow-lg transition transform hover:-translate-y-0.5 flex items-center gap-2"
             >
-              <el-icon :size="18"><Cpu /></el-icon> Bắt Đầu Build Cấu Hình Ngay
+              <el-icon :size="18"><Cpu /></el-icon> {{ siteContentStore.homePromos.ctaPrimaryText }}
             </router-link>
             <router-link
-              to="/services/it-outsourcing"
+              v-if="siteContentStore.homePromos.ctaSecondaryText"
+              :to="siteContentStore.homePromos.ctaSecondaryLink || '/services/it-outsourcing'"
               class="px-5 py-3 sm:px-6 sm:py-3.5 bg-white/10 hover:bg-white/20 text-white font-bold text-sm rounded-xl border border-white/20 transition"
             >
-              Yêu Cầu Báo Giá Doanh Nghiệp
+              {{ siteContentStore.homePromos.ctaSecondaryText }}
             </router-link>
           </div>
         </div>
@@ -475,18 +471,26 @@
 </template>
 
 <script setup lang="ts">
-import { ref, computed, onMounted, onUnmounted } from 'vue';
+import { ref, computed, onMounted, onUnmounted, watch } from 'vue';
 import { ShoppingCart, Cpu } from '@element-plus/icons-vue';
 import { useCartStore } from '../../stores/cart';
 import { ElMessage } from 'element-plus';
-
 import { useSiteContentStore } from '../../stores/siteContent';
+import { useProductStore } from '../../stores/products';
 
 const cartStore = useCartStore();
 const siteContentStore = useSiteContentStore();
+const productStore = useProductStore();
 
 // Hero Slides – lấy từ Admin (Quản lý Banner trang chủ), chỉ hiển thị slide đang bật
 const heroSlides = computed(() => siteContentStore.heroBanners.filter((b) => b.active));
+
+const sideBannerClass = (theme: string) => {
+  if (theme === 'amber') return 'bg-gradient-to-br from-amber-600 to-red-700';
+  if (theme === 'blue') return 'bg-gradient-to-br from-blue-800 to-indigo-950';
+  if (theme === 'purple') return 'bg-gradient-to-br from-purple-800 to-slate-950';
+  return 'bg-gradient-to-br from-slate-900 to-[#014f2b]';
+};
 
 // Chiều cao carousel co giãn theo kích thước màn hình
 const windowWidth = ref(typeof window !== 'undefined' ? window.innerWidth : 1280);
@@ -501,12 +505,27 @@ const carouselHeight = computed(() => {
   return '380px';
 });
 
-// Countdown Logic
+// Countdown Logic – đồng bộ với cấu hình Giờ Vàng Giá Sốc trong Admin
 const countdown = ref({
-  hours: 4,
-  minutes: 32,
-  seconds: 18
+  hours: siteContentStore.flashSale.hours ?? 4,
+  minutes: siteContentStore.flashSale.minutes ?? 32,
+  seconds: siteContentStore.flashSale.seconds ?? 18,
 });
+
+watch(
+  () => [
+    siteContentStore.flashSale.hours,
+    siteContentStore.flashSale.minutes,
+    siteContentStore.flashSale.seconds,
+  ],
+  ([h, m, s]) => {
+    countdown.value = {
+      hours: Number(h) || 0,
+      minutes: Number(m) || 0,
+      seconds: Number(s) || 0,
+    };
+  }
+);
 
 let timer: any = null;
 
@@ -523,7 +542,11 @@ const startCountdown = () => {
         if (countdown.value.hours > 0) {
           countdown.value.hours--;
         } else {
-          countdown.value = { hours: 6, minutes: 0, seconds: 0 };
+          countdown.value = {
+            hours: siteContentStore.flashSale.hours || 6,
+            minutes: siteContentStore.flashSale.minutes || 0,
+            seconds: siteContentStore.flashSale.seconds || 0,
+          };
         }
       }
     }
@@ -532,158 +555,75 @@ const startCountdown = () => {
 
 const padZero = (val: number) => String(val).padStart(2, '0');
 
-// Flash Sale Products
-const flashSaleProducts = ref([
-  {
-    id: 'vga-1',
-    name: 'Card Màn Hình ASUS Dual GeForce RTX 4060 EVO OC 8GB',
-    brand: 'ASUS',
-    price: 8490000,
-    originalPrice: 10290000,
-    discount: 18,
-    image: 'https://images.unsplash.com/photo-1587202372634-32705e3bf49c?w=400&q=80',
-    sold: 19,
-    stock: 25
-  },
-  {
-    id: 'cpu-1',
-    name: 'CPU Intel Core i5-13400F (Up to 4.6GHz, 10 Cores 16 Threads)',
-    brand: 'Intel',
-    price: 4390000,
-    originalPrice: 5490000,
-    discount: 20,
-    image: 'https://images.unsplash.com/photo-1555617778-02518510b9fa?w=400&q=80',
-    sold: 28,
-    stock: 30
-  },
-  {
-    id: 'mon-1',
-    name: 'Màn Hình Gaming ASUS TUF VG249Q3A 24" Fast IPS 180Hz 1ms',
-    brand: 'ASUS',
-    price: 3190000,
-    originalPrice: 4290000,
-    discount: 26,
-    image: 'https://images.unsplash.com/photo-1527443224154-c4a3942d3acf?w=400&q=80',
-    sold: 14,
-    stock: 20
-  },
-  {
-    id: 'ram-1',
-    name: 'RAM Kingston FURY Beast RGB 16GB (2x8GB) DDR4 3200MHz',
-    brand: 'Kingston',
-    price: 1090000,
-    originalPrice: 1590000,
-    discount: 31,
-    image: 'https://images.unsplash.com/photo-1562976540-1502c2145186?w=400&q=80',
-    sold: 42,
-    stock: 50
-  }
-]);
+// Flash Sale Products – lấy trực tiếp từ Admin (Giờ vàng giá sốc)
+const flashSaleProducts = computed(() => siteContentStore.flashSale.items);
 
 // PC Gaming Tabs
 const pcTabs = [
   { label: 'Tất Cả Cấu Hình', value: 'all' },
   { label: 'Phổ Thông (< 15Tr)', value: 'entry' },
   { label: 'Trung Cấp (15-25Tr)', value: 'mid' },
-  { label: 'Hi-End (> 25Tr)', value: 'high' }
+  { label: 'Hi-End (> 25Tr)', value: 'high' },
 ];
 const activePcTab = ref('all');
 
-const pcs = ref([
-  {
-    id: 'pc-1',
-    name: 'PC Gaming Nhân Phúc Dragon Core i5 13400F | RTX 4060 8GB | 16GB RAM',
-    tier: 'mid',
-    price: 17990000,
-    originalPrice: 20990000,
-    cpu: 'i5-13400F',
-    vga: 'RTX 4060 8G',
-    ram: '16GB DDR4',
-    image: 'https://images.unsplash.com/photo-1587202372775-e229f172b9d7?w=400&q=80',
-    badge: 'Bán Chạy Nhất'
-  },
-  {
-    id: 'pc-2',
-    name: 'PC Gaming Nhân Phúc Starter Core i3 12100F | GTX 1650 4GB | 16GB RAM',
-    tier: 'entry',
-    price: 9890000,
-    originalPrice: 11500000,
-    cpu: 'i3-12100F',
-    vga: 'GTX 1650 4G',
-    ram: '16GB DDR4',
-    image: 'https://images.unsplash.com/photo-1591488320449-011701bb6704?w=400&q=80',
-    badge: 'Tiết Kiệm'
-  },
-  {
-    id: 'pc-3',
-    name: 'PC Gaming Nhân Phúc Cyberpunk Core i7 14700KF | RTX 4070 Super 12GB',
-    tier: 'high',
-    price: 36990000,
-    originalPrice: 41990000,
-    cpu: 'i7-14700KF',
-    vga: 'RTX 4070 Super',
-    ram: '32GB DDR5',
-    image: 'https://images.unsplash.com/photo-1624705002806-5d72df19c3ad?w=400&q=80',
-    badge: 'Hi-End Gaming'
-  },
-  {
-    id: 'pc-4',
-    name: 'PC Gaming Nhân Phúc Phantom Ryzen 5 7600 | RTX 4060 Ti 8GB | 16GB DDR5',
-    tier: 'mid',
-    price: 22490000,
-    originalPrice: 25900000,
-    cpu: 'R5 7600',
-    vga: 'RTX 4060 Ti',
-    ram: '16GB DDR5',
-    image: 'https://images.unsplash.com/photo-1550745165-9bc0b252726f?w=400&q=80',
-    badge: 'Khuyên Dùng'
-  }
-]);
+const extractSpecValue = (specs: { label: string; value: string }[] | undefined, keyword: string, fallback = '') => {
+  if (!specs || !specs.length) return fallback;
+  const found = specs.find((s) => s.label.toLowerCase().includes(keyword.toLowerCase()));
+  if (!found) return fallback;
+  return found.value.split('(')[0]!.trim().slice(0, 22);
+};
 
-const filteredPcs = computed(() => {
-  if (activePcTab.value === 'all') return pcs.value;
-  return pcs.value.filter((p) => p.tier === activePcTab.value);
+const pcs = computed(() => {
+  return productStore.products
+    .filter((p) => p.parentCategory === 'pc-gaming' || p.category.startsWith('pc-'))
+    .map((p) => {
+      const inferredTier =
+        p.tier || (p.price < 15000000 ? 'entry' : p.price <= 26000000 ? 'mid' : 'high');
+      return {
+        id: p.id,
+        name: p.name,
+        tier: inferredTier,
+        price: p.price,
+        originalPrice: p.originalPrice,
+        cpu: extractSpecValue(p.specs, 'cpu', p.specs?.[0]?.value?.slice(0, 18) || 'Core i5'),
+        vga: extractSpecValue(p.specs, 'vga', extractSpecValue(p.specs, 'card', p.specs?.[1]?.value?.slice(0, 18) || 'RTX Series')),
+        ram: extractSpecValue(p.specs, 'ram', p.specs?.[2]?.value?.slice(0, 18) || '16GB RAM'),
+        image: p.image,
+        badge: p.badge || (inferredTier === 'high' ? 'Hi-End' : 'Bán Chạy'),
+      };
+    });
 });
 
-// Laptop List
-const laptops = ref([
-  {
-    id: 'lap-1',
-    name: 'Laptop Gaming ASUS TUF Gaming A15 FA506NC-HN011W (Ryzen 5 / RTX 3050)',
-    brand: 'ASUS',
-    specs: 'R5-7535HS • 16GB • 512GB • RTX 3050 4G • 15.6" 144Hz',
-    price: 17490000,
-    originalPrice: 20990000,
-    image: 'https://images.unsplash.com/photo-1603302576837-37561b2e2302?w=400&q=80'
-  },
-  {
-    id: 'lap-2',
-    name: 'Laptop Lenovo LOQ 15IAX9 83GS001RVN (i5-12450HX / RTX 3050)',
-    brand: 'Lenovo',
-    specs: 'i5-12450HX • 12GB • 512GB • RTX 3050 6G • 15.6" 144Hz 100% sRGB',
-    price: 18990000,
-    originalPrice: 22490000,
-    image: 'https://images.unsplash.com/photo-1588872657578-7efd1f1555ed?w=400&q=80'
-  },
-  {
-    id: 'lap-3',
-    name: 'Laptop Acer Nitro 5 Tiger AN515-58-52SP (i5-12500H / RTX 4050)',
-    brand: 'Acer',
-    specs: 'i5-12500H • 16GB • 512GB • RTX 4050 6G • 15.6" FHD 144Hz',
-    price: 21990000,
-    originalPrice: 24990000,
-    image: 'https://images.unsplash.com/photo-1593642632823-8f785ba67e45?w=400&q=80'
-  },
-  {
-    id: 'lap-4',
-    name: 'Laptop Dell Inspiron 15 3520 (Core i5-1235U / 16GB / 512GB SSD)',
-    brand: 'Dell',
-    specs: 'i5-1235U • 16GB RAM • 512GB SSD • 15.6" FHD 120Hz',
-    price: 13990000,
-    originalPrice: 15490000,
-    image: 'https://images.unsplash.com/photo-1496181133206-80ce9b88a853?w=400&q=80'
-  }
-]);
+const filteredPcs = computed(() => {
+  if (activePcTab.value === 'all') return pcs.value.slice(0, 8);
+  return pcs.value.filter((p) => p.tier === activePcTab.value).slice(0, 8);
+});
+
+// Laptop List – lấy trực tiếp từ kho sản phẩm
+const laptops = computed(() => {
+  return productStore.products
+    .filter((p) => p.parentCategory === 'laptop' || p.category.startsWith('laptop') || p.category === 'macbook')
+    .slice(0, 8)
+    .map((p) => {
+      const shortSpecs =
+        p.specs && p.specs.length
+          ? p.specs
+              .slice(0, 4)
+              .map((s) => s.value.split('(')[0]!.trim().slice(0, 22))
+              .join(' • ')
+          : p.description?.slice(0, 65) || '';
+      return {
+        id: p.id,
+        name: p.name,
+        brand: p.brand,
+        specs: shortSpecs,
+        price: p.price,
+        originalPrice: p.originalPrice,
+        image: p.image,
+      };
+    });
+});
 
 // Tech News
 const newsPosts = computed(() => siteContentStore.newsList.slice(0, 3));

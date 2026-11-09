@@ -84,17 +84,13 @@
             <span>🎁</span> Ưu Đãi Độc Quyền Khi Mua Tại Nhân Phúc Tech:
           </div>
           <ul class="text-xs text-slate-700 space-y-1.5 pl-1">
-            <li class="flex items-start gap-2">
+            <li
+              v-for="(promo, pIdx) in productPromotions"
+              :key="pIdx"
+              class="flex items-start gap-2"
+            >
               <span class="text-emerald-600 font-bold">✓</span>
-              <span>Tặng gói vệ sinh máy tính định kỳ <strong>2 năm miễn phí</strong>.</span>
-            </li>
-            <li class="flex items-start gap-2">
-              <span class="text-emerald-600 font-bold">✓</span>
-              <span>Giảm thêm <strong>300.000 đ</strong> khi mua kèm màn hình gaming từ 144Hz.</span>
-            </li>
-            <li class="flex items-start gap-2">
-              <span class="text-emerald-600 font-bold">✓</span>
-              <span>Hỗ trợ trả góp 0% lãi suất qua thẻ tín dụng và CCCD duyệt 15 phút.</span>
+              <span>{{ promo }}</span>
             </li>
           </ul>
         </div>
@@ -142,7 +138,7 @@
         <!-- Assurance Badges -->
         <div class="grid grid-cols-3 gap-2 pt-2 text-center text-[11px] text-slate-600 border-t border-slate-100">
           <div class="p-2 bg-slate-50 rounded-lg">
-            <div class="font-bold text-slate-800">Bảo hành 36T</div>
+            <div class="font-bold text-slate-800">{{ currentProduct.warranty || 'Bảo hành 36T' }}</div>
             <div class="text-[10px] text-slate-400">Chính hãng tận nơi</div>
           </div>
           <div class="p-2 bg-slate-50 rounded-lg">
@@ -161,25 +157,37 @@
     <div class="grid grid-cols-1 lg:grid-cols-12 gap-8">
       <!-- Specs Sheet (8 cols) -->
       <div class="lg:col-span-8 bg-white p-6 rounded-2xl shadow-sm border border-slate-100 space-y-6">
-        <h3 class="text-base font-black text-slate-900 uppercase tracking-wider pb-2 border-b border-slate-100 flex items-center gap-2">
-          <span>📋</span> Thông Số Kỹ Thuật Chi Tiết
-        </h3>
-        <div class="divide-y divide-slate-100 text-xs">
+        <div class="flex flex-wrap items-center justify-between gap-2 pb-2 border-b border-slate-100">
+          <h3 class="text-base font-black text-slate-900 uppercase tracking-wider flex items-center gap-2">
+            <span>📋</span> Thông Số Kỹ Thuật Chi Tiết
+          </h3>
+          <router-link
+            v-if="authStore.hasPermission('products')"
+            to="/admin/products"
+            class="text-xs font-bold text-[#00733c] bg-emerald-50 hover:bg-emerald-100 px-3 py-1 rounded-lg border border-emerald-200 transition"
+          >
+            ✏️ Sửa thông số trong Quản trị
+          </router-link>
+        </div>
+        <div v-if="currentProduct.specs && currentProduct.specs.length" class="divide-y divide-slate-100 text-xs">
           <div
             v-for="(spec, idx) in currentProduct.specs"
             :key="idx"
             class="py-2.5 grid grid-cols-12 gap-4"
             :class="idx % 2 === 0 ? 'bg-slate-50/50 px-3 rounded' : 'px-3'"
           >
-            <span class="col-span-4 font-bold text-slate-500">{{ spec.label }}</span>
-            <span class="col-span-8 font-semibold text-slate-800">{{ spec.value }}</span>
+            <span class="col-span-5 sm:col-span-4 font-bold text-slate-500">{{ spec.label }}</span>
+            <span class="col-span-7 sm:col-span-8 font-semibold text-slate-800">{{ spec.value }}</span>
           </div>
+        </div>
+        <div v-else class="text-xs text-slate-400 italic py-3">
+          Đang cập nhật bảng thông số kỹ thuật chi tiết cho sản phẩm này.
         </div>
 
         <!-- Description -->
         <div class="pt-6 border-t border-slate-100 space-y-3">
           <h4 class="text-sm font-black text-slate-900">Đặc Điểm Nổi Bật</h4>
-          <p class="text-xs sm:text-sm text-slate-600 leading-relaxed">
+          <p class="text-xs sm:text-sm text-slate-600 leading-relaxed whitespace-pre-line">
             {{ currentProduct.description }}
           </p>
         </div>
@@ -270,26 +278,36 @@ import { ref, computed, watch } from 'vue';
 import { useRoute, useRouter } from 'vue-router';
 import { ShoppingCart } from '@element-plus/icons-vue';
 import { useCartStore } from '../../stores/cart';
-import { mockProducts } from '../../data/mockProducts';
+import { useProductStore, DEFAULT_PROMOTIONS } from '../../stores/products';
+import { useAuthStore } from '../../stores/auth';
 import { ElMessage } from 'element-plus';
 
 const route = useRoute();
 const router = useRouter();
 const cartStore = useCartStore();
+const productStore = useProductStore();
+const authStore = useAuthStore();
 
 const qty = ref(1);
 const activeImage = ref('');
 
-// Find product by route parameter ID
+// Find product by route parameter ID from central productStore
 const currentProduct = computed(() => {
   const paramId = String(route.params.id || '');
-  const found = mockProducts.find((p) => p.id === paramId || p.sku.toLowerCase() === paramId.toLowerCase());
-  return found || mockProducts[0];
+  const found = productStore.getProductById(paramId);
+  return found || productStore.products[0]!;
+});
+
+const productPromotions = computed(() => {
+  if (currentProduct.value.promotions && currentProduct.value.promotions.length) {
+    return currentProduct.value.promotions;
+  }
+  return DEFAULT_PROMOTIONS;
 });
 
 // Related products in the same category
 const relatedProducts = computed(() => {
-  return mockProducts
+  return productStore.products
     .filter((p) => (p.category === currentProduct.value.category || p.parentCategory === currentProduct.value.parentCategory) && p.id !== currentProduct.value.id)
     .slice(0, 4);
 });

@@ -77,6 +77,382 @@ const NEWS_STORAGE_KEY = 'nhanphuc_site_news';
 const ABOUT_STORAGE_KEY = 'nhanphuc_site_about';
 const SURVEY_STORAGE_KEY = 'nhanphuc_site_it_surveys';
 const BANNER_STORAGE_KEY = 'nhanphuc_site_banners';
+const FLASH_SALE_STORAGE_KEY = 'nhanphuc_site_flash_sale';
+const HOME_PROMOS_STORAGE_KEY = 'nhanphuc_site_home_promos';
+const REPAIR_SERVICE_STORAGE_KEY = 'nhanphuc_site_repair_service';
+
+export interface FlashSaleItem {
+  id: string;
+  name: string;
+  brand: string;
+  price: number;
+  originalPrice: number;
+  discount: number;
+  image: string;
+  sold: number;
+  stock: number;
+}
+
+export interface FlashSaleConfig {
+  enabled: boolean;
+  title: string;
+  badge: string;
+  subtitle: string;
+  hours: number;
+  minutes: number;
+  seconds: number;
+  items: FlashSaleItem[];
+  updatedBy?: string;
+  updatedAt?: string;
+}
+
+export interface SidePromoBanner {
+  id: string;
+  subtitle: string;
+  title: string;
+  desc: string;
+  btnText: string;
+  link: string;
+  icon: string;
+  theme: 'emerald' | 'amber' | 'blue' | 'purple';
+}
+
+export interface HomePromosConfig {
+  sideBanners: SidePromoBanner[];
+  ctaBadge: string;
+  ctaTitle: string;
+  ctaDesc: string;
+  ctaPrimaryText: string;
+  ctaPrimaryLink: string;
+  ctaSecondaryText: string;
+  ctaSecondaryLink: string;
+}
+
+export interface RepairPriceRow {
+  id: string;
+  name: string;
+  desc: string;
+  time: string;
+  warranty: string;
+  price: string;
+}
+
+export interface RepairCategoryTab {
+  value: string;
+  label: string;
+  icon: string;
+  items: RepairPriceRow[];
+}
+
+export interface RepairServiceConfig {
+  heroBadge: string;
+  heroTitle: string;
+  heroDescription: string;
+  hotline: string;
+  commitments: { icon: string; title: string; desc: string }[];
+  priceSectionSubtitle: string;
+  priceSectionTitle: string;
+  priceSectionDesc: string;
+  categories: RepairCategoryTab[];
+  workflowSubtitle: string;
+  workflowTitle: string;
+  workflowSteps: { title: string; desc: string }[];
+  updatedBy?: string;
+  updatedAt?: string;
+}
+
+const defaultFlashSale: FlashSaleConfig = {
+  enabled: true,
+  title: 'GIỜ VÀNG GIÁ SỐC',
+  badge: 'Nhân Phúc Flash Deals',
+  subtitle: 'Số lượng có hạn, ưu đãi kết thúc sau:',
+  hours: 4,
+  minutes: 32,
+  seconds: 18,
+  items: [
+    {
+      id: 'vga-1',
+      name: 'Card Màn Hình ASUS Dual GeForce RTX 4060 EVO OC 8GB',
+      brand: 'ASUS',
+      price: 8490000,
+      originalPrice: 10290000,
+      discount: 18,
+      image: 'https://images.unsplash.com/photo-1587202372634-32705e3bf49c?w=400&q=80',
+      sold: 19,
+      stock: 25,
+    },
+    {
+      id: 'cpu-1',
+      name: 'CPU Intel Core i5-13400F (Up to 4.6GHz, 10 Cores 16 Threads)',
+      brand: 'Intel',
+      price: 4390000,
+      originalPrice: 5490000,
+      discount: 20,
+      image: 'https://images.unsplash.com/photo-1555617778-02518510b9fa?w=400&q=80',
+      sold: 28,
+      stock: 30,
+    },
+    {
+      id: 'mon-1',
+      name: 'Màn Hình Gaming ASUS TUF VG249Q3A 24" Fast IPS 180Hz 1ms',
+      brand: 'ASUS',
+      price: 3190000,
+      originalPrice: 4290000,
+      discount: 26,
+      image: 'https://images.unsplash.com/photo-1527443224154-c4a3942d3acf?w=400&q=80',
+      sold: 14,
+      stock: 20,
+    },
+    {
+      id: 'ram-1',
+      name: 'RAM Kingston FURY Beast RGB 16GB (2x8GB) DDR4 3200MHz',
+      brand: 'Kingston',
+      price: 1090000,
+      originalPrice: 1590000,
+      discount: 31,
+      image: 'https://images.unsplash.com/photo-1562976540-1502c2145186?w=400&q=80',
+      sold: 42,
+      stock: 50,
+    },
+  ],
+  updatedBy: 'Hệ thống',
+  updatedAt: '09/11/2026',
+};
+
+const defaultHomePromos: HomePromosConfig = {
+  sideBanners: [
+    {
+      id: 'side-1',
+      subtitle: 'Tiện ích thông minh',
+      title: 'Xây Dựng Cấu Hình PC',
+      desc: 'Tự do chọn linh kiện tương thích 100%, nhận ưu đãi giảm đến 1.500.000 đ',
+      btnText: 'Build PC Ngay →',
+      link: '/pc-builder',
+      icon: '🖥️',
+      theme: 'emerald',
+    },
+    {
+      id: 'side-2',
+      subtitle: 'Dịch vụ chuyên nghiệp',
+      title: 'Sửa Chữa & Vệ Sinh PC',
+      desc: 'Khám bệnh máy tính miễn phí, vệ sinh tra keo tản nhiệt lấy ngay trong 45 phút',
+      btnText: 'Đặt Lịch Ngay →',
+      link: '/services/repair',
+      icon: '🛠️',
+      theme: 'amber',
+    },
+  ],
+  ctaBadge: 'Tính Năng Độc Quyền Nhân Phúc Tech',
+  ctaTitle: 'Tự Tay Xây Dựng Cỗ Máy PC Mơ Ước',
+  ctaDesc:
+    'Hệ thống tự động lọc linh kiện tương thích 100%, cộng tiền tức thì, miễn phí công lắp đặt và tặng kèm gói vệ sinh máy 2 năm tại Nhân Phúc Tech.',
+  ctaPrimaryText: 'Bắt Đầu Build Cấu Hình Ngay',
+  ctaPrimaryLink: '/pc-builder',
+  ctaSecondaryText: 'Yêu Cầu Báo Giá Doanh Nghiệp',
+  ctaSecondaryLink: '/services/it-outsourcing',
+};
+
+const defaultRepairService: RepairServiceConfig = {
+  heroBadge: 'Dịch Vụ Kỹ Thuật Uy Tín Nhân Phúc Tech',
+  heroTitle: 'SỬA CHỮA PC • LAPTOP • ĐIỆN THOẠI LẤY LIỀN',
+  heroDescription:
+    'Khám bệnh và tư vấn giải pháp miễn phí 100%. Đội ngũ kỹ thuật viên giàu kinh nghiệm, linh kiện thay thế chính hãng, xem trực tiếp quá trình sửa chữa, bảo hành từ 6 đến 24 tháng.',
+  hotline: '0777908179',
+  commitments: [
+    {
+      icon: '🔍',
+      title: 'Khám Lỗi Miễn Phí',
+      desc: 'Kiểm tra tổng thể phần cứng & phần mềm không thu bất kỳ khoản phí nào.',
+    },
+    {
+      icon: '⚡',
+      title: 'Sửa Nhanh Lấy Liền',
+      desc: 'Các sự cố nhẹ, thay màn hình, ép kính, thay pin chỉ từ 30 - 60 phút.',
+    },
+    {
+      icon: '🛡️',
+      title: 'Bảo Mật Dữ Liệu',
+      desc: 'Cam kết không can thiệp, không xem trộm hay làm mất dữ liệu cá nhân của khách.',
+    },
+    {
+      icon: '⭐',
+      title: 'Bảo Hành Dài Hạn',
+      desc: 'Linh kiện thay thế được bảo hành từ 6 đến 24 tháng 1 đổi 1 nhanh chóng.',
+    },
+  ],
+  priceSectionSubtitle: 'Minh Bạch & Rõ Ràng',
+  priceSectionTitle: 'BẢNG GIÁ DỊCH VỤ NIÊM YẾT THAM KHẢO',
+  priceSectionDesc: 'Giá đã bao gồm công thợ lắp đặt và chế độ bảo hành. Không phát sinh chi phí ẩn.',
+  categories: [
+    {
+      value: 'laptop',
+      label: 'Sửa Chữa Laptop',
+      icon: '💻',
+      items: [
+        {
+          id: 'rp-lap-1',
+          name: 'Vệ sinh Laptop & Tra keo tản nhiệt gốm cao cấp',
+          desc: 'Thổi sạch bụi bẩn, tra keo tản nhiệt giảm 10-15 độ C',
+          time: '30 - 45 phút',
+          warranty: '1 tháng',
+          price: '150.000 đ',
+        },
+        {
+          id: 'rp-lap-2',
+          name: 'Cài đặt Windows 10/11 Bản Quyền + Bộ Office',
+          desc: 'Tối ưu hóa hệ thống, cài đủ driver và tiện ích diệt virus',
+          time: '45 phút',
+          warranty: 'Trọn đời máy',
+          price: '150.000 đ',
+        },
+        {
+          id: 'rp-lap-3',
+          name: 'Thay Bàn Phím Laptop (ASUS, Dell, HP, Lenovo, Acer)',
+          desc: 'Phím gõ êm, phím cơ bản hoặc có đèn LED nền',
+          time: '45 - 60 phút',
+          warranty: '12 tháng',
+          price: 'Từ 350.000 đ',
+        },
+        {
+          id: 'rp-lap-4',
+          name: 'Thay Màn Hình Laptop FHD / IPS 144Hz',
+          desc: 'Màn hình mới 100% không điểm chết, màu sắc sắc nét',
+          time: '45 phút',
+          warranty: '12 tháng (1 đổi 1)',
+          price: 'Từ 1.250.000 đ',
+        },
+        {
+          id: 'rp-lap-5',
+          name: 'Nâng cấp Ổ Cứng SSD M.2 NVMe 512GB',
+          desc: 'Chuyển dữ liệu miễn phí, tốc độ khởi động máy chỉ 5 giây',
+          time: '30 phút',
+          warranty: '36 tháng',
+          price: '790.000 đ',
+        },
+        {
+          id: 'rp-lap-6',
+          name: 'Sửa Nguồn Mainboard / Cháy Chập / Không Lên Điện',
+          desc: 'Sửa chữa vi mạch điện tử bằng kính hiển vi chuyên dụng',
+          time: '1 - 2 ngày',
+          warranty: '6 tháng',
+          price: 'Từ 550.000 đ',
+        },
+      ],
+    },
+    {
+      value: 'pc',
+      label: 'Sửa Chữa PC Máy Bàn',
+      icon: '🖥️',
+      items: [
+        {
+          id: 'rp-pc-1',
+          name: 'Kiểm tra chuẩn đoán lỗi PC không lên hình / treo màn',
+          desc: 'Khám toàn diện nguồn, ram, main, vga hoàn toàn miễn phí',
+          time: '30 phút',
+          warranty: 'Miễn phí',
+          price: '0 đ (Free)',
+        },
+        {
+          id: 'rp-pc-2',
+          name: 'Vệ sinh máy tính bàn PC Gaming, đi lại dây nguồn',
+          desc: 'Vệ sinh bụi, tra keo tản nhiệt CPU và VGA',
+          time: '45 phút',
+          warranty: '1 tháng',
+          price: '120.000 đ',
+        },
+        {
+          id: 'rp-pc-3',
+          name: 'Sửa / Thay Nguồn Máy Tính (PSU 500W - 650W)',
+          desc: 'Nguồn công suất thực 80 Plus chính hãng',
+          time: '30 phút',
+          warranty: '36 tháng',
+          price: 'Từ 450.000 đ',
+        },
+        {
+          id: 'rp-pc-4',
+          name: 'Sửa Card Màn Hình (VGA) rác hình, mất nguồn, quạt kêu',
+          desc: 'Đóng lại chip VRAM, sửa mạch cấp nguồn VRM',
+          time: '1 - 3 ngày',
+          warranty: '3 - 6 tháng',
+          price: 'Từ 600.000 đ',
+        },
+        {
+          id: 'rp-pc-5',
+          name: 'Cứu Dữ Liệu Ổ Cứng HDD / SSD Hỏng, Mất Phân Vùng',
+          desc: 'Khôi phục hình ảnh, tài liệu kế toán quan trọng an toàn',
+          time: '1 - 2 ngày',
+          warranty: 'Bảo mật 100%',
+          price: 'Từ 800.000 đ',
+        },
+      ],
+    },
+    {
+      value: 'phone',
+      label: 'Sửa Chữa Điện Thoại',
+      icon: '📱',
+      items: [
+        {
+          id: 'rp-ph-1',
+          name: 'Thay Pin Điện Thoại iPhone / Android Dung Lượng Chuẩn',
+          desc: 'Pin dung lượng cao, pin Pisen chính hãng, báo chuẩn % pin',
+          time: '20 - 30 phút',
+          warranty: '12 tháng',
+          price: 'Từ 250.000 đ',
+        },
+        {
+          id: 'rp-ph-2',
+          name: 'Ép Kính / Thay Màn Hình iPhone / Samsung AMOLED',
+          desc: 'Mặt kính cường lực trong suốt, cảm ứng mượt mà',
+          time: '60 phút',
+          warranty: '6 - 12 tháng',
+          price: 'Từ 350.000 đ',
+        },
+        {
+          id: 'rp-ph-3',
+          name: 'Thay Chân Sạc / Sửa Loa Trong / Loa Ngoài rè',
+          desc: 'Linh kiện zin bóc máy, sạc nhanh chuẩn dòng điện',
+          time: '30 phút',
+          warranty: '6 tháng',
+          price: 'Từ 180.000 đ',
+        },
+        {
+          id: 'rp-ph-4',
+          name: 'Sửa Chữa Mất Sóng, Mất Wifi, Chạm Nguồn IC',
+          desc: 'Khắc phục các sự cố rơi nước, va đập mạnh chuyên sâu',
+          time: '1 - 2 ngày',
+          warranty: '3 tháng',
+          price: 'Từ 350.000 đ',
+        },
+      ],
+    },
+  ],
+  workflowSubtitle: 'Quy Trình Chuẩn Quốc Tế',
+  workflowTitle: '5 BƯỚC SỬA CHỮA MINH BẠCH TẠI NHÂN PHÚC TECH',
+  workflowSteps: [
+    {
+      title: 'Tiếp Nhận Máy',
+      desc: 'Ghi nhận tình trạng lỗi, số serial và thông tin liên hệ của khách hàng.',
+    },
+    {
+      title: 'Kiểm Tra & Báo Giá',
+      desc: 'Kỹ thuật viên xác định nguyên nhân và thông báo giá trước khi sửa.',
+    },
+    {
+      title: 'Ký Tên Linh Kiện',
+      desc: 'Khách hàng trực tiếp ký tên lên pin, màn hình, ổ cứng, ram trước khi sửa.',
+    },
+    {
+      title: 'Tiến Hành Sửa Chữa',
+      desc: 'Thay thế linh kiện chính hãng dưới camera giám sát chất lượng cao.',
+    },
+    {
+      title: 'Kiểm Tra & Bàn Giao',
+      desc: 'Khách hàng kiểm tra hoạt động, dán tem bảo hành và nhận phiếu giao máy.',
+    },
+  ],
+  updatedBy: 'Hệ thống',
+  updatedAt: '09/11/2026',
+};
 
 export interface HeroBannerSlide {
   id: string;
@@ -289,6 +665,40 @@ export const useSiteContentStore = defineStore('siteContent', () => {
   const aboutPage = ref<AboutPageConfig>(loadFromStorage(ABOUT_STORAGE_KEY, defaultAboutConfig));
   const surveyLeads = ref<ITSurveyLead[]>(loadFromStorage(SURVEY_STORAGE_KEY, defaultSurveys));
   const heroBanners = ref<HeroBannerSlide[]>(loadFromStorage(BANNER_STORAGE_KEY, defaultBanners));
+  const flashSale = ref<FlashSaleConfig>(loadFromStorage(FLASH_SALE_STORAGE_KEY, defaultFlashSale));
+  const homePromos = ref<HomePromosConfig>(loadFromStorage(HOME_PROMOS_STORAGE_KEY, defaultHomePromos));
+  const repairService = ref<RepairServiceConfig>(loadFromStorage(REPAIR_SERVICE_STORAGE_KEY, defaultRepairService));
+
+  const saveFlashSale = (staffName = 'Quản trị viên') => {
+    flashSale.value.updatedBy = staffName;
+    flashSale.value.updatedAt = new Date().toLocaleString('vi-VN');
+    localStorage.setItem(FLASH_SALE_STORAGE_KEY, JSON.stringify(flashSale.value));
+  };
+
+  const resetFlashSale = () => {
+    flashSale.value = JSON.parse(JSON.stringify(defaultFlashSale));
+    localStorage.setItem(FLASH_SALE_STORAGE_KEY, JSON.stringify(flashSale.value));
+  };
+
+  const saveHomePromos = () => {
+    localStorage.setItem(HOME_PROMOS_STORAGE_KEY, JSON.stringify(homePromos.value));
+  };
+
+  const resetHomePromos = () => {
+    homePromos.value = JSON.parse(JSON.stringify(defaultHomePromos));
+    localStorage.setItem(HOME_PROMOS_STORAGE_KEY, JSON.stringify(homePromos.value));
+  };
+
+  const saveRepairService = (staffName = 'Quản trị viên') => {
+    repairService.value.updatedBy = staffName;
+    repairService.value.updatedAt = new Date().toLocaleString('vi-VN');
+    localStorage.setItem(REPAIR_SERVICE_STORAGE_KEY, JSON.stringify(repairService.value));
+  };
+
+  const resetRepairService = () => {
+    repairService.value = JSON.parse(JSON.stringify(defaultRepairService));
+    localStorage.setItem(REPAIR_SERVICE_STORAGE_KEY, JSON.stringify(repairService.value));
+  };
 
   const saveBanners = () => {
     localStorage.setItem(BANNER_STORAGE_KEY, JSON.stringify(heroBanners.value));
@@ -410,6 +820,15 @@ export const useSiteContentStore = defineStore('siteContent', () => {
     deleteBanner,
     moveBanner,
     resetBanners,
+    flashSale,
+    saveFlashSale,
+    resetFlashSale,
+    homePromos,
+    saveHomePromos,
+    resetHomePromos,
+    repairService,
+    saveRepairService,
+    resetRepairService,
   };
 });
 

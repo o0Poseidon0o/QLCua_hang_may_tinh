@@ -212,7 +212,7 @@
               <div class="text-[11px] text-slate-500 mt-1 flex items-center gap-1.5">
                 <span>Mã: {{ product.sku }}</span>
                 <span>•</span>
-                <span class="text-emerald-600 font-semibold">Bảo hành 36T</span>
+                <span class="text-emerald-600 font-semibold">{{ product.warranty || 'Bảo hành 36T' }}</span>
               </div>
             </div>
 
@@ -254,11 +254,12 @@ import { ref, computed, onMounted, watch } from 'vue';
 import { useRoute } from 'vue-router';
 import { Search, ShoppingCart } from '@element-plus/icons-vue';
 import { useCartStore } from '../../stores/cart';
-import { mockProducts } from '../../data/mockProducts';
+import { useProductStore } from '../../stores/products';
 import { ElMessage } from 'element-plus';
 
 const route = useRoute();
 const cartStore = useCartStore();
+const productStore = useProductStore();
 
 const searchQuery = ref('');
 const selectedCategory = ref('all');
@@ -334,12 +335,18 @@ const priceRanges = [
 ];
 
 // Brands
-const brandsList = ['all', 'Nhân Phúc', 'ASUS', 'Intel', 'AMD', 'MSI', 'Gigabyte', 'Kingston', 'Corsair', 'Dell', 'Lenovo', 'Samsung', 'Apple', 'DareU', 'Logitech'];
+const brandsList = computed(() => {
+  const set = new Set<string>(['all', 'Nhân Phúc', 'ASUS', 'Intel', 'AMD', 'MSI', 'Gigabyte', 'Kingston', 'Corsair', 'Dell', 'Lenovo', 'Samsung', 'Apple', 'DareU', 'Logitech']);
+  productStore.products.forEach((p) => {
+    if (p.brand) set.add(p.brand);
+  });
+  return Array.from(set);
+});
 
 // Calculate item count in each category
 const getCategoryCount = (slug: string) => {
-  if (slug === 'all') return mockProducts.length;
-  return mockProducts.filter((p) => p.category === slug || p.parentCategory === slug).length;
+  if (slug === 'all') return productStore.products.length;
+  return productStore.products.filter((p) => p.category === slug || p.parentCategory === slug).length;
 };
 
 // Active category title for breadcrumb
@@ -382,7 +389,7 @@ const hasActiveFilter = computed(() => {
 
 // Products Filter
 const filteredProducts = computed(() => {
-  return mockProducts
+  return productStore.products
     .filter((p) => {
       // Category filter (match subcategory or parent category)
       if (selectedCategory.value !== 'all') {

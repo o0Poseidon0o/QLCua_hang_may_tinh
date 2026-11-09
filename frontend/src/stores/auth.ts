@@ -86,19 +86,19 @@ export const ROLE_DEFINITIONS: Record<AdminRole, RoleDefinition> = {
     code: 'MARKETING',
     label: 'Biên tập viên Nội dung (CMS)',
     badgeType: 'info',
-    description: 'Cập nhật Tin tức & Cẩm nang, trang Về Nhân Phúc Tech, bảng giá IT Outsourcing & Chính sách.',
-    defaultPermissions: ['dashboard', 'banners', 'news', 'about', 'it_outsourcing', 'cms', 'products', 'categories'],
+    description: 'Cập nhật Banner, Flash Sale, Tin tức & Cẩm nang, Bảng giá Sửa chữa / IT Outsourcing & Chính sách.',
+    defaultPermissions: ['dashboard', 'banners', 'services', 'news', 'about', 'it_outsourcing', 'cms', 'products', 'categories'],
   },
 };
 
 export const PERMISSION_LABELS: { key: PermissionKey; label: string; desc: string }[] = [
   { key: 'dashboard', label: 'Tổng quan (Dashboard)', desc: 'Xem báo cáo doanh thu, đơn hàng, tồn kho tổng hợp' },
   { key: 'orders', label: 'Đơn hàng & Bán hàng', desc: 'Tạo đơn, duyệt đơn hàng, cập nhật giao hàng & thanh toán' },
-  { key: 'products', label: 'Quản lý Sản phẩm', desc: 'Thêm, sửa, xóa Laptop, PC Gaming, Linh kiện & giá bán' },
+  { key: 'products', label: 'Sản phẩm & Thông số kỹ thuật', desc: 'Thêm, sửa, xóa sản phẩm, bảng thông số chi tiết, đặc điểm nổi bật & thư viện ảnh' },
   { key: 'categories', label: 'Quản lý Danh mục', desc: 'Cấu hình danh mục sản phẩm & menu phân loại' },
   { key: 'inventory', label: 'Quản lý Kho hàng', desc: 'Nhập kho, xuất kho, kiểm kê số lượng tồn & cảnh báo hết hàng' },
-  { key: 'services', label: 'Phiếu Sửa chữa & Bảo hành', desc: 'Tiếp nhận & cập nhật tiến độ phiếu sửa chữa, bảo hành' },
-  { key: 'banners', label: 'Banner Trang chủ', desc: 'Chỉnh sửa tiêu đề, mô tả, hình ảnh, nút bấm các slide banner trên trang chủ' },
+  { key: 'services', label: 'Sửa chữa & Bảng giá Dịch vụ', desc: 'Chỉnh sửa bảng giá sửa chữa Laptop/PC/Điện thoại, nội dung dịch vụ & phiếu kỹ thuật' },
+  { key: 'banners', label: 'Banner & Giờ Vàng Giá Sốc', desc: 'Chỉnh sửa Slide Banner chính, Giờ Vàng Giá Sốc (Flash Sale), 2 Banner phụ & CTA' },
   { key: 'it_outsourcing', label: 'IT Outsourcing & Bảng giá', desc: 'Chỉnh sửa giá các gói IT Outsourcing, hạng mục & yêu cầu khảo sát' },
   { key: 'news', label: 'Tin tức & Cẩm nang', desc: 'Đăng bài mới, sửa bài viết đánh giá linh kiện & thủ thuật máy tính' },
   { key: 'about', label: 'Về Nhân Phúc Tech', desc: 'Chỉnh sửa trang giới thiệu công ty, sứ mệnh & địa chỉ liên hệ' },
@@ -239,7 +239,12 @@ export const useAuthStore = defineStore('auth', () => {
   const hasPermission = (permission: PermissionKey): boolean => {
     if (!currentUser.value) return false;
     if (currentUser.value.role === 'SUPER_ADMIN') return true;
-    return currentUser.value.permissions.includes(permission);
+    if (currentUser.value.permissions.includes(permission)) return true;
+    // Tương thích ngược với các phiên đăng nhập cũ trong localStorage
+    if (permission === 'banners' && (currentUser.value.permissions.includes('cms') || currentUser.value.permissions.includes('news'))) {
+      return true;
+    }
+    return false;
   };
 
   const login = (usernameInput: string, passwordInput: string): { ok: boolean; message: string } => {
