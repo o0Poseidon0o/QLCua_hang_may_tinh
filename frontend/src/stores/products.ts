@@ -42,6 +42,9 @@ export const PRODUCT_CATEGORIES: CategoryOption[] = [
   { slug: 'keyboard', name: 'Bàn Phím Cơ Gaming', parentSlug: 'gaming-gear', parentName: 'Bàn Phím & Chuột Gaming', specTemplateKey: 'gear' },
   { slug: 'mouse', name: 'Chuột Gaming', parentSlug: 'gaming-gear', parentName: 'Bàn Phím & Chuột Gaming', specTemplateKey: 'gear' },
   { slug: 'headphone', name: 'Tai Nghe Gaming', parentSlug: 'gaming-gear', parentName: 'Bàn Phím & Chuột Gaming', specTemplateKey: 'gear' },
+  // Camera An Ninh
+  { slug: 'camera-wifi', name: 'Camera Wifi Không Dây', parentSlug: 'camera', parentName: 'Camera Quan Sát & An Ninh', specTemplateKey: 'camera' },
+  { slug: 'camera-ip', name: 'Camera IP & Đầu Ghi', parentSlug: 'camera', parentName: 'Camera Quan Sát & An Ninh', specTemplateKey: 'camera' },
 ];
 
 export const SPEC_TEMPLATES: Record<string, { label: string; specs: ProductSpec[] }> = {
@@ -152,6 +155,17 @@ export const SPEC_TEMPLATES: Record<string, { label: string; specs: ProductSpec[
       { label: 'Kiểu kết nối', value: 'Có dây USB / Không dây 2.4GHz + Bluetooth' },
       { label: 'Switch / Cảm biến', value: 'Mechanical Switch / Optical Sensor' },
       { label: 'Đèn LED', value: 'RGB 16.8 triệu màu' },
+    ],
+  },
+  camera: {
+    label: 'Mẫu thông số Camera Quan Sát / An Ninh',
+    specs: [
+      { label: 'Độ phân giải', value: '2K 4MP (2560 x 1440) Super HD' },
+      { label: 'Góc quay / Ống kính', value: 'Xoay ngang 355°, dọc 90° toàn cảnh' },
+      { label: 'Tầm nhìn ban đêm', value: 'Full Color có màu ban đêm 30m' },
+      { label: 'Âm thanh', value: 'Đàm thoại 2 chiều (Tích hợp Mic & Loa)' },
+      { label: 'Lưu trữ', value: 'Thẻ nhớ MicroSD đến 256GB / Cloud / Đầu ghi NVR' },
+      { label: 'Chuẩn chống nước', value: 'IP66 / IP67 (Lắp trong nhà & ngoài trời)' },
     ],
   },
 };

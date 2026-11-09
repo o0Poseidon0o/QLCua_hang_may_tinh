@@ -145,6 +145,13 @@ const allModules: { perm: PermissionKey; title: string; desc: string; path: stri
     icon: '🛠️',
   },
   {
+    perm: 'camera',
+    title: 'Lắp đặt Camera & Bảng giá',
+    desc: 'Chỉnh sửa các gói lắp đặt Camera trọn bộ, bảng giá Camera Wifi/Đầu ghi/Nhân công & khách khảo sát.',
+    path: '/admin/camera',
+    icon: '📹',
+  },
+  {
     perm: 'banners',
     title: 'Banner & Giờ Vàng Giá Sốc',
     desc: 'Chỉnh sửa Slide Banner chính, khối Giờ Vàng Giá Sốc (Flash Sale), 2 Banner phụ & khối CTA.',

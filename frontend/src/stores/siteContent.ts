@@ -80,6 +80,80 @@ const BANNER_STORAGE_KEY = 'nhanphuc_site_banners';
 const FLASH_SALE_STORAGE_KEY = 'nhanphuc_site_flash_sale';
 const HOME_PROMOS_STORAGE_KEY = 'nhanphuc_site_home_promos';
 const REPAIR_SERVICE_STORAGE_KEY = 'nhanphuc_site_repair_service';
+const CAMERA_SERVICE_STORAGE_KEY = 'nhanphuc_site_camera_service';
+const CAMERA_LEADS_STORAGE_KEY = 'nhanphuc_site_camera_leads';
+
+export interface CameraPackageItem {
+  id: string;
+  name: string;
+  price: number;
+  unit: string;
+  description: string;
+  isPopular: boolean;
+  popularLabel?: string;
+  ctaText: string;
+  features: { text: string; included: boolean }[];
+}
+
+export interface CameraPriceRow {
+  id: string;
+  name: string;
+  desc: string;
+  resolution: string;
+  warranty: string;
+  price: string;
+}
+
+export interface CameraCategoryTab {
+  value: string;
+  label: string;
+  icon: string;
+  items: CameraPriceRow[];
+}
+
+export interface CameraSolutionItem {
+  icon: string;
+  title: string;
+  target: string;
+  description: string;
+  highlights: string[];
+}
+
+export interface CameraSurveyLead {
+  id: string;
+  customerName: string;
+  phone: string;
+  projectType: string;
+  cameraCount: string;
+  address: string;
+  notes: string;
+  createdAt: string;
+  status: 'NEW' | 'SURVEYING' | 'INSTALLED';
+}
+
+export interface CameraServiceConfig {
+  heroBadge: string;
+  heroTitle: string;
+  heroDescription: string;
+  hotline: string;
+  stats: { value: string; label: string }[];
+  packageSubtitle: string;
+  packageTitle: string;
+  packageDesc: string;
+  packages: CameraPackageItem[];
+  priceSectionSubtitle: string;
+  priceSectionTitle: string;
+  priceSectionDesc: string;
+  categories: CameraCategoryTab[];
+  solutionsSubtitle: string;
+  solutionsTitle: string;
+  solutions: CameraSolutionItem[];
+  workflowSubtitle: string;
+  workflowTitle: string;
+  workflowSteps: { title: string; desc: string }[];
+  updatedBy?: string;
+  updatedAt?: string;
+}
 
 export interface FlashSaleItem {
   id: string;
@@ -646,6 +720,280 @@ const defaultSurveys: ITSurveyLead[] = [
   },
 ];
 
+const defaultCameraService: CameraServiceConfig = {
+  heroBadge: 'Giải Pháp An Ninh Toàn Diện Nhân Phúc Tech',
+  heroTitle: 'DỊCH VỤ LẮP ĐẶT CAMERA QUAN SÁT • AN NINH CHỐNG TRỘM 2K / 4K',
+  heroDescription:
+    'Chuyên tư vấn, khảo sát tận nơi miễn phí và thi công lắp đặt hệ thống Camera Wifi không dây, Camera IP có dây đầu ghi chuyên dụng (Imou, Ezviz, Hikvision, Dahua, KBVision) cho Gia đình, Cửa hàng, Văn phòng và Nhà xưởng. Hình ảnh siêu nét ban đêm có màu, bảo hành chính hãng 24 tháng tận nơi.',
+  hotline: '0777908179',
+  stats: [
+    { value: 'Khảo sát 0đ', label: 'Tư vấn giải pháp tận nơi miễn phí' },
+    { value: '2K / 4K ColorVu', label: 'Hình ảnh siêu nét, có màu ban đêm' },
+    { value: '24 Tháng', label: 'Bảo hành chính hãng tận công trình' },
+    { value: 'Trong 2 Giờ', label: 'Thi công gọn đẹp, bàn giao ngay' },
+  ],
+  packageSubtitle: 'Trọn Gói Không Phát Sinh',
+  packageTitle: 'CÁC GÓI LẮP ĐẶT CAMERA TRỌN BỘ BÁN CHẠY NHẤT',
+  packageDesc:
+    'Giá trọn gói đã bao gồm thiết bị chính hãng 100%, thẻ nhớ/ổ cứng lưu trữ, phụ kiện nguồn và nhân công cài đặt xem trên điện thoại.',
+  packages: [
+    {
+      id: 'cam-pkg-wifi',
+      name: 'Gói Camera Wifi Không Dây 360°',
+      price: 890000,
+      unit: '/ mắt (Trọn gói lắp đặt + Thẻ 64GB)',
+      description: 'Phù hợp cho căn hộ chung cư, nhà phố, shop thời trang, tiệm tạp hóa hoặc văn phòng nhỏ cần lắp nhanh gọn.',
+      isPopular: false,
+      ctaText: 'Đăng Ký Lắp Camera Wifi',
+      features: [
+        { text: 'Camera Wifi Imou / Ezviz chính hãng độ phân giải 2K (3MP - 4MP)', included: true },
+        { text: 'Xoay 360 độ toàn cảnh, đàm thoại 2 chiều âm thanh rõ nét', included: true },
+        { text: 'Cảnh báo chuyển động AI phát hiện người gửi về điện thoại', included: true },
+        { text: 'Tặng kèm Thẻ nhớ chuyên dụng 64GB tự động ghi đè', included: true },
+        { text: 'Miễn phí nhân công lắp đặt & cấu hình xem từ xa', included: true },
+        { text: 'Đầu ghi hình NVR & Ổ cứng lưu trữ 30 ngày', included: false },
+      ],
+    },
+    {
+      id: 'cam-pkg-4ip',
+      name: 'Trọn Bộ 4 Camera Có Dây + Đầu Ghi',
+      price: 4990000,
+      unit: '/ bộ 4 mắt (Hikvision / Dahua / KBVision)',
+      description: 'Giải pháp ổn định bền bỉ 24/7 cho nhà phố, biệt thự, cửa hàng lớn, quán cafe và văn phòng công ty.',
+      isPopular: true,
+      popularLabel: 'Được Chọn Nhiều Nhất',
+      ctaText: 'Đăng Ký Khảo Sát Bộ 4 Mắt →',
+      features: [
+        { text: '04 Mắt Camera thân/bán cầu chống nước IP67 chuẩn Full HD / 2K', included: true },
+        { text: '01 Đầu ghi hình kỹ thuật số 4 kênh chuẩn nén H.265+ siêu tiết kiệm', included: true },
+        { text: '01 Ổ cứng chuyên dụng 500GB - 1TB lưu trữ liên tục 15 - 30 ngày', included: true },
+        { text: 'Công nghệ ban đêm có màu (ColorVu / Full Color) siêu sáng', included: true },
+        { text: 'Tặng 40m dây tín hiệu + nguồn, jack chống nhiễu & hộp kỹ thuật', included: true },
+        { text: 'Bảo hành tận nơi 24 tháng, hỗ trợ kỹ thuật trọn đời', included: true },
+      ],
+    },
+    {
+      id: 'cam-pkg-8pro',
+      name: 'Hệ Thống 8 Camera IP PoE Nhà Xưởng',
+      price: 9800000,
+      unit: '/ bộ 8 mắt (Chuyên dụng Công ty & Kho xưởng)',
+      description: 'Dành cho kho bãi, nhà máy, tòa nhà văn phòng cần góc nhìn rộng, chống ngược sáng WDR và độ ổn định tuyệt đối.',
+      isPopular: false,
+      ctaText: 'Yêu Cầu Khảo Sát & Báo Giá',
+      features: [
+        { text: '08 Camera IP 2K 4MP vỏ kim loại chống bụi nước IP67 & chống va đập', included: true },
+        { text: '01 Đầu ghi IP 8 kênh + Switch PoE cấp nguồn qua cáp mạng CAT6', included: true },
+        { text: '01 Ổ cứng chuyên dụng Surveillance 2TB lưu trữ dài ngày', included: true },
+        { text: 'Tích hợp AI phân biệt người/xe, hàng rào ảo báo động chống đột nhập', included: true },
+        { text: 'Thi công đi ống nẹp / ruột gà thẩm mỹ, đánh nhãn cáp chuẩn kỹ thuật', included: true },
+        { text: 'Bảo hành tận nơi 24 tháng, xử lý sự cố trong 2 giờ tại TP.HCM', included: true },
+      ],
+    },
+  ],
+  priceSectionSubtitle: 'Báo Giá Chi Tiết Từng Hạng Mục',
+  priceSectionTitle: 'BẢNG GIÁ CAMERA LẺ, TRỌN BỘ & NHÂN CÔNG THI CÔNG',
+  priceSectionDesc: 'Cam kết thiết bị chính hãng 100% có CO/CQ. Giá có thể điều chỉnh linh hoạt theo thực tế công trình.',
+  categories: [
+    {
+      value: 'wifi',
+      label: 'Camera Wifi Không Dây',
+      icon: '📡',
+      items: [
+        {
+          id: 'cam-w1',
+          name: 'Camera Wifi Trong Nhà Imou Ranger 2 / Ezviz C6N Xoay 360°',
+          desc: 'Đàm thoại 2 chiều, theo dõi chuyển động thông minh, kèm thẻ 64GB + công lắp',
+          resolution: '2K 3MP / 4MP',
+          warranty: '24 tháng',
+          price: '890.000 đ',
+        },
+        {
+          id: 'cam-w2',
+          name: 'Camera Wifi Ngoài Trời Imou Cruiser / Ezviz H8C Xoay 360° Có Màu Ban Đêm',
+          desc: 'Chống mưa nắng IP66, đèn trợ sáng ban đêm có màu, còi hú báo động, kèm thẻ 64GB',
+          resolution: '2K 3MP / 5MP',
+          warranty: '24 tháng',
+          price: '1.290.000 đ',
+        },
+        {
+          id: 'cam-w3',
+          name: 'Camera Wifi 2 Mắt Kép Imou Ranger Dual / Cruiser Dual (1 Cố định + 1 Xoay)',
+          desc: '1 camera xem cùng lúc 2 góc độc lập, tiết kiệm chi phí lắp 2 máy',
+          resolution: '6MP - 10MP (2 ống kính)',
+          warranty: '24 tháng',
+          price: '1.650.000 đ',
+        },
+        {
+          id: 'cam-w4',
+          name: 'Camera Dùng Pin / Năng Lượng Mặt Trời 4G (Lắp nơi không có điện/wifi)',
+          desc: 'Phù hợp công trình xây dựng, vườn cây, trang trại, đầm tôm',
+          resolution: '2K 3MP - 4MP',
+          warranty: '24 tháng',
+          price: 'Từ 2.150.000 đ',
+        },
+      ],
+    },
+    {
+      value: 'wired',
+      label: 'Trọn Bộ Camera Có Dây Đầu Ghi',
+      icon: '📹',
+      items: [
+        {
+          id: 'cam-d1',
+          name: 'Trọn Bộ 2 Camera Hikvision / Dahua + Đầu Ghi 4 Kênh + Ổ Cứng 500GB',
+          desc: 'Phù hợp cửa hàng nhỏ, nhà ống (1 cam trước cổng + 1 cam phòng khách)',
+          resolution: 'Full HD 1080P / 2K',
+          warranty: '24 tháng tận nơi',
+          price: '3.290.000 đ',
+        },
+        {
+          id: 'cam-d2',
+          name: 'Trọn Bộ 4 Camera Hikvision / Dahua Full Color + Đầu Ghi + Ổ Cứng 500GB',
+          desc: 'Ghi hình có màu ban đêm 24/24, thu âm thanh hiện trường, xem qua điện thoại/TV',
+          resolution: '2K (3MP - 4MP)',
+          warranty: '24 tháng tận nơi',
+          price: '4.990.000 đ',
+        },
+        {
+          id: 'cam-d3',
+          name: 'Trọn Bộ 6 Camera IP Chuyên Nghiệp + Đầu Ghi 8 Kênh + Ổ Cứng 1TB',
+          desc: 'Dành cho biệt thự, văn phòng nhiều tầng, chuỗi cửa hàng kinh doanh',
+          resolution: '2K 4MP Super HD',
+          warranty: '24 tháng tận nơi',
+          price: '7.490.000 đ',
+        },
+        {
+          id: 'cam-d4',
+          name: 'Trọn Bộ 8 Camera IP PoE Nhà Xưởng + Đầu Ghi 8 Kênh + Ổ Cứng 2TB',
+          desc: 'Hồng ngoại xa 40m-50m, vỏ hợp kim chịu nhiệt, chống ngược sáng thực WDR',
+          resolution: '2K 4MP / 4K 8MP',
+          warranty: '24 tháng tận nơi',
+          price: '9.800.000 đ',
+        },
+      ],
+    },
+    {
+      value: 'labor',
+      label: 'Nhân Công Lắp Đặt & Sửa Chữa Camera',
+      icon: '🔧',
+      items: [
+        {
+          id: 'cam-l1',
+          name: 'Nhân công lắp đặt & cài đặt Camera (Khách đã có sẵn thiết bị)',
+          desc: 'Khoan bắt chân đế, đi dây gọn gàng, cài đặt phần mềm xem trên điện thoại/máy tính',
+          resolution: 'Trong nhà / Ngoài trời',
+          warranty: 'Bảo hành thi công 12T',
+          price: '150.000 - 250.000 đ / mắt',
+        },
+        {
+          id: 'cam-l2',
+          name: 'Kiểm tra, sửa chữa hệ thống Camera mất hình, lỗi đầu ghi, không xem được qua mạng',
+          desc: 'Kiểm tra nguồn, bấm lại jack BNC/RJ45, cấu hình lại tên miền / Cloud P2P',
+          resolution: 'Tận nơi TP.HCM',
+          warranty: '3 - 6 tháng',
+          price: 'Từ 150.000 đ / lần',
+        },
+        {
+          id: 'cam-l3',
+          name: 'Thay Nguồn Camera 12V-2AChính Hãng / Hộp Kỹ Thuật Chống Nước',
+          desc: 'Khắc phục tình trạng camera chập chờn, mất hồng ngoại ban đêm',
+          resolution: 'Linh kiện loại 1',
+          warranty: '12 tháng',
+          price: '120.000 đ / bộ',
+        },
+        {
+          id: 'cam-l4',
+          name: 'Tháo dỡ & Di dời hệ thống Camera sang mặt bằng / văn phòng mới',
+          desc: 'Tháo thu hồi dây, lắp đặt lại tại địa chỉ mới và căn chỉnh góc nhìn tối ưu',
+          resolution: 'Trọn gói theo số mắt',
+          warranty: '12 tháng',
+          price: 'Từ 200.000 đ / mắt',
+        },
+      ],
+    },
+  ],
+  solutionsSubtitle: 'Tối Ưu Theo Từng Không Gian',
+  solutionsTitle: 'GIẢI PHÁP LẮP ĐẶT CAMERA CHUYÊN BIỆT TẠI NHÂN PHÚC TECH',
+  solutions: [
+    {
+      icon: '🏠',
+      title: 'Gia Đình, Căn Hộ & Biệt Thự',
+      target: 'Giám sát an ninh cổng rào, phòng khách, người già & trẻ nhỏ',
+      description:
+        'Sử dụng dòng Camera thẩm mỹ cao, tích hợp đàm thoại 2 chiều và báo động qua điện thoại khi phát hiện người lạ đột nhập ban đêm.',
+      highlights: [
+        'Đi dây âm tường hoặc nẹp vuông thẩm mỹ 100%',
+        'Đàm thoại 2 chiều trực tiếp từ điện thoại',
+        'Phân quyền chia sẻ cho các thành viên gia đình',
+      ],
+    },
+    {
+      icon: '🏪',
+      title: 'Cửa Hàng, Quán Cafe & Showroom',
+      target: 'Quản lý thu ngân, nhân viên, khách hàng & bãi giữ xe',
+      description:
+        'Góc quay siêu rộng kết hợp camera độ phân giải cao soi rõ mệnh giá tiền tại quầy thu ngân và biển số xe phía trước cửa hàng.',
+      highlights: [
+        'Camera thu âm thanh rõ nét tại quầy thu ngân',
+        'Xem đồng thời nhiều chi nhánh trên 1 màn hình PC/TV',
+        'Chống ngược sáng mạnh tại khu vực cửa kính ra vào',
+      ],
+    },
+    {
+      icon: '🏭',
+      title: 'Văn Phòng, Kho Bãi & Nhà Xưởng',
+      target: 'Giám sát dây chuyền sản xuất, xuất nhập hàng & an toàn lao động',
+      description:
+        'Hệ thống Camera IP PoE chuyên dụng chuẩn chống bụi nước IP67, tầm nhìn hồng ngoại/ColorVu xa 40-80m, lưu trữ dữ liệu từ 30 đến 90 ngày.',
+      highlights: [
+        'Tủ Rack trung tâm gọn gàng, nguồn PoE chống cháy chập',
+        'Camera AI cảnh báo xâm nhập vùng cấm ngoài giờ làm',
+        'Xuất hóa đơn VAT đầy đủ, hợp đồng bảo trì định kỳ',
+      ],
+    },
+  ],
+  workflowSubtitle: 'Nhanh Chóng & Chuyên Nghiệp',
+  workflowTitle: 'QUY TRÌNH 5 BƯỚC KHẢO SÁT & LẮP ĐẶT CAMERA',
+  workflowSteps: [
+    {
+      title: 'Tiếp Nhận & Tư Vấn',
+      desc: 'Lắng nghe nhu cầu, tư vấn dòng camera phù hợp và báo giá sơ bộ.',
+    },
+    {
+      title: 'Khảo Sát Tận Nơi (0đ)',
+      desc: 'Kỹ thuật viên đến đo đạc góc nhìn, phương án đi dây và chốt báo giá trọn gói.',
+    },
+    {
+      title: 'Thi Công Thẩm Mỹ',
+      desc: 'Lắp đặt nhanh gọn, đi nẹp/ống gen bảo vệ dây, đảm bảo mỹ quan công trình.',
+    },
+    {
+      title: 'Cài Đặt & Hướng Dẫn',
+      desc: 'Cấu hình xem trên Điện thoại, iPad, PC và hướng dẫn khách sử dụng chi tiết.',
+    },
+    {
+      title: 'Nghiệm Thu & Bảo Hành',
+      desc: 'Bàn giao nghiệm thu, dán tem bảo hành tận nơi 24 tháng và hỗ trợ 24/7.',
+    },
+  ],
+  updatedBy: 'Hệ thống',
+  updatedAt: '09/11/2026',
+};
+
+const defaultCameraLeads: CameraSurveyLead[] = [
+  {
+    id: 'cam-lead-101',
+    customerName: 'Anh Hoàng Minh (Chủ Cửa Hàng Thời Trang)',
+    phone: '0918223344',
+    projectType: 'Cửa hàng / Showroom',
+    cameraCount: 'Trọn bộ 4 mắt có dây',
+    address: '215 Nguyễn Gia Trí, Quận Bình Thạnh, TP.HCM',
+    notes: 'Cần lắp 1 mắt soi quầy thu ngân có ghi âm, 2 mắt trong shop và 1 mắt ngoài bãi xe chống nước.',
+    createdAt: 'Hôm nay, 10:15',
+    status: 'NEW',
+  },
+];
+
 function loadFromStorage<T>(key: string, fallback: T): T {
   try {
     const raw = localStorage.getItem(key);
@@ -668,6 +1016,33 @@ export const useSiteContentStore = defineStore('siteContent', () => {
   const flashSale = ref<FlashSaleConfig>(loadFromStorage(FLASH_SALE_STORAGE_KEY, defaultFlashSale));
   const homePromos = ref<HomePromosConfig>(loadFromStorage(HOME_PROMOS_STORAGE_KEY, defaultHomePromos));
   const repairService = ref<RepairServiceConfig>(loadFromStorage(REPAIR_SERVICE_STORAGE_KEY, defaultRepairService));
+  const cameraService = ref<CameraServiceConfig>(loadFromStorage(CAMERA_SERVICE_STORAGE_KEY, defaultCameraService));
+  const cameraLeads = ref<CameraSurveyLead[]>(loadFromStorage(CAMERA_LEADS_STORAGE_KEY, defaultCameraLeads));
+
+  const saveCameraService = (staffName = 'Quản trị viên') => {
+    cameraService.value.updatedBy = staffName;
+    cameraService.value.updatedAt = new Date().toLocaleString('vi-VN');
+    localStorage.setItem(CAMERA_SERVICE_STORAGE_KEY, JSON.stringify(cameraService.value));
+  };
+
+  const resetCameraService = () => {
+    cameraService.value = JSON.parse(JSON.stringify(defaultCameraService));
+    localStorage.setItem(CAMERA_SERVICE_STORAGE_KEY, JSON.stringify(cameraService.value));
+  };
+
+  const addCameraLead = (lead: Omit<CameraSurveyLead, 'id' | 'createdAt' | 'status'>) => {
+    cameraLeads.value.unshift({
+      ...lead,
+      id: 'cam-' + String(Date.now()).slice(-4),
+      createdAt: new Date().toLocaleString('vi-VN'),
+      status: 'NEW',
+    });
+    localStorage.setItem(CAMERA_LEADS_STORAGE_KEY, JSON.stringify(cameraLeads.value));
+  };
+
+  const saveCameraLeads = () => {
+    localStorage.setItem(CAMERA_LEADS_STORAGE_KEY, JSON.stringify(cameraLeads.value));
+  };
 
   const saveFlashSale = (staffName = 'Quản trị viên') => {
     flashSale.value.updatedBy = staffName;
@@ -829,6 +1204,12 @@ export const useSiteContentStore = defineStore('siteContent', () => {
     repairService,
     saveRepairService,
     resetRepairService,
+    cameraService,
+    cameraLeads,
+    saveCameraService,
+    resetCameraService,
+    addCameraLead,
+    saveCameraLeads,
   };
 });
 

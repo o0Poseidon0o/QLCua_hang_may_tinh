@@ -10,6 +10,7 @@ export type PermissionKey =
   | 'categories'
   | 'inventory'
   | 'services'
+  | 'camera'
   | 'banners'
   | 'it_outsourcing'
   | 'news'
@@ -53,6 +54,7 @@ export const ROLE_DEFINITIONS: Record<AdminRole, RoleDefinition> = {
       'categories',
       'inventory',
       'services',
+      'camera',
       'banners',
       'it_outsourcing',
       'news',
@@ -65,8 +67,8 @@ export const ROLE_DEFINITIONS: Record<AdminRole, RoleDefinition> = {
     code: 'SALES',
     label: 'NV Kinh doanh & Bán hàng',
     badgeType: 'success',
-    description: 'Xử lý đơn đặt hàng PC/Laptop, tư vấn báo giá IT Outsourcing và tra cứu sản phẩm.',
-    defaultPermissions: ['dashboard', 'orders', 'products', 'services', 'it_outsourcing'],
+    description: 'Xử lý đơn đặt hàng PC/Laptop, tư vấn báo giá Camera, IT Outsourcing và tra cứu sản phẩm.',
+    defaultPermissions: ['dashboard', 'orders', 'products', 'services', 'camera', 'it_outsourcing'],
   },
   WAREHOUSE: {
     code: 'WAREHOUSE',
@@ -79,15 +81,15 @@ export const ROLE_DEFINITIONS: Record<AdminRole, RoleDefinition> = {
     code: 'TECHNICIAN',
     label: 'Kỹ thuật viên Sửa chữa & IT',
     badgeType: 'primary',
-    description: 'Tiếp nhận & xử lý phiếu sửa chữa máy tính, bảo hành và dịch vụ IT Outsourcing.',
-    defaultPermissions: ['dashboard', 'services', 'it_outsourcing', 'inventory'],
+    description: 'Tiếp nhận & xử lý phiếu sửa chữa máy tính, lắp đặt Camera và dịch vụ IT Outsourcing.',
+    defaultPermissions: ['dashboard', 'services', 'camera', 'it_outsourcing', 'inventory'],
   },
   MARKETING: {
     code: 'MARKETING',
     label: 'Biên tập viên Nội dung (CMS)',
     badgeType: 'info',
-    description: 'Cập nhật Banner, Flash Sale, Tin tức & Cẩm nang, Bảng giá Sửa chữa / IT Outsourcing & Chính sách.',
-    defaultPermissions: ['dashboard', 'banners', 'services', 'news', 'about', 'it_outsourcing', 'cms', 'products', 'categories'],
+    description: 'Cập nhật Banner, Flash Sale, Tin tức & Cẩm nang, Bảng giá Sửa chữa / Camera / IT Outsourcing & Chính sách.',
+    defaultPermissions: ['dashboard', 'banners', 'services', 'camera', 'news', 'about', 'it_outsourcing', 'cms', 'products', 'categories'],
   },
 };
 
@@ -98,6 +100,7 @@ export const PERMISSION_LABELS: { key: PermissionKey; label: string; desc: strin
   { key: 'categories', label: 'Quản lý Danh mục', desc: 'Cấu hình danh mục sản phẩm & menu phân loại' },
   { key: 'inventory', label: 'Quản lý Kho hàng', desc: 'Nhập kho, xuất kho, kiểm kê số lượng tồn & cảnh báo hết hàng' },
   { key: 'services', label: 'Sửa chữa & Bảng giá Dịch vụ', desc: 'Chỉnh sửa bảng giá sửa chữa Laptop/PC/Điện thoại, nội dung dịch vụ & phiếu kỹ thuật' },
+  { key: 'camera', label: 'Lắp đặt Camera & Bảng giá', desc: 'Chỉnh sửa gói lắp đặt Camera trọn bộ, bảng giá Camera Wifi/Đầu ghi/Nhân công & khách khảo sát' },
   { key: 'banners', label: 'Banner & Giờ Vàng Giá Sốc', desc: 'Chỉnh sửa Slide Banner chính, Giờ Vàng Giá Sốc (Flash Sale), 2 Banner phụ & CTA' },
   { key: 'it_outsourcing', label: 'IT Outsourcing & Bảng giá', desc: 'Chỉnh sửa giá các gói IT Outsourcing, hạng mục & yêu cầu khảo sát' },
   { key: 'news', label: 'Tin tức & Cẩm nang', desc: 'Đăng bài mới, sửa bài viết đánh giá linh kiện & thủ thuật máy tính' },
@@ -242,6 +245,9 @@ export const useAuthStore = defineStore('auth', () => {
     if (currentUser.value.permissions.includes(permission)) return true;
     // Tương thích ngược với các phiên đăng nhập cũ trong localStorage
     if (permission === 'banners' && (currentUser.value.permissions.includes('cms') || currentUser.value.permissions.includes('news'))) {
+      return true;
+    }
+    if (permission === 'camera' && (currentUser.value.permissions.includes('services') || currentUser.value.permissions.includes('it_outsourcing') || currentUser.value.permissions.includes('cms'))) {
       return true;
     }
     return false;

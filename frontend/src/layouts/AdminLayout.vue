@@ -216,6 +216,7 @@ import {
   InfoFilled,
   Menu,
   PictureFilled,
+  VideoCamera,
 } from '@element-plus/icons-vue';
 import { ElMessage } from 'element-plus';
 import { useAuthStore, ROLE_DEFINITIONS, type PermissionKey } from '../stores/auth';
@@ -236,6 +237,7 @@ const menuItems: { perm: PermissionKey; path: string; label: string; icon: any }
   { perm: 'categories', path: '/admin/categories', label: 'Danh mục Hàng hóa', icon: Collection },
   { perm: 'inventory', path: '/admin/inventory', label: 'Kho hàng & Tồn kho', icon: Box },
   { perm: 'services', path: '/admin/services', label: 'Sửa chữa & Bảng giá', icon: SetUp },
+  { perm: 'camera', path: '/admin/camera', label: 'Lắp đặt Camera & Giá', icon: VideoCamera },
   { perm: 'banners', path: '/admin/banners', label: 'Banner & Flash Sale', icon: PictureFilled },
   { perm: 'it_outsourcing', path: '/admin/it-outsourcing', label: 'IT Outsourcing & Giá', icon: OfficeBuilding },
   { perm: 'news', path: '/admin/news', label: 'Tin tức & Cẩm nang', icon: Reading },

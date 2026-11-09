@@ -222,6 +222,9 @@
             <router-link to="/services/repair" class="text-slate-700 hover:text-[#00733c] transition py-3" active-class="text-[#00733c] border-b-2 border-[#00733c]">
               Dịch vụ Sửa chữa
             </router-link>
+            <router-link to="/services/camera" class="text-slate-700 hover:text-[#00733c] transition py-3" active-class="text-[#00733c] border-b-2 border-[#00733c]">
+              Lắp đặt Camera
+            </router-link>
             <router-link to="/services/it-outsourcing" class="text-slate-700 hover:text-[#00733c] transition py-3" active-class="text-[#00733c] border-b-2 border-[#00733c]">
               IT Outsourcing
             </router-link>
@@ -393,6 +396,7 @@
           </h4>
           <ul class="space-y-2 text-sm text-slate-400 mb-4">
             <li><router-link to="/services/repair" class="hover:text-emerald-400 transition">Sửa chữa PC, Laptop</router-link></li>
+            <li><router-link to="/services/camera" class="hover:text-emerald-400 transition">Lắp đặt Camera quan sát</router-link></li>
             <li><router-link to="/services/repair" class="hover:text-emerald-400 transition">Nâng cấp & Vệ sinh máy</router-link></li>
             <li><router-link to="/services/it-outsourcing" class="hover:text-emerald-400 transition">Bảo trì hệ thống IT</router-link></li>
             <li><router-link to="/services/it-outsourcing" class="hover:text-emerald-400 transition">Thi công mạng văn phòng</router-link></li>
@@ -448,6 +452,7 @@ const mobileLinks = [
   { to: '/shop', label: 'Cửa hàng', icon: '🛍️' },
   { to: '/pc-builder', label: 'Xây dựng PC', icon: '🖥️' },
   { to: '/services/repair', label: 'Dịch vụ Sửa chữa', icon: '🛠️' },
+  { to: '/services/camera', label: 'Lắp đặt Camera', icon: '📹' },
   { to: '/services/it-outsourcing', label: 'IT Outsourcing', icon: '💼' },
   { to: '/tin-tuc', label: 'Tin tức & Cẩm nang', icon: '📰' },
   { to: '/about', label: 'Về Nhân Phúc Tech', icon: '🏢' },
@@ -525,6 +530,7 @@ const megaCategories = [
     icon: '🛠️',
     children: [
       { name: 'Sửa chữa Laptop, PC lấy liền', slug: 'sua-chua' },
+      { name: 'Lắp đặt Camera An ninh 2K/4K', slug: 'lap-dat-camera' },
       { name: 'Vệ sinh máy & Tra keo tản nhiệt', slug: 've-sinh-may' },
       { name: 'Cài đặt hệ điều hành & Phần mềm', slug: 'cai-dat' },
       { name: 'Bảo trì hệ thống mạng công ty', slug: 'it-outsourcing' },
@@ -559,6 +565,9 @@ const navigateToCategory = (slug: string) => {
 const getCategoryLink = (sub: any) => {
   if (sub.slug === 'sua-chua' || sub.slug === 've-sinh-may' || sub.slug === 'cai-dat') {
     return '/services/repair';
+  }
+  if (sub.slug === 'lap-dat-camera') {
+    return '/services/camera';
   }
   if (sub.slug === 'it-outsourcing') {
     return '/services/it-outsourcing';

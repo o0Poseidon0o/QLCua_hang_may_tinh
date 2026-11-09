@@ -17,6 +17,7 @@ const router = createRouter({
         { path: 'checkout', name: 'Checkout', component: () => import('../views/public/Checkout.vue') },
         { path: 'about', name: 'About', component: () => import('../views/public/About.vue') },
         { path: 'services/repair', name: 'RepairService', component: () => import('../views/public/RepairService.vue') },
+        { path: 'services/camera', name: 'CameraService', component: () => import('../views/public/CameraService.vue') },
         { path: 'services/it-outsourcing', name: 'ITService', component: () => import('../views/public/ITService.vue') },
         { path: 'tin-tuc', name: 'Blog', component: () => import('../views/public/Blog.vue') },
         { path: 'tin-tuc/:slug', name: 'BlogDetail', component: () => import('../views/public/BlogDetail.vue') },
@@ -68,6 +69,12 @@ const router = createRouter({
           name: 'AdminServices',
           meta: { requiresAuth: true, permission: 'services' as PermissionKey },
           component: () => import('../views/admin/Services.vue')
+        },
+        {
+          path: 'camera',
+          name: 'AdminCamera',
+          meta: { requiresAuth: true, permission: 'camera' as PermissionKey },
+          component: () => import('../views/admin/CameraAdmin.vue')
         },
         {
           path: 'banners',
